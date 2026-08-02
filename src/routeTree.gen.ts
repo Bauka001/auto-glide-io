@@ -10,12 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as CreditRouteImport } from './routes/credit'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CarsIndexRouteImport } from './routes/cars.index'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditRoute = CreditRouteImport.update({
+  id: '/credit',
+  path: '/credit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CarsIndexRoute = CarsIndexRouteImport.update({
@@ -31,30 +49,50 @@ const CarsCarIdRoute = CarsCarIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
+  '/credit': typeof CreditRoute
+  '/dashboard': typeof DashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars/': typeof CarsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
+  '/credit': typeof CreditRoute
+  '/dashboard': typeof DashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars': typeof CarsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
+  '/credit': typeof CreditRoute
+  '/dashboard': typeof DashboardRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars/': typeof CarsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cars/$carId' | '/cars/'
+  fullPaths:
+    '/' | '/chat' | '/credit' | '/dashboard' | '/cars/$carId' | '/cars/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cars/$carId' | '/cars'
-  id: '__root__' | '/' | '/cars/$carId' | '/cars/'
+  to: '/' | '/chat' | '/credit' | '/dashboard' | '/cars/$carId' | '/cars'
+  id:
+    | '__root__'
+    | '/'
+    | '/chat'
+    | '/credit'
+    | '/dashboard'
+    | '/cars/$carId'
+    | '/cars/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
+  CreditRoute: typeof CreditRoute
+  DashboardRoute: typeof DashboardRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
   CarsIndexRoute: typeof CarsIndexRoute
 }
@@ -66,6 +104,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit': {
+      id: '/credit'
+      path: '/credit'
+      fullPath: '/credit'
+      preLoaderRoute: typeof CreditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cars/': {
@@ -87,6 +146,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
+  CreditRoute: CreditRoute,
+  DashboardRoute: DashboardRoute,
   CarsCarIdRoute: CarsCarIdRoute,
   CarsIndexRoute: CarsIndexRoute,
 }
