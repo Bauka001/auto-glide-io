@@ -5,13 +5,17 @@ import { CarCard } from "@/components/car-card";
 import { Slider } from "@/components/ui/slider";
 import { brands, cars, categories, money } from "@/lib/cars";
 
-type CarSearch = { q?: string; brand?: string; category?: string };
+type CarSearch = {
+  q?: string | undefined;
+  brand?: string | undefined;
+  category?: string | undefined;
+};
 
 export const Route = createFileRoute("/cars/")({
   validateSearch: (search: Record<string, unknown>): CarSearch => ({
-    q: typeof search.q === "string" ? search.q : undefined,
-    brand: typeof search.brand === "string" ? search.brand : undefined,
-    category: typeof search.category === "string" ? search.category : undefined,
+    q: typeof search["q"] === "string" ? (search["q"] as string) : undefined,
+    brand: typeof search["brand"] === "string" ? (search["brand"] as string) : undefined,
+    category: typeof search["category"] === "string" ? (search["category"] as string) : undefined,
   }),
   head: () => ({
     meta: [
@@ -107,7 +111,7 @@ function CarsPage() {
               max={70000}
               step={1000}
               value={[maxPrice]}
-              onValueChange={([v]) => setMaxPrice(v)}
+              onValueChange={([v]) => setMaxPrice(v ?? maxPrice)}
             />
           </div>
           <div>
@@ -121,7 +125,7 @@ function CarsPage() {
               max={2025}
               step={1}
               value={[minYear]}
-              onValueChange={([v]) => setMinYear(v)}
+              onValueChange={([v]) => setMinYear(v ?? minYear)}
             />
           </div>
           <div>
@@ -137,7 +141,7 @@ function CarsPage() {
               max={60000}
               step={1000}
               value={[maxMileage]}
-              onValueChange={([v]) => setMaxMileage(v)}
+              onValueChange={([v]) => setMaxMileage(v ?? maxMileage)}
             />
           </div>
         </div>
