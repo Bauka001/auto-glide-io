@@ -17,7 +17,7 @@ export const Route = createFileRoute("/cars/$carId")({
     }
     const { car } = loaderData;
     const title = `${car.year} ${car.brand} ${car.model} — ${money(car.price)} | Motra`;
-    const description = `${car.year} ${car.brand} ${car.model}, ${car.mileage.toLocaleString()} km. From ${money(monthlyPayment(car.price))}/mo with online credit and home delivery.`;
+    const description = `${car.year} ${car.brand} ${car.model}, ${num(car.mileage)} km. From ${money(monthlyPayment(car.price))}/mo with online credit and home delivery.`;
     return {
       meta: [
         { title },
@@ -34,7 +34,7 @@ function CarDetail() {
   const { car } = Route.useLoaderData();
   const specs = [
     { icon: Calendar, label: "Year", value: String(car.year) },
-    { icon: Gauge, label: "Mileage", value: `${car.mileage.toLocaleString()} km` },
+    { icon: Gauge, label: "Mileage", value: `${num(car.mileage)} km` },
     { icon: Settings2, label: "Engine", value: car.engine },
     { icon: Fuel, label: "Fuel", value: car.fuel },
     { icon: Settings2, label: "Transmission", value: car.transmission },
@@ -84,7 +84,7 @@ function CarDetail() {
               {car.brand} {car.model}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {car.year} · {car.mileage.toLocaleString()} km
+              {car.year} · {num(car.mileage)} km
             </p>
 
             <div className="mt-5 rounded-3xl border border-border p-5">

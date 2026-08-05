@@ -132,7 +132,7 @@ function CarsPage() {
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Max mileage</span>
               <span className="font-medium text-foreground">
-                {maxMileage.toLocaleString()} km
+                {num(maxMileage)} km
               </span>
             </div>
             <Slider

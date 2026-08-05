@@ -26,7 +26,7 @@ export function CarCard({ car }: { car: Car }) {
           <span className="shrink-0 text-sm font-semibold">{money(car.price)}</span>
         </div>
         <p className="text-xs text-muted-foreground">
-          {car.year} · {car.mileage.toLocaleString()} km · {car.city}
+          {car.year} · {num(car.mileage)} km · {car.city}
         </p>
         <p className="pt-1 text-xs font-medium text-primary">
           from {money(monthlyPayment(car.price))}/mo
