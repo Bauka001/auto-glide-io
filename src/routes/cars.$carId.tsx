@@ -3,7 +3,7 @@ import { Calendar, Fuel, Gauge, MapPin, MessageCircle, Settings2, Truck } from "
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { getCar, money, monthlyPayment } from "@/lib/cars";
+import { getCar, money, monthlyPayment, num } from "@/lib/cars";
 
 export const Route = createFileRoute("/cars/$carId")({
   loader: ({ params }) => {

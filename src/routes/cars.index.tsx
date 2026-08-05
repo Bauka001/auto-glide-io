@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Slider } from "@/components/ui/slider";
-import { brands, cars, categories, money } from "@/lib/cars";
+import { brands, cars, categories, money, num } from "@/lib/cars";
 
 type CarSearch = {
   q?: string | undefined;
