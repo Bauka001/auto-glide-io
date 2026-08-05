@@ -1,33 +1,53 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Car,
+  MessageSquare,
+  Search,
+  ShieldCheck,
+  Truck,
+  Wallet,
+} from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { brands, cars, categories } from "@/lib/cars";
+import { useI18n, type Key } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Motra — Buy a car online with credit and home delivery" },
+      { title: "Motra — Buy a car online with AI, credit, insurance and delivery" },
       {
         name: "description",
         content:
-          "Browse verified cars, get approved for credit in minutes, and have your car delivered to your door.",
+          "Browse verified cars, chat with an AI assistant, get credit or leasing, buy MTPL and CASCO insurance, and have your car delivered.",
       },
       { property: "og:title", content: "Motra — Buy a car online" },
       {
         property: "og:description",
-        content: "Verified cars, online credit approval, and free home delivery.",
+        content: "AI assistant, online credit, insurance and home delivery in one app.",
       },
     ],
   }),
   component: Home,
 });
 
+const services: { to: string; icon: typeof Car; title: Key; desc: Key }[] = [
+  { to: "/cars", icon: Car, title: "nav.cars", desc: "svc.cars.d" },
+  { to: "/ai-chat", icon: Bot, title: "nav.ai", desc: "svc.ai.d" },
+  { to: "/chat", icon: MessageSquare, title: "nav.dealer", desc: "svc.dealer.d" },
+  { to: "/insurance", icon: ShieldCheck, title: "nav.insurance", desc: "svc.insurance.d" },
+  { to: "/finance", icon: Wallet, title: "nav.finance", desc: "svc.finance.d" },
+  { to: "/delivery", icon: Truck, title: "nav.delivery", desc: "svc.delivery.d" },
+];
+
 function Home() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [q, setQ] = useState("");
 
   const featured = cars.slice(0, 4);
@@ -39,16 +59,14 @@ function Home() {
       <main className="mx-auto max-w-6xl px-5">
         <section className="py-12 sm:py-20">
           <h1 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-            Buy your next car
+            {t("home.title1")}
             <br />
-            <span className="text-muted-foreground">entirely online.</span>
+            <span className="text-muted-foreground">{t("home.title2")}</span>
           </h1>
-          <p className="mt-4 max-w-md text-base text-muted-foreground">
-            Verified cars, credit approval in minutes, delivery to your door.
-          </p>
+          <p className="mt-4 max-w-md text-base text-muted-foreground">{t("home.sub")}</p>
 
           <form
-            className="mt-8 flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-[0_2px_20px_-12px_rgba(0,0,0,0.3)]"
+            className="mt-8 flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2"
             onSubmit={(e) => {
               e.preventDefault();
               navigate({ to: "/cars", search: { q: q || undefined } });
@@ -58,11 +76,11 @@ function Home() {
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Brand, model, year or price"
+              placeholder={t("home.searchPh")}
               className="h-10 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
             />
             <Button type="submit" className="h-10 shrink-0 rounded-xl px-5">
-              Search
+              {t("home.search")}
             </Button>
           </form>
 
@@ -80,22 +98,27 @@ function Home() {
           </div>
         </section>
 
-        <section className="grid gap-3 sm:grid-cols-3">
-          {[
-            { icon: Wallet, title: "Credit in 5 minutes", text: "Online decision, no paperwork." },
-            { icon: Truck, title: "Home delivery", text: "Free within your city." },
-            { icon: ShieldCheck, title: "Verified history", text: "Every car inspected." },
-          ].map((f) => (
-            <div key={f.title} className="rounded-3xl bg-muted p-5">
-              <f.icon className="h-5 w-5 text-primary" />
-              <h3 className="mt-3 text-sm font-semibold">{f.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{f.text}</p>
-            </div>
-          ))}
+        <section>
+          <h2 className="text-lg font-semibold tracking-tight">{t("home.services")}</h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((s) => (
+              <Link
+                key={s.to}
+                to={s.to}
+                className="group rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
+              >
+                <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
+                  <s.icon className="h-5 w-5 text-primary" />
+                </span>
+                <h3 className="mt-4 text-sm font-semibold">{t(s.title)}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{t(s.desc)}</p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="pt-14">
-          <h2 className="text-lg font-semibold tracking-tight">Categories</h2>
+          <h2 className="text-lg font-semibold tracking-tight">{t("home.categories")}</h2>
           <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
             {categories.map((c) => (
               <Link
@@ -112,12 +135,12 @@ function Home() {
 
         <section className="pt-12">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight">Featured cars</h2>
+            <h2 className="text-lg font-semibold tracking-tight">{t("home.featured")}</h2>
             <Link
               to="/cars"
               className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
             >
-              All cars <ArrowRight className="h-4 w-4" />
+              {t("home.all")} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
