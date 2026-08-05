@@ -10,15 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CreditRouteImport } from './routes/credit'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DeliveryRouteImport } from './routes/delivery'
+import { Route as FinanceRouteImport } from './routes/finance'
+import { Route as InsuranceRouteImport } from './routes/insurance'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ApiAiChatRouteImport } from './routes/api/ai-chat'
 import { Route as CarsIndexRouteImport } from './routes/cars.index'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiChatRoute = AiChatRouteImport.update({
+  id: '/ai-chat',
+  path: '/ai-chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatRoute = ChatRouteImport.update({
@@ -36,6 +47,31 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeliveryRoute = DeliveryRouteImport.update({
+  id: '/delivery',
+  path: '/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsuranceRoute = InsuranceRouteImport.update({
+  id: '/insurance',
+  path: '/insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAiChatRoute = ApiAiChatRouteImport.update({
+  id: '/api/ai-chat',
+  path: '/api/ai-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CarsIndexRoute = CarsIndexRouteImport.update({
   id: '/cars/',
   path: '/cars/',
@@ -49,50 +85,103 @@ const CarsCarIdRoute = CarsCarIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
   '/chat': typeof ChatRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
+  '/delivery': typeof DeliveryRoute
+  '/finance': typeof FinanceRoute
+  '/insurance': typeof InsuranceRoute
+  '/profile': typeof ProfileRoute
+  '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars/': typeof CarsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
   '/chat': typeof ChatRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
+  '/delivery': typeof DeliveryRoute
+  '/finance': typeof FinanceRoute
+  '/insurance': typeof InsuranceRoute
+  '/profile': typeof ProfileRoute
+  '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars': typeof CarsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
   '/chat': typeof ChatRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
+  '/delivery': typeof DeliveryRoute
+  '/finance': typeof FinanceRoute
+  '/insurance': typeof InsuranceRoute
+  '/profile': typeof ProfileRoute
+  '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/cars/': typeof CarsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/chat' | '/credit' | '/dashboard' | '/cars/$carId' | '/cars/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat' | '/credit' | '/dashboard' | '/cars/$carId' | '/cars'
-  id:
-    | '__root__'
     | '/'
+    | '/ai-chat'
     | '/chat'
     | '/credit'
     | '/dashboard'
+    | '/delivery'
+    | '/finance'
+    | '/insurance'
+    | '/profile'
+    | '/api/ai-chat'
+    | '/cars/$carId'
+    | '/cars/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/ai-chat'
+    | '/chat'
+    | '/credit'
+    | '/dashboard'
+    | '/delivery'
+    | '/finance'
+    | '/insurance'
+    | '/profile'
+    | '/api/ai-chat'
+    | '/cars/$carId'
+    | '/cars'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-chat'
+    | '/chat'
+    | '/credit'
+    | '/dashboard'
+    | '/delivery'
+    | '/finance'
+    | '/insurance'
+    | '/profile'
+    | '/api/ai-chat'
     | '/cars/$carId'
     | '/cars/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiChatRoute: typeof AiChatRoute
   ChatRoute: typeof ChatRoute
   CreditRoute: typeof CreditRoute
   DashboardRoute: typeof DashboardRoute
+  DeliveryRoute: typeof DeliveryRoute
+  FinanceRoute: typeof FinanceRoute
+  InsuranceRoute: typeof InsuranceRoute
+  ProfileRoute: typeof ProfileRoute
+  ApiAiChatRoute: typeof ApiAiChatRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
   CarsIndexRoute: typeof CarsIndexRoute
 }
@@ -104,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-chat': {
+      id: '/ai-chat'
+      path: '/ai-chat'
+      fullPath: '/ai-chat'
+      preLoaderRoute: typeof AiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat': {
@@ -127,6 +223,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/delivery': {
+      id: '/delivery'
+      path: '/delivery'
+      fullPath: '/delivery'
+      preLoaderRoute: typeof DeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insurance': {
+      id: '/insurance'
+      path: '/insurance'
+      fullPath: '/insurance'
+      preLoaderRoute: typeof InsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ai-chat': {
+      id: '/api/ai-chat'
+      path: '/api/ai-chat'
+      fullPath: '/api/ai-chat'
+      preLoaderRoute: typeof ApiAiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cars/': {
       id: '/cars/'
       path: '/cars'
@@ -146,9 +277,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiChatRoute: AiChatRoute,
   ChatRoute: ChatRoute,
   CreditRoute: CreditRoute,
   DashboardRoute: DashboardRoute,
+  DeliveryRoute: DeliveryRoute,
+  FinanceRoute: FinanceRoute,
+  InsuranceRoute: InsuranceRoute,
+  ProfileRoute: ProfileRoute,
+  ApiAiChatRoute: ApiAiChatRoute,
   CarsCarIdRoute: CarsCarIdRoute,
   CarsIndexRoute: CarsIndexRoute,
 }

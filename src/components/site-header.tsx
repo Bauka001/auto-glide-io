@@ -1,9 +1,28 @@
 import { Link } from "@tanstack/react-router";
+import { Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { langs, useI18n, type Key } from "@/lib/i18n";
+
+const navItems: { to: string; key: Key }[] = [
+  { to: "/cars", key: "nav.cars" },
+  { to: "/ai-chat", key: "nav.ai" },
+  { to: "/insurance", key: "nav.insurance" },
+  { to: "/finance", key: "nav.finance" },
+  { to: "/delivery", key: "nav.delivery" },
+];
 
 export function SiteHeader() {
+  const { lang, setLang, t } = useI18n();
+  const current = langs.find((l) => l.code === lang)?.label ?? "RU";
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5">
         <div className="flex min-w-0 items-center gap-6">
           <Link to="/" className="flex shrink-0 items-center gap-2">
@@ -12,21 +31,67 @@ export function SiteHeader() {
             </span>
             <span className="text-base font-semibold tracking-tight">Motra</span>
           </Link>
-          <nav className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
-            <Link to="/cars" activeProps={{ className: "text-foreground font-medium" }}>
-              Cars
-            </Link>
-            <Link to="/credit" activeProps={{ className: "text-foreground font-medium" }}>
-              Credit
-            </Link>
-            <Link to="/dashboard" activeProps={{ className: "text-foreground font-medium" }}>
-              Dealers
-            </Link>
+          <nav className="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeProps={{ className: "text-foreground font-medium" }}
+                className="transition-colors hover:text-foreground"
+              >
+                {t(item.key)}
+              </Link>
+            ))}
           </nav>
         </div>
-        <Button size="sm" variant="secondary" className="rounded-full px-4">
-          Log in
-        </Button>
+
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="secondary" className="rounded-full px-3 text-xs font-semibold">
+                {current}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-28 rounded-2xl">
+              {langs.map((l) => (
+                <DropdownMenuItem
+                  key={l.code}
+                  onSelect={() => setLang(l.code)}
+                  className="rounded-xl text-sm"
+                >
+                  {l.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button asChild size="icon" variant="secondary" className="rounded-full">
+            <Link to="/profile" aria-label={t("nav.profile")}>
+              <User className="h-4 w-4" />
+            </Link>
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="lg:hidden">
+              <Button size="icon" variant="secondary" className="rounded-full">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-44 rounded-2xl">
+              {navItems.map((item) => (
+                <DropdownMenuItem key={item.to} asChild className="rounded-xl text-sm">
+                  <Link to={item.to}>{t(item.key)}</Link>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuItem asChild className="rounded-xl text-sm">
+                <Link to="/chat">{t("nav.dealer")}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-xl text-sm">
+                <Link to="/dashboard">{t("nav.dealers")}</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );
@@ -34,10 +99,10 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-border/70">
+    <footer className="mt-20 border-t border-border/60">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
         <span>© {new Date().getFullYear()} Motra</span>
-        <span>Buy a car online. Delivered to your door.</span>
+        <span>Қазақша · Русский · English</span>
       </div>
     </footer>
   );

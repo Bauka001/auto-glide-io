@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { I18nProvider } from "@/lib/i18n";
+import { FavoritesProvider } from "@/lib/favorites";
 
 function NotFoundComponent() {
   return (
@@ -131,8 +133,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <I18nProvider>
+        <FavoritesProvider>
+          {/* Required: nested routes render here. */}
+          <Outlet />
+        </FavoritesProvider>
+      </I18nProvider>
       <Toaster />
     </QueryClientProvider>
   );
