@@ -144,7 +144,10 @@ export function monthlyPayment(price: number) {
   return Math.round((principal * r) / (1 - Math.pow(1 + r, -n)));
 }
 
-export const money = (n: number) => "$" + n.toLocaleString("en-US");
+const group = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+export const money = (n: number) => "$" + group(n);
+export const num = group;
 
 export function getCar(id: string) {
   return cars.find((c) => c.id === id);
