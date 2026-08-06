@@ -151,7 +151,14 @@ function CarsPage() {
           </div>
         </div>
 
-        {results.length === 0 ? (
+        {isLoading ? (
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
+            ))}
+          </div>
+        ) : results.length === 0 ? (
+
           <p className="py-20 text-center text-sm text-muted-foreground">
             No cars match these filters.{" "}
             <Link to="/cars" className="text-primary hover:underline" onClick={() => {
