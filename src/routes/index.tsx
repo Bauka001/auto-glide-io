@@ -50,7 +50,10 @@ function Home() {
   const { t } = useI18n();
   const [q, setQ] = useState("");
 
+  const { data: cars = [] } = useCars();
   const featured = cars.slice(0, 4);
+  const brands = brandsOf(cars);
+
 
   return (
     <div className="min-h-screen bg-background">
