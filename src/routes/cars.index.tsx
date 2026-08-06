@@ -3,7 +3,9 @@ import { useMemo, useState } from "react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Slider } from "@/components/ui/slider";
-import { brands, cars, categories, money, num } from "@/lib/cars";
+import { categories, money, num } from "@/lib/cars";
+import { brandsOf, useCars } from "@/lib/catalog";
+
 
 type CarSearch = {
   q?: string | undefined;
@@ -61,6 +63,8 @@ function CarsPage() {
   const [maxPrice, setMaxPrice] = useState(70000);
   const [minYear, setMinYear] = useState(2020);
   const [maxMileage, setMaxMileage] = useState(60000);
+  const { data: cars = [], isLoading } = useCars();
+  const brands = useMemo(() => brandsOf(cars), [cars]);
 
   const results = useMemo(() => {
     const q = (search.q ?? "").toLowerCase().trim();
@@ -74,7 +78,8 @@ function CarsPage() {
         return false;
       return true;
     });
-  }, [brand, category, maxPrice, minYear, maxMileage, search.q]);
+  }, [cars, brand, category, maxPrice, minYear, maxMileage, search.q]);
+
 
   return (
     <div className="min-h-screen bg-background">

@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { langs, useI18n, type Key } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 
 const navItems: { to: string; key: Key }[] = [
   { to: "/cars", key: "nav.cars" },
@@ -19,7 +21,9 @@ const navItems: { to: string; key: Key }[] = [
 
 export function SiteHeader() {
   const { lang, setLang, t } = useI18n();
+  const { user, profile, isDealer, signOut } = useAuth();
   const current = langs.find((l) => l.code === lang)?.label ?? "RU";
+
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
@@ -65,11 +69,57 @@ export function SiteHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button asChild size="icon" variant="secondary" className="rounded-full">
-            <Link to="/profile" aria-label={t("nav.profile")}>
-              <User className="h-4 w-4" />
-            </Link>
-          </Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon" variant="secondary" className="rounded-full">
+                  {profile?.avatar_url ? (
+                    <img
+                      src={profile.avatar_url}
+                      alt=""
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="h-4 w-4" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-48 rounded-2xl">
+                <div className="px-2 py-1.5">
+                  <p className="truncate text-sm font-medium">
+                    {profile?.full_name ?? user.email}
+                  </p>
+                  {profile?.full_name && (
+                    <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                  )}
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="rounded-xl text-sm">
+                  <Link to="/profile">{t("nav.profile")}</Link>
+                </DropdownMenuItem>
+                {isDealer && (
+                  <DropdownMenuItem asChild className="rounded-xl text-sm">
+                    <Link to="/dashboard">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      {t("dash.title")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  onSelect={() => void signOut()}
+                  className="rounded-xl text-sm text-destructive"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {t("auth.logout")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild size="sm" className="rounded-full px-4 text-xs font-semibold">
+              <Link to="/auth">{t("auth.signin")}</Link>
+            </Button>
+          )}
+
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="lg:hidden">

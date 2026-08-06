@@ -14,6 +14,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "@/lib/i18n";
 import { FavoritesProvider } from "@/lib/favorites";
+import { AuthProvider } from "@/lib/auth";
+
 
 function NotFoundComponent() {
   return (
@@ -134,11 +136,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <FavoritesProvider>
-          {/* Required: nested routes render here. */}
-          <Outlet />
-        </FavoritesProvider>
+        <AuthProvider>
+          <FavoritesProvider>
+            {/* Required: nested routes render here. */}
+            <Outlet />
+          </FavoritesProvider>
+        </AuthProvider>
       </I18nProvider>
+
       <Toaster />
     </QueryClientProvider>
   );
