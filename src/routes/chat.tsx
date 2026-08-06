@@ -30,7 +30,7 @@ type Msg = { id: number; from: "me" | "dealer"; text: string };
 
 function ChatPage() {
   const { carId } = Route.useSearch();
-  const car = carId ? getCar(carId) : undefined;
+  const car = useCar(carId).data ?? undefined;
   const [messages, setMessages] = useState<Msg[]>([
     { id: 1, from: "dealer", text: "Hi! Thanks for your interest. How can I help?" },
   ]);
