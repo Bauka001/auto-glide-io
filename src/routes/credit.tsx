@@ -185,9 +185,10 @@ function CreditPage() {
             )}
             <Button
               className="h-12 flex-1 rounded-2xl"
-              disabled={!canNext}
-              onClick={() => setStep(step + 1)}
+              disabled={!canNext || createRequest.isPending}
+              onClick={() => (step === 1 ? void submit() : setStep(step + 1))}
             >
+
               {step === 1 ? "Submit" : "Continue"}
             </Button>
           </div>
