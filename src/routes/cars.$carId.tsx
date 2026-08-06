@@ -3,14 +3,17 @@ import { Calendar, Fuel, Gauge, MapPin, MessageCircle, Settings2, Truck } from "
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { getCar, money, monthlyPayment, num } from "@/lib/cars";
+import { money, monthlyPayment, num } from "@/lib/cars";
+import { rowToCar } from "@/lib/catalog";
+import { getPublicCar } from "@/lib/catalog.functions";
 
 export const Route = createFileRoute("/cars/$carId")({
-  loader: ({ params }) => {
-    const car = getCar(params.carId);
-    if (!car) throw notFound();
-    return { car };
+  loader: async ({ params }) => {
+    const row = await getPublicCar({ data: { id: params.carId } });
+    if (!row) throw notFound();
+    return { car: rowToCar(row) };
   },
+
   head: ({ loaderData }) => {
     if (!loaderData) {
       return { meta: [{ title: "Car not found — Motra" }, { name: "robots", content: "noindex" }] };
