@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CarCard } from "@/components/car-card";
-import { cars } from "@/lib/cars";
+import { useCars } from "@/lib/catalog";
+import { useAuth } from "@/lib/auth";
+import { useMyRequests, statusLabels, typeLabels } from "@/lib/requests";
+
 import { useFavorites } from "@/lib/favorites";
 import { langs, useI18n } from "@/lib/i18n";
 
