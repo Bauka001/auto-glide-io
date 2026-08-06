@@ -14,7 +14,9 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { brands, cars, categories } from "@/lib/cars";
+import { categories } from "@/lib/cars";
+import { brandsOf, useCars } from "@/lib/catalog";
+
 import { useI18n, type Key } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
