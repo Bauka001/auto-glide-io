@@ -35,15 +35,55 @@ const steps = ["Your details", "Income", "Confirmation"];
 
 function CreditPage() {
   const { carId } = Route.useSearch();
-  const car = carId ? getCar(carId) : undefined;
+  const car = useCar(carId).data ?? undefined;
+  const { user, profile, loading } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useI18n();
+  const createRequest = useCreateRequest();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ name: "", phone: "", income: "", downPayment: "" });
+
+  useEffect(() => {
+    if (!loading && !user) {
+      void navigate({ to: "/auth", search: { next: "/credit" }, replace: true });
+    }
+  }, [loading, user, navigate]);
+
+  useEffect(() => {
+    if (profile) {
+      setForm((f) => ({
+        ...f,
+        name: f.name || (profile.full_name ?? ""),
+        phone: f.phone || (profile.phone ?? ""),
+      }));
+    }
+  }, [profile]);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  async function submit() {
+    try {
+      await createRequest.mutateAsync({
+        type: "credit",
+        carId: carId ?? null,
+        details: {
+          name: form.name,
+          phone: form.phone,
+          income: form.income,
+          downPayment: form.downPayment,
+        },
+      });
+      toast.success(t("req.sent"));
+      setStep(2);
+    } catch {
+      toast.error("Error");
+    }
+  }
+
   const canNext =
     step === 0 ? form.name.length > 1 && form.phone.length > 5 : form.income.length > 0;
+
 
   return (
     <div className="min-h-screen bg-background">
