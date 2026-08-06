@@ -1,11 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
+import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getCar, money, monthlyPayment } from "@/lib/cars";
+import { money, monthlyPayment } from "@/lib/cars";
+import { useCar } from "@/lib/catalog";
+import { useAuth } from "@/lib/auth";
+import { useCreateRequest } from "@/lib/requests";
+import { useI18n } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/credit")({
   validateSearch: (search: Record<string, unknown>): { carId?: string | undefined } => ({
