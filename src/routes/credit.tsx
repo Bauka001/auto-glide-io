@@ -1,11 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
+import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getCar, money, monthlyPayment } from "@/lib/cars";
+import { money, monthlyPayment } from "@/lib/cars";
+import { useCar } from "@/lib/catalog";
+import { useAuth } from "@/lib/auth";
+import { useCreateRequest } from "@/lib/requests";
+import { useI18n } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/credit")({
   validateSearch: (search: Record<string, unknown>): { carId?: string | undefined } => ({
@@ -29,15 +35,55 @@ const steps = ["Your details", "Income", "Confirmation"];
 
 function CreditPage() {
   const { carId } = Route.useSearch();
-  const car = carId ? getCar(carId) : undefined;
+  const car = useCar(carId).data ?? undefined;
+  const { user, profile, loading } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useI18n();
+  const createRequest = useCreateRequest();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ name: "", phone: "", income: "", downPayment: "" });
+
+  useEffect(() => {
+    if (!loading && !user) {
+      void navigate({ to: "/auth", search: { next: "/credit" }, replace: true });
+    }
+  }, [loading, user, navigate]);
+
+  useEffect(() => {
+    if (profile) {
+      setForm((f) => ({
+        ...f,
+        name: f.name || (profile.full_name ?? ""),
+        phone: f.phone || (profile.phone ?? ""),
+      }));
+    }
+  }, [profile]);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  async function submit() {
+    try {
+      await createRequest.mutateAsync({
+        type: "credit",
+        carId: carId ?? null,
+        details: {
+          name: form.name,
+          phone: form.phone,
+          income: form.income,
+          downPayment: form.downPayment,
+        },
+      });
+      toast.success(t("req.sent"));
+      setStep(2);
+    } catch {
+      toast.error("Error");
+    }
+  }
+
   const canNext =
     step === 0 ? form.name.length > 1 && form.phone.length > 5 : form.income.length > 0;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -139,9 +185,10 @@ function CreditPage() {
             )}
             <Button
               className="h-12 flex-1 rounded-2xl"
-              disabled={!canNext}
-              onClick={() => setStep(step + 1)}
+              disabled={!canNext || createRequest.isPending}
+              onClick={() => (step === 1 ? void submit() : setStep(step + 1))}
             >
+
               {step === 1 ? "Submit" : "Continue"}
             </Button>
           </div>

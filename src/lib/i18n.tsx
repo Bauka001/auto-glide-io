@@ -115,7 +115,43 @@ const dict = {
   "chat.call": { kk: "Қоңырау шалу", ru: "Позвонить", en: "Call" },
   "chat.write": { kk: "Жазу", ru: "Написать", en: "Message" },
   "chat.location": { kk: "Салон локациясы", ru: "Локация салона", en: "Showroom location" },
+
+  "auth.signin": { kk: "Кіру", ru: "Войти", en: "Sign in" },
+  "auth.signup": { kk: "Тіркелу", ru: "Регистрация", en: "Sign up" },
+  "auth.email": { kk: "Email", ru: "Email", en: "Email" },
+  "auth.password": { kk: "Құпиясөз", ru: "Пароль", en: "Password" },
+  "auth.name": { kk: "Аты-жөні", ru: "Имя и фамилия", en: "Full name" },
+  "auth.phone": { kk: "Телефон", ru: "Телефон", en: "Phone" },
+  "auth.haveAcc": { kk: "Аккаунтым бар", ru: "У меня есть аккаунт", en: "I have an account" },
+  "auth.noAcc": { kk: "Аккаунт жоқ па?", ru: "Нет аккаунта?", en: "No account?" },
+  "auth.logout": { kk: "Шығу", ru: "Выйти", en: "Sign out" },
+  "auth.needLogin": {
+    kk: "Жалғастыру үшін кіріңіз",
+    ru: "Войдите, чтобы продолжить",
+    en: "Sign in to continue",
+  },
+  "auth.checkEmail": {
+    kk: "Email поштаңызды растаңыз",
+    ru: "Подтвердите почту",
+    en: "Confirm your email",
+  },
+  "auth.save": { kk: "Сақтау", ru: "Сохранить", en: "Save" },
+  "auth.saved": { kk: "Сақталды", ru: "Сохранено", en: "Saved" },
+
+  "req.sent": { kk: "Өтінім жіберілді", ru: "Заявка отправлена", en: "Request sent" },
+  "req.status": { kk: "Мәртебе", ru: "Статус", en: "Status" },
+
+  "dash.title": { kk: "Дилер кабинеті", ru: "Кабинет дилера", en: "Dealer dashboard" },
+  "dash.myCars": { kk: "Менің көліктерім", ru: "Мои авто", en: "My cars" },
+  "dash.requests": { kk: "Өтінімдер", ru: "Заявки", en: "Requests" },
+  "dash.add": { kk: "Көлік қосу", ru: "Добавить авто", en: "Add car" },
+  "dash.noAccess": {
+    kk: "Бұл бөлім тек дилерлерге арналған",
+    ru: "Раздел доступен только дилерам",
+    en: "Dealers only",
+  },
 } as const;
+
 
 export type Key = keyof typeof dict;
 

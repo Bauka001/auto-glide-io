@@ -4,7 +4,9 @@ import { Send } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getCar, money } from "@/lib/cars";
+import { money } from "@/lib/cars";
+import { useCar } from "@/lib/catalog";
+
 
 export const Route = createFileRoute("/chat")({
   validateSearch: (search: Record<string, unknown>): { carId?: string | undefined } => ({
@@ -28,7 +30,7 @@ type Msg = { id: number; from: "me" | "dealer"; text: string };
 
 function ChatPage() {
   const { carId } = Route.useSearch();
-  const car = carId ? getCar(carId) : undefined;
+  const car = useCar(carId).data ?? undefined;
   const [messages, setMessages] = useState<Msg[]>([
     { id: 1, from: "dealer", text: "Hi! Thanks for your interest. How can I help?" },
   ]);
