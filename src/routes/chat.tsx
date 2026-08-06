@@ -4,7 +4,9 @@ import { Send } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getCar, money } from "@/lib/cars";
+import { money } from "@/lib/cars";
+import { useCar } from "@/lib/catalog";
+
 
 export const Route = createFileRoute("/chat")({
   validateSearch: (search: Record<string, unknown>): { carId?: string | undefined } => ({
