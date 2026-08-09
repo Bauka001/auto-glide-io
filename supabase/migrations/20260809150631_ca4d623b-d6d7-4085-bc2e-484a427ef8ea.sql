@@ -1,0 +1,1 @@
+UPDATE public.cars SET price = round((price * 470)::numeric / 10000) * 10000 WHERE price < 1000000;
