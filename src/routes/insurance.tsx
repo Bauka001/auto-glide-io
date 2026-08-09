@@ -28,7 +28,7 @@ export const Route = createFileRoute("/insurance")({
 
 function InsurancePage() {
   const { t } = useI18n();
-  const [price, setPrice] = useState("30000");
+  const [price, setPrice] = useState("12000000");
   const [age, setAge] = useState("30");
   const [exp, setExp] = useState("5");
 
@@ -38,8 +38,10 @@ function InsurancePage() {
   const ageFactor = a < 25 ? 1.4 : a < 35 ? 1.1 : 1;
   const expFactor = e < 2 ? 1.3 : e < 6 ? 1.1 : 0.95;
 
-  const ogpo = Math.round(90 * ageFactor * expFactor);
-  const kasko = Math.round(p * 0.045 * ageFactor * expFactor);
+  // KZ market, Aug 2026: MTPL 15 000–48 000 ₸/year, CASCO 2–5% of car value.
+  const ogpo = Math.round((OGPO_BASE * ageFactor * expFactor) / 100) * 100;
+  const kasko = Math.round((p * KASKO_RATE * ageFactor * expFactor) / 1000) * 1000;
+
 
   const Fields = (
     <div className="mt-5 grid gap-4 sm:grid-cols-3">
