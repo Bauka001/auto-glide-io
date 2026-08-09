@@ -228,6 +228,10 @@ const dict = {
   "cr.openChat": { kk: "Чатты ашу", ru: "Открыть чат", en: "Open chat" },
   "cr.keepBrowsing": { kk: "Көліктерді қарау", ru: "Смотреть авто", en: "Keep browsing" },
 
+  "car.credit": { kk: "Несиеге өтінім", ru: "Заявка на кредит", en: "Apply for credit" },
+  "car.chat": { kk: "Дилермен чат", ru: "Чат с дилером", en: "Chat with dealer" },
+  "car.delivery": { kk: "Жеткізуге тапсырыс", ru: "Заказать доставку", en: "Order delivery" },
+
   "req.updated": { kk: "Өтінім мәртебесі жаңарды", ru: "Статус заявки обновлён", en: "Request status updated" },
 
   "dash.stats": { kk: "Статистика", ru: "Статистика", en: "Statistics" },
