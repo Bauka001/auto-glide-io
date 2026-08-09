@@ -31,7 +31,7 @@ export const Route = createFileRoute("/credit")({
   component: CreditPage,
 });
 
-const steps = ["Your details", "Income", "Confirmation"];
+const steps: Key[] = ["cr.step1", "cr.step2", "cr.step3"];
 
 function CreditPage() {
   const { carId } = Route.useSearch();
@@ -100,7 +100,7 @@ function CreditPage() {
               <p
                 className={`mt-2 text-xs ${i <= step ? "text-foreground" : "text-muted-foreground"}`}
               >
-                {s}
+                {t(s)}
               </p>
             </div>
           ))}
@@ -129,27 +129,27 @@ function CreditPage() {
 
         {step === 0 && (
           <div className="mt-8 animate-fade-in space-y-4">
-            <h1 className="text-2xl font-semibold tracking-tight">Apply for credit</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{t("cr.title")}</h1>
             <div className="space-y-2">
-              <Label htmlFor="name">Full name</Label>
-              <Input id="name" value={form.name} onChange={set("name")} className="h-12 rounded-2xl" placeholder="Alex Rivera" />
+              <Label htmlFor="name">{t("cr.name")}</Label>
+              <Input id="name" value={form.name} onChange={set("name")} className="h-12 rounded-2xl" placeholder="" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" value={form.phone} onChange={set("phone")} className="h-12 rounded-2xl" placeholder="+1 555 000 0000" />
+              <Label htmlFor="phone">{t("cr.phone")}</Label>
+              <Input id="phone" value={form.phone} onChange={set("phone")} className="h-12 rounded-2xl" placeholder="+7 700 000 00 00" />
             </div>
           </div>
         )}
 
         {step === 1 && (
           <div className="mt-8 animate-fade-in space-y-4">
-            <h1 className="text-2xl font-semibold tracking-tight">Your income</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{t("cr.step2")}</h1>
             <div className="space-y-2">
-              <Label htmlFor="income">Monthly income</Label>
+              <Label htmlFor="income">{t("cr.income")}</Label>
               <Input id="income" inputMode="numeric" value={form.income} onChange={set("income")} className="h-12 rounded-2xl" placeholder="450000" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="down">Down payment (optional)</Label>
+              <Label htmlFor="down">{t("cr.down")}</Label>
               <Input id="down" inputMode="numeric" value={form.downPayment} onChange={set("downPayment")} className="h-12 rounded-2xl" placeholder="2400000" />
             </div>
           </div>
@@ -160,19 +160,18 @@ function CreditPage() {
             <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary">
               <Check className="h-8 w-8 text-primary-foreground" />
             </div>
-            <h1 className="mt-6 text-2xl font-semibold tracking-tight">Pre-approved</h1>
+            <h1 className="mt-6 text-2xl font-semibold tracking-tight">{t("cr.done")}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Thanks {form.name.split(" ")[0] || "there"} — a specialist will confirm the final
-              terms in the chat shortly.
+              {t("cr.doneSub")}
             </p>
             <div className="mt-8 space-y-2">
               <Button asChild className="h-12 w-full rounded-2xl">
                 <Link to="/chat" search={carId ? { carId } : {}}>
-                  Open chat
+                  {t("cr.openChat")}
                 </Link>
               </Button>
               <Button asChild variant="secondary" className="h-12 w-full rounded-2xl">
-                <Link to="/cars">Keep browsing</Link>
+                <Link to="/cars">{t("cr.keepBrowsing")}</Link>
               </Button>
             </div>
           </div>
@@ -180,7 +179,7 @@ function CreditPage() {
           <div className="mt-8 flex gap-2">
             {step > 0 && (
               <Button variant="secondary" className="h-12 flex-1 rounded-2xl" onClick={() => setStep(step - 1)}>
-                Back
+                {t("cr.back")}
               </Button>
             )}
             <Button
@@ -189,7 +188,7 @@ function CreditPage() {
               onClick={() => (step === 1 ? void submit() : setStep(step + 1))}
             >
 
-              {step === 1 ? "Submit" : "Continue"}
+              {step === 1 ? t("cr.submit") : t("cr.next")}
             </Button>
           </div>
         )}
