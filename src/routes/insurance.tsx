@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { money } from "@/lib/cars";
+import { KASKO_RATE, OGPO_BASE } from "@/lib/rates";
+
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/insurance")({
