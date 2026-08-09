@@ -45,12 +45,19 @@ export type Database = {
       }
       cars: {
         Row: {
+          body_type: string
           brand: string
           category: string
           city: string
+          color: string
+          condition: string
           created_at: string
+          customs_cleared: boolean
+          drive: string
           engine: string
+          engine_volume: number
           fuel: string
+          generation: string
           id: string
           image_key: string | null
           image_url: string | null
@@ -60,17 +67,27 @@ export type Database = {
           owner_id: string | null
           price: number
           slug: string | null
+          steering: string
           transmission: string
+          trim: string
           updated_at: string
+          vin: string | null
           year: number
         }
         Insert: {
+          body_type?: string
           brand: string
           category?: string
           city?: string
+          color?: string
+          condition?: string
           created_at?: string
+          customs_cleared?: boolean
+          drive?: string
           engine?: string
+          engine_volume?: number
           fuel?: string
+          generation?: string
           id?: string
           image_key?: string | null
           image_url?: string | null
@@ -80,17 +97,27 @@ export type Database = {
           owner_id?: string | null
           price: number
           slug?: string | null
+          steering?: string
           transmission?: string
+          trim?: string
           updated_at?: string
+          vin?: string | null
           year: number
         }
         Update: {
+          body_type?: string
           brand?: string
           category?: string
           city?: string
+          color?: string
+          condition?: string
           created_at?: string
+          customs_cleared?: boolean
+          drive?: string
           engine?: string
+          engine_volume?: number
           fuel?: string
+          generation?: string
           id?: string
           image_key?: string | null
           image_url?: string | null
@@ -100,8 +127,11 @@ export type Database = {
           owner_id?: string | null
           price?: number
           slug?: string | null
+          steering?: string
           transmission?: string
+          trim?: string
           updated_at?: string
+          vin?: string | null
           year?: number
         }
         Relationships: []
