@@ -114,7 +114,8 @@ function CarsPage() {
               className="mt-3"
               min={2000000}
               max={40000000}
-              step={1000}
+              step={500000}
+
               value={[maxPrice]}
               onValueChange={([v]) => setMaxPrice(v ?? maxPrice)}
             />
