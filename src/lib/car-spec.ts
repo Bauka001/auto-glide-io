@@ -73,14 +73,9 @@ export function colorLabel(value: string | undefined, lang: Lang) {
   return found ? found[lang] : (value ?? "");
 }
 
-/** Kolesa-style listing title: "Toyota Camry 2021 · 2.5 AT · Comfort" */
+/** Simple listing title: "Toyota Camry" */
 export function carTitle(car: Car) {
-  const vol = car.engineVolume && car.engineVolume > 0 ? car.engineVolume.toFixed(1) : null;
-  const box = transmissionShort[car.transmission] ?? car.transmission;
-  const spec = [vol, box].filter(Boolean).join(" ");
-  return [`${car.brand} ${car.model} ${car.year}`, spec || null, car.trim || null]
-    .filter(Boolean)
-    .join(" · ");
+  return `${car.brand} ${car.model}`;
 }
 
 export function carShortName(car: Car) {
