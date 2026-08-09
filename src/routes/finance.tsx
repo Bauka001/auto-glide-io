@@ -59,6 +59,12 @@ function FinancePage() {
           </span>
           <h1 className="text-2xl font-semibold tracking-tight">{t("fin.title")}</h1>
         </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Базалық мөлшерлеме {Math.round(BASE_RATE * 1000) / 10}% · нарықтық банк мөлшерлемелері,
+          жаңартылған {RATES_UPDATED}
+        </p>
+
+
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
