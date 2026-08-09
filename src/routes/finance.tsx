@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { money } from "@/lib/cars";
 import { useI18n } from "@/lib/i18n";
+import { BASE_RATE, INSTALLMENT_RATE, LEASING_RATE, LOAN_RATE_NEW, RATES_UPDATED } from "@/lib/rates";
+
 
 export const Route = createFileRoute("/finance")({
   head: () => ({
