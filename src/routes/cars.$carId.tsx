@@ -93,7 +93,7 @@ function CarDetail() {
             <div className="mt-5 rounded-3xl border border-border p-5">
               <p className="text-3xl font-semibold">{money(car.price)}</p>
               <p className="mt-1 text-sm text-primary">
-                or {money(monthlyPayment(car.price))}/mo · 60 months · 20% down
+                or {money(monthlyPayment(car.price))}/mo · 60 ай · 20% бастапқы жарна · 21% ГЭСВ
               </p>
               <div className="mt-4 space-y-2">
                 <Button asChild className="h-12 w-full rounded-2xl text-base">

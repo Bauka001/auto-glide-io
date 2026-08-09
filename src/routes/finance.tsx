@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { money } from "@/lib/cars";
 import { useI18n } from "@/lib/i18n";
+import { BASE_RATE, INSTALLMENT_RATE, LEASING_RATE, LOAN_RATE_NEW, RATES_UPDATED } from "@/lib/rates";
+
 
 export const Route = createFileRoute("/finance")({
   head: () => ({
@@ -27,16 +29,17 @@ export const Route = createFileRoute("/finance")({
 });
 
 const plans = [
-  { id: "credit", rate: 0.14, key: "fin.credit" as const, terms: [12, 24, 36, 60] },
-  { id: "install", rate: 0, key: "fin.install" as const, terms: [6, 12, 24] },
-  { id: "leasing", rate: 0.1, key: "fin.leasing" as const, terms: [24, 36, 48] },
+  { id: "credit", rate: LOAN_RATE_NEW, key: "fin.credit" as const, terms: [12, 24, 36, 60] },
+  { id: "install", rate: INSTALLMENT_RATE, key: "fin.install" as const, terms: [6, 12, 24] },
+  { id: "leasing", rate: LEASING_RATE, key: "fin.leasing" as const, terms: [24, 36, 48] },
 ];
 
 function FinancePage() {
   const { t } = useI18n();
-  const [price, setPrice] = useState("30000");
-  const [down, setDown] = useState("6000");
+  const [price, setPrice] = useState("12000000");
+  const [down, setDown] = useState("2400000");
   const [term, setTerm] = useState(36);
+
 
   const principal = Math.max(0, (Number(price) || 0) - (Number(down) || 0));
 
@@ -56,6 +59,12 @@ function FinancePage() {
           </span>
           <h1 className="text-2xl font-semibold tracking-tight">{t("fin.title")}</h1>
         </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Базалық мөлшерлеме {Math.round(BASE_RATE * 1000) / 10}% · нарықтық банк мөлшерлемелері,
+          жаңартылған {RATES_UPDATED}
+        </p>
+
+
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">

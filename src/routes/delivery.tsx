@@ -34,12 +34,13 @@ const stages: Key[] = ["del.s1", "del.s2", "del.s3", "del.s4"];
 type Plan = { id: string; name: Key; desc: Key; base: number; perKm: number };
 
 const plans: Plan[] = [
-  { id: "standard", name: "del.standard", desc: "del.standardD", base: 120, perKm: 0.45 },
-  { id: "express", name: "del.express", desc: "del.expressD", base: 250, perKm: 0.75 },
-  { id: "vip", name: "del.vip", desc: "del.vipD", base: 480, perKm: 1.2 },
+  { id: "standard", name: "del.standard", desc: "del.standardD", base: 60000, perKm: 250 },
+  { id: "express", name: "del.express", desc: "del.expressD", base: 120000, perKm: 400 },
+  { id: "vip", name: "del.vip", desc: "del.vipD", base: 250000, perKm: 650 },
 ];
 
-const INSURANCE_FEE = 90;
+const INSURANCE_FEE = 45000;
+
 
 function DeliveryPage() {
   const { t } = useI18n();
@@ -104,8 +105,9 @@ function DeliveryPage() {
               <span className="text-sm font-semibold">
                 {money(p.base)}
                 <span className="ml-1 text-xs font-normal text-muted-foreground">
-                  + ${p.perKm.toFixed(2)}/km
+                  + {money(p.perKm)}/км
                 </span>
+
               </span>
             </button>
           ))}

@@ -146,11 +146,11 @@ function CreditPage() {
             <h1 className="text-2xl font-semibold tracking-tight">Your income</h1>
             <div className="space-y-2">
               <Label htmlFor="income">Monthly income</Label>
-              <Input id="income" inputMode="numeric" value={form.income} onChange={set("income")} className="h-12 rounded-2xl" placeholder="3000" />
+              <Input id="income" inputMode="numeric" value={form.income} onChange={set("income")} className="h-12 rounded-2xl" placeholder="450000" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="down">Down payment (optional)</Label>
-              <Input id="down" inputMode="numeric" value={form.downPayment} onChange={set("downPayment")} className="h-12 rounded-2xl" placeholder="6000" />
+              <Input id="down" inputMode="numeric" value={form.downPayment} onChange={set("downPayment")} className="h-12 rounded-2xl" placeholder="2400000" />
             </div>
           </div>
         )}
