@@ -149,7 +149,9 @@ function RootComponent() {
         <AuthProvider>
           <FavoritesProvider>
             {/* Required: nested routes render here. */}
-            <Outlet />
+            <div className="pb-20 lg:pb-0">
+              <Outlet />
+            </div>
             <MobileTabBar />
           </FavoritesProvider>
         </AuthProvider>

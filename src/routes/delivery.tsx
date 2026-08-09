@@ -77,7 +77,7 @@ function DeliveryPage() {
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
-      <main className="mx-auto max-w-2xl px-5 py-8 pb-28 lg:pb-10">
+      <main className="mx-auto max-w-2xl px-5 py-8">
         <div className="flex items-center gap-3">
           <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/15">
             <Truck className="h-5 w-5 text-primary" />
