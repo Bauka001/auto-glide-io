@@ -185,7 +185,7 @@ function Dashboard() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="price">Price</Label>
-                  <Input id="price" required inputMode="numeric" value={form.price} onChange={set("price")} className="h-12 rounded-2xl" placeholder="32900" />
+                  <Input id="price" required inputMode="numeric" value={form.price} onChange={set("price")} className="h-12 rounded-2xl" placeholder="15500000" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="mileage">Mileage</Label>
