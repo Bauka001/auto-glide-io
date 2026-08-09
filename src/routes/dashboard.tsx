@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { imageKeyList, money } from "@/lib/cars";
-import { fetchMyCars } from "@/lib/catalog";
+import { imageKeyList, money, num } from "@/lib/cars";
+import { fetchMyCars, useDealerStats } from "@/lib/catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -48,6 +48,7 @@ function Dashboard() {
     enabled: Boolean(user) && isDealer,
     queryFn: () => fetchMyCars(user!.id),
   });
+  const { data: stats } = useDealerStats(user?.id, isDealer);
 
   const [form, setForm] = useState({
     brand: "",
@@ -117,8 +118,11 @@ function Dashboard() {
       <main className="mx-auto max-w-4xl px-5 py-8">
         <h1 className="text-2xl font-semibold tracking-tight">{t("dash.title")}</h1>
 
-        <Tabs defaultValue="requests" className="mt-6">
+        <Tabs defaultValue="stats" className="mt-6">
           <TabsList className="rounded-2xl">
+            <TabsTrigger value="stats" className="rounded-xl">
+              {t("dash.stats")}
+            </TabsTrigger>
             <TabsTrigger value="requests" className="rounded-xl">
               {t("dash.requests")}
             </TabsTrigger>
@@ -129,6 +133,45 @@ function Dashboard() {
               {t("dash.myCars")}
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="stats" className="mt-5 space-y-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[
+                { label: t("dash.views"), value: num(stats?.views ?? 0) },
+                { label: t("dash.reqCount"), value: num(stats?.requests ?? 0) },
+                { label: t("dash.approved"), value: num(stats?.approved ?? 0) },
+                { label: t("dash.conv"), value: `${stats?.conversion ?? 0}%` },
+              ].map((s2) => (
+                <div key={s2.label} className="rounded-3xl border border-border p-4">
+                  <p className="text-xs text-muted-foreground">{s2.label}</p>
+                  <p className="mt-1 text-2xl font-semibold tracking-tight">{s2.value}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-3xl border border-border p-5">
+              <p className="text-sm font-medium">{t("dash.topCars")}</p>
+              <div className="mt-3 space-y-2">
+                {(stats?.top ?? []).length === 0 ? (
+                  <p className="text-sm text-muted-foreground">{t("pro.empty")}</p>
+                ) : (
+                  stats?.top.map((row) => (
+                    <div
+                      key={row.car.id}
+                      className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3"
+                    >
+                      <p className="truncate text-sm">
+                        {row.car.brand} {row.car.model}
+                      </p>
+                      <span className="shrink-0 text-sm font-semibold text-primary">
+                        {num(row.views)}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </TabsContent>
 
           <TabsContent value="requests" className="mt-5 space-y-3">
             {dealerRequests.length === 0 ? (
@@ -172,33 +215,33 @@ function Dashboard() {
             <form className="space-y-4 rounded-3xl border border-border p-5" onSubmit={addCar}>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="brand">Brand</Label>
+                  <Label htmlFor="brand">{t("dash.brand")}</Label>
                   <Input id="brand" required value={form.brand} onChange={set("brand")} className="h-12 rounded-2xl" placeholder="Aurora" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="model">Model</Label>
+                  <Label htmlFor="model">{t("dash.model")}</Label>
                   <Input id="model" required value={form.model} onChange={set("model")} className="h-12 rounded-2xl" placeholder="EV Sedan" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="year">Year</Label>
+                  <Label htmlFor="year">{t("dash.year")}</Label>
                   <Input id="year" inputMode="numeric" value={form.year} onChange={set("year")} className="h-12 rounded-2xl" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price</Label>
+                  <Label htmlFor="price">{t("dash.price")}</Label>
                   <Input id="price" required inputMode="numeric" value={form.price} onChange={set("price")} className="h-12 rounded-2xl" placeholder="15500000" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="mileage">Mileage</Label>
+                  <Label htmlFor="mileage">{t("dash.mileage")}</Label>
                   <Input id="mileage" inputMode="numeric" value={form.mileage} onChange={set("mileage")} className="h-12 rounded-2xl" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="city">{t("dash.city")}</Label>
                   <Input id="city" value={form.city} onChange={set("city")} className="h-12 rounded-2xl" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="imageUrl">Photo URL</Label>
+                <Label htmlFor="imageUrl">{t("dash.photo")}</Label>
                 <Input
                   id="imageUrl"
                   value={form.imageUrl}

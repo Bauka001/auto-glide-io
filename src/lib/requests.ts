@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { imageFor } from "@/lib/cars";
@@ -115,3 +116,30 @@ export const typeLabels: Record<RequestType, { kk: string; ru: string; en: strin
   delivery: { kk: "Жеткізу", ru: "Доставка", en: "Delivery" },
   insurance: { kk: "Сақтандыру", ru: "Страхование", en: "Insurance" },
 };
+
+/** Live status updates for the signed-in user's requests. */
+export function useRequestsRealtime(
+  enabled: boolean,
+  onStatusChange?: (status: RequestStatus) => void,
+) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!enabled) return;
+    const channel = supabase
+      .channel("requests-status")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "requests" },
+        (payload) => {
+          const next = (payload.new as { status?: RequestStatus }).status;
+          const prev = (payload.old as { status?: RequestStatus }).status;
+          void qc.invalidateQueries({ queryKey: ["requests"] });
+          if (next && next !== prev) onStatusChange?.(next);
+        },
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [enabled, qc, onStatusChange]);
+}
