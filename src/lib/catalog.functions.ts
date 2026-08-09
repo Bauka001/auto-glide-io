@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 
 const COLS =
-  "id,brand,model,year,price,mileage,engine,fuel,transmission,category,city,image_key,image_url,owner_id,is_published";
+  "id,brand,model,year,price,mileage,engine,fuel,transmission,category,city,image_key,image_url,owner_id,is_published,generation,trim,engine_volume,body_type,drive,color,steering,customs_cleared,condition,vin,created_at";
 
 function publicClient() {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
