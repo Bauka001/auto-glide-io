@@ -53,15 +53,29 @@ function Dashboard() {
   const [form, setForm] = useState({
     brand: "",
     model: "",
+    generation: "",
+    trim: "",
     year: "2024",
     price: "",
     mileage: "0",
     city: "Almaty",
     category: "Sedan",
+    bodyType: "sedan",
+    fuel: "Petrol",
+    transmission: "Automatic",
+    drive: "front",
+    engineVolume: "2.0",
+    color: "white",
+    steering: "left",
+    condition: "used",
+    customs: true,
+    vin: "",
     imageKey: imageKeyList[0] as string,
     imageUrl: "",
   });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const dealerRequests = requests.filter((r) => r.car);
@@ -73,11 +87,23 @@ function Dashboard() {
       owner_id: user.id,
       brand: form.brand,
       model: form.model,
+      generation: form.generation,
+      trim: form.trim,
       year: Number(form.year),
       price: Number(form.price),
       mileage: Number(form.mileage),
       city: form.city,
       category: form.category,
+      body_type: form.bodyType,
+      fuel: form.fuel,
+      transmission: form.transmission,
+      drive: form.drive,
+      engine_volume: Number(form.engineVolume),
+      color: form.color,
+      steering: form.steering,
+      condition: form.condition,
+      customs_cleared: form.customs,
+      vin: form.vin || null,
       image_key: form.imageUrl ? null : form.imageKey,
       image_url: form.imageUrl || null,
       engine: "",
@@ -87,9 +113,10 @@ function Dashboard() {
       return;
     }
     toast.success(t("dash.add"));
-    setForm((f) => ({ ...f, brand: "", model: "", price: "" }));
+    setForm((f) => ({ ...f, brand: "", model: "", price: "", vin: "" }));
     void qc.invalidateQueries({ queryKey: ["cars"] });
   }
+
 
   if (!loading && (!user || !isDealer)) {
     return (
