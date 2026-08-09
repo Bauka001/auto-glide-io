@@ -8,7 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CarCard } from "@/components/car-card";
 import { useCars } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
-import { useMyRequests, statusLabels, typeLabels } from "@/lib/requests";
+import { useMyRequests, useRequestsRealtime, statusLabels, typeLabels } from "@/lib/requests";
+import { toast } from "sonner";
+import { useCallback } from "react";
 
 import { useFavorites } from "@/lib/favorites";
 import { langs, useI18n } from "@/lib/i18n";
@@ -36,6 +38,14 @@ function ProfilePage() {
   const [push, setPush] = useState(true);
   const { data: cars = [] } = useCars();
   const { data: requests = [] } = useMyRequests(Boolean(user));
+  useRequestsRealtime(
+    Boolean(user),
+    useCallback(
+      (status: keyof typeof statusLabels) =>
+        toast.success(`${t("req.updated")}: ${statusLabels[status][lang]}`),
+      [lang, t],
+    ),
+  );
   const favCars = cars.filter((c) => ids.includes(c.id));
 
   if (!user) {

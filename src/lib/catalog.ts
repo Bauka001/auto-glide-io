@@ -84,3 +84,60 @@ export function useCar(id: string | undefined) {
 export function brandsOf(cars: Car[]) {
   return [...new Set(cars.map((c) => c.brand))];
 }
+
+/** Fire-and-forget view counter used by the car detail page. */
+export async function recordCarView(carId: string) {
+  const { data: auth } = await supabase.auth.getUser();
+  await supabase.from("car_views").insert({ car_id: carId, viewer_id: auth.user?.id ?? null });
+}
+
+export type DealerStats = {
+  views: number;
+  requests: number;
+  approved: number;
+  conversion: number;
+  top: { car: Car; views: number }[];
+};
+
+export function useDealerStats(ownerId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: ["dealer-stats", ownerId],
+    enabled: Boolean(ownerId) && enabled,
+    queryFn: async (): Promise<DealerStats> => {
+      const cars = await fetchMyCars(ownerId as string);
+      const ids = cars.map((c) => c.id);
+      if (ids.length === 0) {
+        return { views: 0, requests: 0, approved: 0, conversion: 0, top: [] };
+      }
+      const [viewsRes, reqRes] = await Promise.all([
+        supabase.from("car_views").select("car_id").in("car_id", ids),
+        supabase.from("requests").select("id,status,car_id").in("car_id", ids),
+      ]);
+      if (viewsRes.error) throw viewsRes.error;
+      if (reqRes.error) throw reqRes.error;
+
+      const counts = new Map<string, number>();
+      for (const v of viewsRes.data ?? []) {
+        counts.set(v.car_id, (counts.get(v.car_id) ?? 0) + 1);
+      }
+      const views = viewsRes.data?.length ?? 0;
+      const requests = reqRes.data?.length ?? 0;
+      const approved = (reqRes.data ?? []).filter(
+        (r) => r.status === "approved" || r.status === "completed",
+      ).length;
+
+      const top = cars
+        .map((car) => ({ car, views: counts.get(car.id) ?? 0 }))
+        .sort((a, b) => b.views - a.views)
+        .slice(0, 5);
+
+      return {
+        views,
+        requests,
+        approved,
+        conversion: views > 0 ? Math.round((requests / views) * 1000) / 10 : 0,
+        top,
+      };
+    },
+  });
+}

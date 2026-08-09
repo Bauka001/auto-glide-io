@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Bot, Lightbulb, ListFilter, Send } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/lib/i18n";
+import { imageFor, money, monthlyPayment, num } from "@/lib/cars";
+import type { AiCar } from "@/routes/api/ai-chat";
 
 export const Route = createFileRoute("/ai-chat")({
   head: () => ({
@@ -25,7 +28,7 @@ export const Route = createFileRoute("/ai-chat")({
   component: AiChatPage,
 });
 
-type Msg = { id: number; role: "user" | "assistant"; content: string };
+type Msg = { id: number; role: "user" | "assistant"; content: string; cars?: AiCar[] };
 
 function AiChatPage() {
   const { t, lang } = useI18n();
@@ -57,13 +60,14 @@ function AiChatPage() {
           messages: next.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
-      const data = (await res.json()) as { reply?: string; error?: string };
+      const data = (await res.json()) as { reply?: string; error?: string; cars?: AiCar[] };
       setMessages((m) => [
         ...m,
         {
           id: Date.now() + 1,
           role: "assistant",
           content: data.reply || data.error || "…",
+          cars: data.cars ?? [],
         },
       ]);
     } catch {
@@ -83,10 +87,10 @@ function AiChatPage() {
       label: t("ai.pick"),
       prompt:
         lang === "kk"
-          ? "Маған 20 000 доллар бюджетке отбасылық көлік таңдап беріңіз."
+          ? "10 млн ₸ дейін автомат кроссовер таңдап беріңізші."
           : lang === "en"
-            ? "Help me pick a family car with a $20,000 budget."
-            : "Подбери семейный автомобиль с бюджетом 20 000 долларов.",
+            ? "Find me an automatic crossover under 10 000 000 ₸."
+            : "Подбери кроссовер на автомате до 10 млн ₸.",
     },
     {
       icon: Bot,
@@ -139,8 +143,8 @@ function AiChatPage() {
 
         <div className="space-y-3">
           {messages.map((m) => (
+            <div key={m.id} className="space-y-3">
             <div
-              key={m.id}
               className={`flex animate-fade-in ${m.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
@@ -150,6 +154,44 @@ function AiChatPage() {
               >
                 {m.content}
               </div>
+            </div>
+            {m.cars && m.cars.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">{t("ai.found")}</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {m.cars.map((c) => (
+                    <Link
+                      key={c.id}
+                      to="/cars/$carId"
+                      params={{ carId: c.id }}
+                      className="flex gap-3 overflow-hidden rounded-2xl border border-border bg-card p-2 transition-colors hover:border-primary/50"
+                    >
+                      <img
+                        src={imageFor(c.image_key, c.image_url)}
+                        alt={`${c.brand} ${c.model}`}
+                        loading="lazy"
+                        width={160}
+                        height={107}
+                        className="h-20 w-24 shrink-0 rounded-xl object-cover"
+                      />
+                      <div className="min-w-0 py-1">
+                        <p className="truncate text-sm font-semibold">
+                          {c.brand} {c.model}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {c.year} · {num(c.mileage)} km · {c.city}
+                        </p>
+                        <p className="mt-1 text-sm font-semibold">{money(c.price)}</p>
+                        <p className="text-xs text-primary">
+                          {money(monthlyPayment(c.price))}
+                          {t("cars.from")}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
             </div>
           ))}
           {loading && (

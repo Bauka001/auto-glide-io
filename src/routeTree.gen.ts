@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CreditRouteImport } from './routes/credit'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DeliveryRouteImport } from './routes/delivery'
@@ -41,6 +42,11 @@ const AuthRoute = AuthRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreditRoute = CreditRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/ai-chat': typeof AiChatRoute
   '/auth': typeof AuthRoute
   '/chat': typeof ChatRoute
+  '/compare': typeof CompareRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/ai-chat': typeof AiChatRoute
   '/auth': typeof AuthRoute
   '/chat': typeof ChatRoute
+  '/compare': typeof CompareRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/ai-chat': typeof AiChatRoute
   '/auth': typeof AuthRoute
   '/chat': typeof ChatRoute
+  '/compare': typeof CompareRoute
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/auth'
     | '/chat'
+    | '/compare'
     | '/credit'
     | '/dashboard'
     | '/delivery'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/auth'
     | '/chat'
+    | '/compare'
     | '/credit'
     | '/dashboard'
     | '/delivery'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/auth'
     | '/chat'
+    | '/compare'
     | '/credit'
     | '/dashboard'
     | '/delivery'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   AiChatRoute: typeof AiChatRoute
   AuthRoute: typeof AuthRoute
   ChatRoute: typeof ChatRoute
+  CompareRoute: typeof CompareRoute
   CreditRoute: typeof CreditRoute
   DashboardRoute: typeof DashboardRoute
   DeliveryRoute: typeof DeliveryRoute
@@ -227,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/credit': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiChatRoute: AiChatRoute,
   AuthRoute: AuthRoute,
   ChatRoute: ChatRoute,
+  CompareRoute: CompareRoute,
   CreditRoute: CreditRoute,
   DashboardRoute: DashboardRoute,
   DeliveryRoute: DeliveryRoute,

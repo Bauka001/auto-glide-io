@@ -1,26 +1,46 @@
 import { Link } from "@tanstack/react-router";
-import { Heart } from "lucide-react";
+import { Heart, Scale } from "lucide-react";
+import { toast } from "sonner";
 import { type Car, money, monthlyPayment, num } from "@/lib/cars";
 import { useFavorites } from "@/lib/favorites";
+import { useCompare } from "@/lib/compare";
 import { useI18n } from "@/lib/i18n";
 
 export function CarCard({ car }: { car: Car }) {
   const { has, toggle } = useFavorites();
+  const compare = useCompare();
   const { t } = useI18n();
   const fav = has(car.id);
+  const inCompare = compare.has(car.id);
 
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-border bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40">
-      <button
-        type="button"
-        aria-label={t("cars.favorites")}
-        onClick={() => toggle(car.id)}
-        className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-background/70 backdrop-blur transition-colors hover:bg-background"
-      >
-        <Heart
-          className={`h-4 w-4 transition-colors ${fav ? "fill-primary text-primary" : "text-muted-foreground"}`}
-        />
-      </button>
+      <div className="absolute right-3 top-3 z-10 flex flex-col gap-2">
+        <button
+          type="button"
+          aria-label={t("cars.favorites")}
+          onClick={() => toggle(car.id)}
+          className="grid h-9 w-9 place-items-center rounded-full bg-background/70 backdrop-blur transition-colors hover:bg-background"
+        >
+          <Heart
+            className={`h-4 w-4 transition-colors ${fav ? "fill-primary text-primary" : "text-muted-foreground"}`}
+          />
+        </button>
+        <button
+          type="button"
+          aria-label={t("cmp.add")}
+          onClick={() => {
+            const ok = compare.toggle(car.id);
+            if (!ok) toast.error(t("cmp.full"));
+            else toast.success(inCompare ? t("cmp.removed") : t("cmp.added"));
+          }}
+          className="grid h-9 w-9 place-items-center rounded-full bg-background/70 backdrop-blur transition-colors hover:bg-background"
+        >
+          <Scale
+            className={`h-4 w-4 transition-colors ${inCompare ? "text-primary" : "text-muted-foreground"}`}
+          />
+        </button>
+      </div>
       <Link to="/cars/$carId" params={{ carId: car.id }} className="block">
         <div className="aspect-[3/2] overflow-hidden bg-muted">
           <img

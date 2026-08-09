@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, LogOut, Menu, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, Moon, Scale, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { langs, useI18n, type Key } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
+import { useTheme } from "@/lib/theme";
+import { useCompare } from "@/lib/compare";
 
 const navItems: { to: string; key: Key }[] = [
   { to: "/cars", key: "nav.cars" },
@@ -22,6 +24,8 @@ const navItems: { to: string; key: Key }[] = [
 export function SiteHeader() {
   const { lang, setLang, t } = useI18n();
   const { user, profile, isDealer, signOut } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const compare = useCompare();
   const current = langs.find((l) => l.code === lang)?.label ?? "RU";
 
 
@@ -31,7 +35,7 @@ export function SiteHeader() {
         <div className="flex min-w-0 items-center gap-6">
           <Link to="/" className="flex shrink-0 items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-sm font-bold text-primary-foreground">
-              M
+              A
             </span>
             <span className="text-base font-semibold tracking-tight">AutoHub</span>
           </Link>
@@ -50,6 +54,28 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2">
+          {compare.ids.length > 0 && (
+            <Button
+              asChild
+              size="sm"
+              variant="secondary"
+              className="rounded-full px-3 text-xs font-semibold"
+            >
+              <Link to="/compare">
+                <Scale className="mr-1.5 h-3.5 w-3.5" />
+                {compare.ids.length}
+              </Link>
+            </Button>
+          )}
+          <Button
+            size="icon"
+            variant="secondary"
+            className="rounded-full"
+            aria-label={theme === "dark" ? t("theme.light") : t("theme.dark")}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size="sm" variant="secondary" className="rounded-full px-3 text-xs font-semibold">
@@ -133,6 +159,9 @@ export function SiteHeader() {
                   <Link to={item.to}>{t(item.key)}</Link>
                 </DropdownMenuItem>
               ))}
+              <DropdownMenuItem asChild className="rounded-xl text-sm">
+                <Link to="/compare">{t("cmp.title")}</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild className="rounded-xl text-sm">
                 <Link to="/chat">{t("nav.dealer")}</Link>
               </DropdownMenuItem>

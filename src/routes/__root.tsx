@@ -16,6 +16,8 @@ import { I18nProvider } from "@/lib/i18n";
 import { FavoritesProvider } from "@/lib/favorites";
 import { AuthProvider } from "@/lib/auth";
 import { MobileTabBar } from "@/components/mobile-tab-bar";
+import { ThemeProvider, themeBootstrapScript } from "@/lib/theme";
+import { CompareProvider } from "@/lib/compare";
 
 
 function NotFoundComponent() {
@@ -131,6 +133,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
       <body>
         {children}
@@ -145,17 +148,21 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       <I18nProvider>
         <AuthProvider>
           <FavoritesProvider>
+            <CompareProvider>
             {/* Required: nested routes render here. */}
             <div className="pb-20 lg:pb-0">
               <Outlet />
             </div>
             <MobileTabBar />
+            </CompareProvider>
           </FavoritesProvider>
         </AuthProvider>
       </I18nProvider>
+      </ThemeProvider>
 
       <Toaster />
     </QueryClientProvider>

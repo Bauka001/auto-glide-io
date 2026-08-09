@@ -1,10 +1,13 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, Fuel, Gauge, MapPin, MessageCircle, Settings2, Truck } from "lucide-react";
+import { Calendar, Fuel, Gauge, MapPin, MessageCircle, Scale, Settings2, Truck } from "lucide-react";
+import { useEffect } from "react";
 import { toast } from "sonner";
+import { useCompare } from "@/lib/compare";
+import { useI18n } from "@/lib/i18n";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { money, monthlyPayment, num } from "@/lib/cars";
-import { rowToCar } from "@/lib/catalog";
+import { rowToCar, recordCarView } from "@/lib/catalog";
 import { getPublicCar } from "@/lib/catalog.functions";
 
 export const Route = createFileRoute("/cars/$carId")({
@@ -35,13 +38,20 @@ export const Route = createFileRoute("/cars/$carId")({
 
 function CarDetail() {
   const { car } = Route.useLoaderData();
+  const { t } = useI18n();
+  const compare = useCompare();
+
+  useEffect(() => {
+    void recordCarView(car.id).catch(() => {});
+  }, [car.id]);
+
   const specs = [
-    { icon: Calendar, label: "Year", value: String(car.year) },
-    { icon: Gauge, label: "Mileage", value: `${num(car.mileage)} km` },
-    { icon: Settings2, label: "Engine", value: car.engine },
-    { icon: Fuel, label: "Fuel", value: car.fuel },
-    { icon: Settings2, label: "Transmission", value: car.transmission },
-    { icon: MapPin, label: "Location", value: car.city },
+    { icon: Calendar, label: t("cmp.year"), value: String(car.year) },
+    { icon: Gauge, label: t("cmp.mileage"), value: `${num(car.mileage)} km` },
+    { icon: Settings2, label: t("cmp.engine"), value: car.engine },
+    { icon: Fuel, label: t("cmp.fuel"), value: car.fuel },
+    { icon: Settings2, label: t("cmp.trans"), value: car.transmission },
+    { icon: MapPin, label: t("cmp.city"), value: car.city },
   ];
 
   return (
@@ -49,7 +59,7 @@ function CarDetail() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-5 py-6">
         <Link to="/cars" className="text-sm text-muted-foreground hover:text-foreground">
-          ← Back to cars
+          ← {t("cars.all")}
         </Link>
 
         <div className="mt-4 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
@@ -93,25 +103,35 @@ function CarDetail() {
             <div className="mt-5 rounded-3xl border border-border p-5">
               <p className="text-3xl font-semibold">{money(car.price)}</p>
               <p className="mt-1 text-sm text-primary">
-                or {money(monthlyPayment(car.price))}/mo · 60 ай · 20% бастапқы жарна · 21% ГЭСВ
+                {money(monthlyPayment(car.price))}
+                {t("cars.from")} · 60 · 20% · 21% ГЭСВ
               </p>
               <div className="mt-4 space-y-2">
                 <Button asChild className="h-12 w-full rounded-2xl text-base">
                   <Link to="/credit" search={{ carId: car.id }}>
-                    Apply for credit
+                    {t("car.credit")}
                   </Link>
                 </Button>
                 <Button asChild variant="secondary" className="h-12 w-full rounded-2xl text-base">
                   <Link to="/chat" search={{ carId: car.id }}>
-                    <MessageCircle className="h-4 w-4" /> Chat with dealer
+                    <MessageCircle className="h-4 w-4" /> {t("car.chat")}
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-12 w-full rounded-2xl text-base">
+                  <Link to="/delivery" search={{ carId: car.id }}>
+                    <Truck className="h-4 w-4" /> {t("car.delivery")}
                   </Link>
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   className="h-12 w-full rounded-2xl text-base"
-                  onClick={() => toast.success("Delivery requested — we'll confirm a time slot.")}
+                  onClick={() => {
+                    const ok = compare.toggle(car.id);
+                    if (!ok) toast.error(t("cmp.full"));
+                    else toast.success(compare.has(car.id) ? t("cmp.removed") : t("cmp.added"));
+                  }}
                 >
-                  <Truck className="h-4 w-4" /> Order delivery
+                  <Scale className="h-4 w-4" /> {t("cmp.add")}
                 </Button>
               </div>
             </div>
