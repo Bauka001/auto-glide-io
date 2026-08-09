@@ -9,13 +9,13 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/ai-chat")({
   head: () => ({
     meta: [
-      { title: "AI car assistant — Motra" },
+      { title: "AI car assistant — AutoHub" },
       {
         name: "description",
         content:
-          "Ask the Motra AI assistant about cars, credit, leasing, CASCO and MTPL insurance in Kazakh, Russian or English.",
+          "Ask the AutoHub AI assistant about cars, credit, leasing, CASCO and MTPL insurance in Kazakh, Russian or English.",
       },
-      { property: "og:title", content: "AI car assistant — Motra" },
+      { property: "og:title", content: "AI car assistant — AutoHub" },
       {
         property: "og:description",
         content: "Personal AI consultant for choosing a car and financing it.",

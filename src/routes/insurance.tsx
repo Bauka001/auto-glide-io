@@ -13,13 +13,13 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/insurance")({
   head: () => ({
     meta: [
-      { title: "Car insurance — MTPL and CASCO online — Motra" },
+      { title: "Car insurance — MTPL and CASCO online — AutoHub" },
       {
         name: "description",
         content:
           "Calculate MTPL (ОГПО) and CASCO (КАСКО) prices in seconds and buy your policy online.",
       },
-      { property: "og:title", content: "Car insurance online — Motra" },
+      { property: "og:title", content: "Car insurance online — AutoHub" },
       { property: "og:description", content: "MTPL and CASCO calculators with instant purchase." },
     ],
   }),

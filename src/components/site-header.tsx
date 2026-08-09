@@ -33,7 +33,7 @@ export function SiteHeader() {
             <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-sm font-bold text-primary-foreground">
               M
             </span>
-            <span className="text-base font-semibold tracking-tight">Motra</span>
+            <span className="text-base font-semibold tracking-tight">AutoHub</span>
           </Link>
           <nav className="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
             {navItems.map((item) => (
@@ -151,7 +151,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border/60">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
-        <span>© {new Date().getFullYear()} Motra</span>
+        <span>© {new Date().getFullYear()} AutoHub</span>
         <span>Қазақша · Русский · English</span>
       </div>
     </footer>

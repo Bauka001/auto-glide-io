@@ -13,13 +13,13 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/finance")({
   head: () => ({
     meta: [
-      { title: "Car financing — loan, installments, leasing — Motra" },
+      { title: "Car financing — loan, installments, leasing — AutoHub" },
       {
         name: "description",
         content:
           "Compare a car loan, interest-free installments and leasing, then apply online in minutes.",
       },
-      { property: "og:title", content: "Car financing — Motra" },
+      { property: "og:title", content: "Car financing — AutoHub" },
       { property: "og:description", content: "Loan, installments and leasing calculators." },
     ],
   }),
