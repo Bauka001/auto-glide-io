@@ -56,7 +56,7 @@ const dict = {
   "cars.filter": { kk: "Сүзгі", ru: "Фильтр", en: "Filter" },
   "cars.favorites": { kk: "Таңдаулылар", ru: "Избранное", en: "Favorites" },
   "cars.details": { kk: "Толығырақ", ru: "Подробнее", en: "Details" },
-  "cars.from": { kk: "айына", ru: "в мес.", en: "/mo" },
+  "cars.from": { kk: " / айына", ru: " / в мес.", en: " / mo" },
   "cars.empty": { kk: "Ештеңе табылмады", ru: "Ничего не найдено", en: "Nothing found" },
 
   "ai.title": { kk: "AI консультант", ru: "AI консультант", en: "AI assistant" },
