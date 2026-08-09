@@ -11,12 +11,12 @@ import { useI18n, type Key } from "@/lib/i18n";
 export const Route = createFileRoute("/delivery")({
   head: () => ({
     meta: [
-      { title: "Car delivery to your door — Motra" },
+      { title: "Car delivery to your door — AutoHub" },
       {
         name: "description",
         content: "Order home delivery for your car and track every step of the way in real time.",
       },
-      { property: "og:title", content: "Car delivery — Motra" },
+      { property: "og:title", content: "Car delivery — AutoHub" },
       { property: "og:description", content: "Order delivery and track the status live." },
     ],
   }),

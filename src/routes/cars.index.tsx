@@ -21,12 +21,12 @@ export const Route = createFileRoute("/cars/")({
   }),
   head: () => ({
     meta: [
-      { title: "Browse cars — Motra" },
+      { title: "Browse cars — AutoHub" },
       {
         name: "description",
         content: "Filter verified cars by price, brand, year and mileage. Monthly payment shown.",
       },
-      { property: "og:title", content: "Browse cars — Motra" },
+      { property: "og:title", content: "Browse cars — AutoHub" },
       {
         property: "og:description",
         content: "Filter verified cars by price, brand, year and mileage.",

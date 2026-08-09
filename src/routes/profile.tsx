@@ -16,13 +16,13 @@ import { langs, useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Your Motra profile — requests and favorites" },
+      { title: "Your AutoHub profile — requests and favorites" },
       {
         name: "description",
         content:
           "Manage your account, track credit and delivery requests, and keep your favorite cars in one place.",
       },
-      { property: "og:title", content: "Your Motra profile" },
+      { property: "og:title", content: "Your AutoHub profile" },
       { property: "og:description", content: "Account, requests, favorites and settings." },
     ],
   }),

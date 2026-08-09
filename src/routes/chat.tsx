@@ -14,12 +14,12 @@ export const Route = createFileRoute("/chat")({
   }),
   head: () => ({
     meta: [
-      { title: "Chat with the dealer — Motra" },
+      { title: "Chat with the dealer — AutoHub" },
       {
         name: "description",
         content: "Message the dealer about a car, credit terms or delivery — securely in-app.",
       },
-      { property: "og:title", content: "Chat with the dealer — Motra" },
+      { property: "og:title", content: "Chat with the dealer — AutoHub" },
       { property: "og:description", content: "Secure in-app messaging with verified dealers." },
     ],
   }),

@@ -16,10 +16,10 @@ export const Route = createFileRoute("/cars/$carId")({
 
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Car not found — Motra" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Car not found — AutoHub" }, { name: "robots", content: "noindex" }] };
     }
     const { car } = loaderData;
-    const title = `${car.year} ${car.brand} ${car.model} — ${money(car.price)} | Motra`;
+    const title = `${car.year} ${car.brand} ${car.model} — ${money(car.price)} | AutoHub`;
     const description = `${car.year} ${car.brand} ${car.model}, ${num(car.mileage)} km. From ${money(monthlyPayment(car.price))}/mo with online credit and home delivery.`;
     return {
       meta: [

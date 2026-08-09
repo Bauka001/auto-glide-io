@@ -19,12 +19,12 @@ export const Route = createFileRoute("/credit")({
   }),
   head: () => ({
     meta: [
-      { title: "Apply for car credit online — Motra" },
+      { title: "Apply for car credit online — AutoHub" },
       {
         name: "description",
         content: "Three simple steps to a credit decision: your details, income, confirmation.",
       },
-      { property: "og:title", content: "Apply for car credit online — Motra" },
+      { property: "og:title", content: "Apply for car credit online — AutoHub" },
       { property: "og:description", content: "Get a credit decision in minutes. No paperwork." },
     ],
   }),

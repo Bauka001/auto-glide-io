@@ -15,12 +15,12 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Sign in to Motra — your account" },
+      { title: "Sign in to AutoHub — your account" },
       {
         name: "description",
-        content: "Sign in or create a Motra account to save cars and track credit and delivery requests.",
+        content: "Sign in or create a AutoHub account to save cars and track credit and delivery requests.",
       },
-      { property: "og:title", content: "Sign in to Motra" },
+      { property: "og:title", content: "Sign in to AutoHub" },
       { property: "og:description", content: "Access your requests, favorites and dealer tools." },
     ],
   }),
@@ -150,7 +150,7 @@ function AuthPage() {
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
           <Link to="/" className="hover:text-foreground">
-            Motra
+            AutoHub
           </Link>
         </p>
       </main>

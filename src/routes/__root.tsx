@@ -82,12 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Motra — Buy a car online" },
+      { title: "AutoHub — Buy a car online" },
       {
         name: "description",
         content: "Browse verified cars, apply for credit online and get home delivery.",
       },
-      { property: "og:title", content: "Motra — Buy a car online" },
+      { property: "og:title", content: "AutoHub — Buy a car online" },
       {
         property: "og:description",
         content: "Verified cars, online credit and home delivery.",

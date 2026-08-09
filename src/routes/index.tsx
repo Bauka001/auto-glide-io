@@ -22,13 +22,13 @@ import { useI18n, type Key } from "@/lib/i18n";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Motra — Buy a car online with AI, credit, insurance and delivery" },
+      { title: "AutoHub — Buy a car online with AI, credit, insurance and delivery" },
       {
         name: "description",
         content:
           "Browse verified cars, chat with an AI assistant, get credit or leasing, buy MTPL and CASCO insurance, and have your car delivered.",
       },
-      { property: "og:title", content: "Motra — Buy a car online" },
+      { property: "og:title", content: "AutoHub — Buy a car online" },
       {
         property: "og:description",
         content: "AI assistant, online credit, insurance and home delivery in one app.",

@@ -23,12 +23,12 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dealer dashboard — Motra" },
+      { title: "Dealer dashboard — AutoHub" },
       {
         name: "description",
         content: "Add cars, publish listings and manage credit and delivery requests in one place.",
       },
-      { property: "og:title", content: "Dealer dashboard — Motra" },
+      { property: "og:title", content: "Dealer dashboard — AutoHub" },
       { property: "og:description", content: "Manage your listings and incoming requests." },
     ],
   }),
