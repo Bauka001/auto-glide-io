@@ -131,7 +131,7 @@ function CarsPage() {
 
   const reset = () =>
     void navigate({
-      search: {},
+      search: {} as never,
       replace: true,
     });
 
