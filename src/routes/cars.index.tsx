@@ -95,7 +95,10 @@ function CarsPage() {
   const [focused, setFocused] = useState(false);
 
   const patch = (next: Partial<CarSearch>) =>
-    void navigate({ search: (prev: CarSearch) => ({ ...prev, ...next }), replace: true });
+    void navigate({
+      search: ((prev: CarSearch) => ({ ...prev, ...next })) as never,
+      replace: true,
+    });
 
   const suggestions = useMemo(() => {
     const s = term.trim().toLowerCase();
