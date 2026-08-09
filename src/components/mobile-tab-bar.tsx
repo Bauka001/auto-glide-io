@@ -2,8 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Bot, Car, Home, Truck, User } from "lucide-react";
 import { useI18n, type Key } from "@/lib/i18n";
 
-const items: { to: string; icon: typeof Car; key: Key }[] = [
-  { to: "/", icon: Home, key: "home.services" },
+const items: { to: string; icon: typeof Car; key: Key | null }[] = [
+  { to: "/", icon: Home, key: null },
   { to: "/cars", icon: Car, key: "nav.cars" },
   { to: "/ai-chat", icon: Bot, key: "nav.ai" },
   { to: "/delivery", icon: Truck, key: "nav.delivery" },
@@ -24,7 +24,7 @@ export function MobileTabBar() {
               className="flex flex-col items-center gap-1 rounded-2xl px-1 py-1.5 text-[10px] font-medium text-muted-foreground transition-colors"
             >
               <item.icon className="h-5 w-5" />
-              <span className="truncate">{t(item.key)}</span>
+              <span className="truncate">{item.key ? t(item.key) : "AutoHub"}</span>
             </Link>
           </li>
         ))}
