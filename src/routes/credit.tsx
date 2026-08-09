@@ -10,7 +10,7 @@ import { money, monthlyPayment } from "@/lib/cars";
 import { useCar } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
 import { useCreateRequest } from "@/lib/requests";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, type Key } from "@/lib/i18n";
 
 
 export const Route = createFileRoute("/credit")({
