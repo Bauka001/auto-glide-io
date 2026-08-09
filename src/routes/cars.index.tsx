@@ -60,7 +60,7 @@ function CarsPage() {
   const search = Route.useSearch();
   const [brand, setBrand] = useState<string | undefined>(search.brand);
   const [category, setCategory] = useState<string | undefined>(search.category);
-  const [maxPrice, setMaxPrice] = useState(70000);
+  const [maxPrice, setMaxPrice] = useState(40000000);
   const [minYear, setMinYear] = useState(2020);
   const [maxMileage, setMaxMileage] = useState(60000);
   const { data: cars = [], isLoading } = useCars();
@@ -112,8 +112,8 @@ function CarsPage() {
             </div>
             <Slider
               className="mt-3"
-              min={10000}
-              max={70000}
+              min={2000000}
+              max={40000000}
               step={1000}
               value={[maxPrice]}
               onValueChange={([v]) => setMaxPrice(v ?? maxPrice)}
@@ -164,7 +164,7 @@ function CarsPage() {
             <Link to="/cars" className="text-primary hover:underline" onClick={() => {
               setBrand(undefined);
               setCategory(undefined);
-              setMaxPrice(70000);
+              setMaxPrice(40000000);
               setMinYear(2018);
               setMaxMileage(60000);
             }}>
