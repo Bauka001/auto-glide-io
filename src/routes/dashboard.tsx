@@ -401,9 +401,7 @@ function Dashboard() {
                     className="h-12 w-16 shrink-0 rounded-xl object-cover"
                   />
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">
-                      {c.brand} {c.model}
-                    </p>
+                    <p className="truncate text-sm font-medium">{carTitle(c)}</p>
                     <p className="text-xs text-muted-foreground">
                       {c.year} · {c.city}
                     </p>
