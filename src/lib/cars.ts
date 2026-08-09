@@ -2,6 +2,8 @@ import sedanWhite from "@/assets/car-sedan-white.jpg";
 import suvGray from "@/assets/car-suv-gray.jpg";
 import hatchBlue from "@/assets/car-hatch-blue.jpg";
 import coupeBlack from "@/assets/car-coupe-black.jpg";
+import { DEFAULT_DOWN, DEFAULT_TERM, LOAN_RATE_NEW } from "@/lib/rates";
+
 
 export type Car = {
   id: string;
