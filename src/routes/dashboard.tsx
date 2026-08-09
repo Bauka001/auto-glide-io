@@ -8,6 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { imageKeyList, money, num } from "@/lib/cars";
+import {
+  bodyTypes,
+  colors,
+  conditions,
+  drives,
+  fuels,
+  steerings,
+  transmissions,
+  carTitle,
+} from "@/lib/car-spec";
+
 import { fetchMyCars, useDealerStats } from "@/lib/catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
