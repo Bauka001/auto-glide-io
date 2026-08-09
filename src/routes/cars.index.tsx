@@ -78,7 +78,7 @@ function Chip({
 
 function CarsPage() {
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/cars" });
+  const navigate = useNavigate({ from: "/cars/" });
   const { t } = useI18n();
   const compare = useCompare();
   const { data: cars = [], isLoading } = useCars();
