@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "@/lib/i18n";
 import { FavoritesProvider } from "@/lib/favorites";
 import { AuthProvider } from "@/lib/auth";
+import { MobileTabBar } from "@/components/mobile-tab-bar";
 
 
 function NotFoundComponent() {
@@ -149,6 +150,7 @@ function RootComponent() {
           <FavoritesProvider>
             {/* Required: nested routes render here. */}
             <Outlet />
+            <MobileTabBar />
           </FavoritesProvider>
         </AuthProvider>
       </I18nProvider>
