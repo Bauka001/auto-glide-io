@@ -104,7 +104,7 @@ function DeliveryPage() {
               <span className="text-sm font-semibold">
                 {money(p.base)}
                 <span className="ml-1 text-xs font-normal text-muted-foreground">
-                  + {money(p.perKm)}/km
+                  + ${p.perKm.toFixed(2)}/km
                 </span>
               </span>
             </button>
