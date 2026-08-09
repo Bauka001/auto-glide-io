@@ -8,14 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { money, num, type Car } from "@/lib/cars";
+import { num, type Car } from "@/lib/cars";
 import {
   bodyTypes,
   colors,
   conditions,
   drives,
   fuels,
-  optionLabel,
   steerings,
   transmissions,
   type Option,
