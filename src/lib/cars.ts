@@ -30,7 +30,7 @@ export type Car = {
   customsCleared?: boolean;
   condition?: string;
   vin?: string | null;
-  createdAt?: string;
+  createdAt?: string | undefined;
 };
 
 
