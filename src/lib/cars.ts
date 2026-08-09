@@ -38,13 +38,14 @@ export function imageFor(key?: string | null, url?: string | null) {
 
 export const categories = ["SUV", "Sedan", "Electric", "Hatchback", "Coupe"] as const;
 
-/** 60-month loan at 12% APR, 20% down payment. */
+/** Bank auto loan: 60 months at 21% effective rate (KZ market, Aug 2026), 20% down. */
 export function monthlyPayment(price: number) {
-  const principal = price * 0.8;
-  const r = 0.12 / 12;
-  const n = 60;
+  const principal = price * (1 - DEFAULT_DOWN);
+  const r = LOAN_RATE_NEW / 12;
+  const n = DEFAULT_TERM;
   return Math.round((principal * r) / (1 - Math.pow(1 + r, -n)));
 }
+
 
 const group = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
