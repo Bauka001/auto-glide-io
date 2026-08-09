@@ -46,7 +46,9 @@ export function monthlyPayment(price: number) {
   return Math.round((principal * r) / (1 - Math.pow(1 + r, -n)));
 }
 
-const group = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const group = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-export const money = (n: number) => "$" + group(n);
-export const num = group;
+/** Prices are stored and displayed in Kazakhstani tenge. */
+export const money = (n: number) => group(n) + " ₸";
+export const num = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
