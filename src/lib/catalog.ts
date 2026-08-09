@@ -18,10 +18,21 @@ type Row = {
   image_url: string | null;
   owner_id: string | null;
   is_published: boolean;
+  generation?: string | null;
+  trim?: string | null;
+  engine_volume?: number | string | null;
+  body_type?: string | null;
+  drive?: string | null;
+  color?: string | null;
+  steering?: string | null;
+  customs_cleared?: boolean | null;
+  condition?: string | null;
+  vin?: string | null;
+  created_at?: string | null;
 };
 
 const COLS =
-  "id,brand,model,year,price,mileage,engine,fuel,transmission,category,city,image_key,image_url,owner_id,is_published";
+  "id,brand,model,year,price,mileage,engine,fuel,transmission,category,city,image_key,image_url,owner_id,is_published,generation,trim,engine_volume,body_type,drive,color,steering,customs_cleared,condition,vin,created_at";
 
 export function rowToCar(r: Row): Car {
   return {
@@ -39,8 +50,20 @@ export function rowToCar(r: Row): Car {
     image: imageFor(r.image_key, r.image_url),
     ownerId: r.owner_id,
     isPublished: r.is_published,
+    generation: r.generation ?? "",
+    trim: r.trim ?? "",
+    engineVolume: r.engine_volume == null ? 0 : Number(r.engine_volume),
+    bodyType: r.body_type ?? "sedan",
+    drive: r.drive ?? "front",
+    color: r.color ?? "white",
+    steering: r.steering ?? "left",
+    customsCleared: r.customs_cleared ?? true,
+    condition: r.condition ?? "used",
+    vin: r.vin ?? null,
+    createdAt: r.created_at ?? undefined,
   };
 }
+
 
 export async function fetchCars(): Promise<Car[]> {
   const { data, error } = await supabase

@@ -20,7 +20,19 @@ export type Car = {
   city: string;
   ownerId?: string | null;
   isPublished?: boolean;
+  generation?: string;
+  trim?: string;
+  engineVolume?: number;
+  bodyType?: string;
+  drive?: string;
+  color?: string;
+  steering?: string;
+  customsCleared?: boolean;
+  condition?: string;
+  vin?: string | null;
+  createdAt?: string | undefined;
 };
+
 
 export const imageKeys = {
   "sedan-white": sedanWhite,

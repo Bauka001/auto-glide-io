@@ -8,6 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { imageKeyList, money, num } from "@/lib/cars";
+import {
+  bodyTypes,
+  colors,
+  conditions,
+  drives,
+  fuels,
+  steerings,
+  transmissions,
+  carTitle,
+} from "@/lib/car-spec";
+
 import { fetchMyCars, useDealerStats } from "@/lib/catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -53,15 +64,29 @@ function Dashboard() {
   const [form, setForm] = useState({
     brand: "",
     model: "",
+    generation: "",
+    trim: "",
     year: "2024",
     price: "",
     mileage: "0",
     city: "Almaty",
     category: "Sedan",
+    bodyType: "sedan",
+    fuel: "Petrol",
+    transmission: "Automatic",
+    drive: "front",
+    engineVolume: "2.0",
+    color: "white",
+    steering: "left",
+    condition: "used",
+    customs: true,
+    vin: "",
     imageKey: imageKeyList[0] as string,
     imageUrl: "",
   });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const dealerRequests = requests.filter((r) => r.car);
@@ -73,11 +98,23 @@ function Dashboard() {
       owner_id: user.id,
       brand: form.brand,
       model: form.model,
+      generation: form.generation,
+      trim: form.trim,
       year: Number(form.year),
       price: Number(form.price),
       mileage: Number(form.mileage),
       city: form.city,
       category: form.category,
+      body_type: form.bodyType,
+      fuel: form.fuel,
+      transmission: form.transmission,
+      drive: form.drive,
+      engine_volume: Number(form.engineVolume),
+      color: form.color,
+      steering: form.steering,
+      condition: form.condition,
+      customs_cleared: form.customs,
+      vin: form.vin || null,
       image_key: form.imageUrl ? null : form.imageKey,
       image_url: form.imageUrl || null,
       engine: "",
@@ -87,9 +124,10 @@ function Dashboard() {
       return;
     }
     toast.success(t("dash.add"));
-    setForm((f) => ({ ...f, brand: "", model: "", price: "" }));
+    setForm((f) => ({ ...f, brand: "", model: "", price: "", vin: "" }));
     void qc.invalidateQueries({ queryKey: ["cars"] });
   }
+
 
   if (!loading && (!user || !isDealer)) {
     return (
@@ -240,6 +278,76 @@ function Dashboard() {
                 </div>
               </div>
 
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="generation">{t("spec.generation")}</Label>
+                  <Input id="generation" value={form.generation} onChange={set("generation")} className="h-12 rounded-2xl" placeholder="XV70" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="trim">{t("spec.trim")}</Label>
+                  <Input id="trim" value={form.trim} onChange={set("trim")} className="h-12 rounded-2xl" placeholder="Comfort" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="engineVolume">{t("spec.volume")}</Label>
+                  <Input id="engineVolume" inputMode="decimal" value={form.engineVolume} onChange={set("engineVolume")} className="h-12 rounded-2xl" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="vin">{t("spec.vin")}</Label>
+                  <Input id="vin" value={form.vin} onChange={set("vin")} className="h-12 rounded-2xl" />
+                </div>
+                {(
+                  [
+                    ["bodyType", "f.body", bodyTypes],
+                    ["fuel", "f.fuel", fuels],
+                    ["transmission", "f.trans", transmissions],
+                    ["drive", "f.drive", drives],
+                    ["steering", "f.steering", steerings],
+                    ["condition", "f.condition", conditions],
+                  ] as const
+                ).map(([key, labelKey, options]) => (
+                  <div key={key} className="space-y-2">
+                    <Label htmlFor={key}>{t(labelKey)}</Label>
+                    <select
+                      id={key}
+                      value={form[key]}
+                      onChange={pick(key)}
+                      className="h-12 w-full rounded-2xl border border-border bg-background px-3 text-sm"
+                    >
+                      {options.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o[lang]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+                <div className="space-y-2">
+                  <Label htmlFor="color">{t("f.color")}</Label>
+                  <select
+                    id="color"
+                    value={form.color}
+                    onChange={pick("color")}
+                    className="h-12 w-full rounded-2xl border border-border bg-background px-3 text-sm"
+                  >
+                    {colors.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o[lang]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <label className="flex items-center gap-3 self-end rounded-2xl border border-border px-3 py-3 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={form.customs}
+                    onChange={(e) => setForm((f) => ({ ...f, customs: e.target.checked }))}
+                    className="h-4 w-4 accent-primary"
+                  />
+                  {t("f.customs")}
+                </label>
+              </div>
+
+
               <div className="space-y-2">
                 <Label htmlFor="imageUrl">{t("dash.photo")}</Label>
                 <Input
@@ -293,9 +401,7 @@ function Dashboard() {
                     className="h-12 w-16 shrink-0 rounded-xl object-cover"
                   />
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">
-                      {c.brand} {c.model}
-                    </p>
+                    <p className="truncate text-sm font-medium">{carTitle(c)}</p>
                     <p className="text-xs text-muted-foreground">
                       {c.year} · {c.city}
                     </p>

@@ -7,6 +7,7 @@ import { useI18n } from "@/lib/i18n";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { money, monthlyPayment, num } from "@/lib/cars";
+import { bodyTypes, carTitle, colorLabel, conditions, drives, optionLabel, steerings } from "@/lib/car-spec";
 import { rowToCar, recordCarView } from "@/lib/catalog";
 import { getPublicCar } from "@/lib/catalog.functions";
 
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/cars/$carId")({
 
 function CarDetail() {
   const { car } = Route.useLoaderData();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const compare = useCompare();
 
   useEffect(() => {
@@ -52,6 +53,14 @@ function CarDetail() {
     { icon: Fuel, label: t("cmp.fuel"), value: car.fuel },
     { icon: Settings2, label: t("cmp.trans"), value: car.transmission },
     { icon: MapPin, label: t("cmp.city"), value: car.city },
+    { icon: Settings2, label: t("f.body"), value: optionLabel(bodyTypes, car.bodyType, lang) },
+    { icon: Settings2, label: t("f.drive"), value: optionLabel(drives, car.drive, lang) },
+    { icon: Settings2, label: t("spec.volume"), value: (car.engineVolume ?? 0).toFixed(1) },
+    { icon: Settings2, label: t("f.color"), value: colorLabel(car.color, lang) },
+    { icon: Settings2, label: t("f.steering"), value: optionLabel(steerings, car.steering, lang) },
+    { icon: Settings2, label: t("f.condition"), value: optionLabel(conditions, car.condition, lang) },
+    ...(car.generation ? [{ icon: Settings2, label: t("spec.generation"), value: car.generation }] : []),
+    ...(car.trim ? [{ icon: Settings2, label: t("spec.trim"), value: car.trim }] : []),
   ];
 
   return (
@@ -93,9 +102,7 @@ function CarDetail() {
             <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
               {car.category}
             </span>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-              {car.brand} {car.model}
-            </h1>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">{carTitle(car)}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               {car.year} · {num(car.mileage)} km
             </p>
