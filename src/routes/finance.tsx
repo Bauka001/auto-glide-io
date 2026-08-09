@@ -27,16 +27,17 @@ export const Route = createFileRoute("/finance")({
 });
 
 const plans = [
-  { id: "credit", rate: 0.14, key: "fin.credit" as const, terms: [12, 24, 36, 60] },
-  { id: "install", rate: 0, key: "fin.install" as const, terms: [6, 12, 24] },
-  { id: "leasing", rate: 0.1, key: "fin.leasing" as const, terms: [24, 36, 48] },
+  { id: "credit", rate: LOAN_RATE_NEW, key: "fin.credit" as const, terms: [12, 24, 36, 60] },
+  { id: "install", rate: INSTALLMENT_RATE, key: "fin.install" as const, terms: [6, 12, 24] },
+  { id: "leasing", rate: LEASING_RATE, key: "fin.leasing" as const, terms: [24, 36, 48] },
 ];
 
 function FinancePage() {
   const { t } = useI18n();
-  const [price, setPrice] = useState("30000");
-  const [down, setDown] = useState("6000");
+  const [price, setPrice] = useState("12000000");
+  const [down, setDown] = useState("2400000");
   const [term, setTerm] = useState(36);
+
 
   const principal = Math.max(0, (Number(price) || 0) - (Number(down) || 0));
 
