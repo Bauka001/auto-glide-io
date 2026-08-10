@@ -365,13 +365,34 @@ function CarsPage() {
 
   const filterBody = (
     <div className="space-y-5">
+      <div className="flex overflow-hidden rounded-2xl border border-border p-1">
+        <button
+          type="button"
+          onClick={() => patch({ mode: undefined, mileageFrom: undefined, mileageTo: undefined })}
+          className={`h-9 flex-1 rounded-xl text-sm transition-colors ${
+            onlyNew ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          {t("f.onlyNew")}
+        </button>
+        <button
+          type="button"
+          onClick={() => patch({ mode: "all" })}
+          className={`h-9 flex-1 rounded-xl text-sm transition-colors ${
+            !onlyNew ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          {t("f.allCars")}
+        </button>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("f.brand")}>
           <Selector
             value={search.brand}
             placeholder={t("f.any")}
             options={brands.map((b) => ({ value: b, label: b }))}
-            onChange={(v) => patch({ brand: v, model: undefined })}
+            onChange={(v) => patch({ brand: v, model: undefined, gen: undefined })}
           />
         </Field>
         <Field label={t("f.model")}>
@@ -379,10 +400,30 @@ function CarsPage() {
             value={search.model}
             placeholder={t("f.any")}
             options={models.map((m) => ({ value: m, label: m }))}
-            onChange={(v) => patch({ model: v })}
+            onChange={(v) => patch({ model: v, gen: undefined })}
           />
         </Field>
       </div>
+
+      <Field label={t("f.generation")}>
+        {!search.model ? (
+          <p className="text-xs text-muted-foreground">{t("f.genHint")}</p>
+        ) : generations.length === 0 ? (
+          <p className="text-xs text-muted-foreground">{t("cars.empty")}</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {generations.map((g) => (
+              <Chip
+                key={g}
+                active={gens.includes(g)}
+                onClick={() => patch({ gen: toggleIn(gens, g).join(",") || undefined })}
+              >
+                {g}
+              </Chip>
+            ))}
+          </div>
+        )}
+      </Field>
 
       <Field label={`${t("f.priceFrom")} — ${t("f.priceTo")}`}>
         <div className="grid grid-cols-2 gap-3">
@@ -398,8 +439,16 @@ function CarsPage() {
             {numInput("yearTo", "2026", search.yearTo)}
           </div>
         </Field>
-        <Field label={t("f.mileageTo")}>{numInput("mileageTo", "100000", search.mileageTo)}</Field>
+        {!onlyNew && (
+          <Field label={t("f.mileageTo")}>
+            <div className="grid grid-cols-2 gap-3">
+              {numInput("mileageFrom", "0", search.mileageFrom)}
+              {numInput("mileageTo", "300000", search.mileageTo)}
+            </div>
+          </Field>
+        )}
       </div>
+
 
       <Field label={t("f.body")}>
         <MultiChips
