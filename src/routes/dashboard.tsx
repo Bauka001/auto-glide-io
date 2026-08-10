@@ -87,10 +87,35 @@ function Dashboard() {
     imageKey: imageKeyList[0] as string,
     imageUrl: "",
   });
+  const [uploading, setUploading] = useState(false);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  async function uploadPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !user) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop() ?? "jpg";
+    const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+    const up = await supabase.storage.from("car-photos").upload(path, file, { contentType: file.type });
+    if (up.error) {
+      setUploading(false);
+      toast.error(up.error.message);
+      return;
+    }
+    const signed = await supabase.storage.from("car-photos").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    setUploading(false);
+    if (signed.error || !signed.data) {
+      toast.error(signed.error?.message ?? "error");
+      return;
+    }
+    setForm((f) => ({ ...f, imageUrl: signed.data.signedUrl }));
+    toast.success(t("dash.photoOk"));
+  }
+
 
   const dealerRequests = requests.filter((r) => r.car);
 
@@ -360,14 +385,38 @@ function Dashboard() {
 
 
               <div className="space-y-2">
-                <Label htmlFor="imageUrl">{t("dash.photo")}</Label>
-                <Input
-                  id="imageUrl"
-                  value={form.imageUrl}
-                  onChange={set("imageUrl")}
-                  className="h-12 rounded-2xl"
-                  placeholder="https://…"
-                />
+                <Label>{t("dash.photo")}</Label>
+                {form.imageUrl ? (
+                  <div className="space-y-2">
+                    <img
+                      src={form.imageUrl}
+                      alt={t("dash.photo")}
+                      className="h-44 w-full rounded-2xl border border-border object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-10 w-full rounded-2xl"
+                      onClick={() => setForm((f) => ({ ...f, imageUrl: "" }))}
+                    >
+                      {t("dash.photoRemove")}
+                    </Button>
+                  </div>
+                ) : (
+                  <label className="flex h-28 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-border text-sm text-muted-foreground">
+                    <input
+                      id="imageUrl"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={uploading}
+                      onChange={uploadPhoto}
+                    />
+                    {uploading ? t("dash.photoUploading") : t("dash.photoUpload")}
+                  </label>
+                )}
+                <p className="pt-1 text-xs text-muted-foreground">{t("dash.photoOr")}</p>
+
                 <div className="flex flex-wrap gap-2 pt-1">
                   {imageKeyList.map((k) => (
                     <button
