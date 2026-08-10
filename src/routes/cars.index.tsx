@@ -567,6 +567,67 @@ function CarsPage() {
     { value: "year", key: "f.sortYear" },
   ];
 
+  const chips: { label: string; clear: () => void }[] = [];
+  if (search.brand)
+    chips.push({
+      label: search.brand,
+      clear: () => patch({ brand: undefined, model: undefined, gen: undefined }),
+    });
+  if (search.model)
+    chips.push({ label: search.model, clear: () => patch({ model: undefined, gen: undefined }) });
+  for (const g of gens)
+    chips.push({
+      label: g,
+      clear: () => patch({ gen: gens.filter((x) => x !== g).join(",") || undefined }),
+    });
+  if (search.priceFrom !== undefined)
+    chips.push({
+      label: `${t("f.priceFrom")} ${num(search.priceFrom)}`,
+      clear: () => patch({ priceFrom: undefined }),
+    });
+  if (search.priceTo !== undefined)
+    chips.push({
+      label: `${t("f.priceTo")} ${num(search.priceTo)}`,
+      clear: () => patch({ priceTo: undefined }),
+    });
+  if (search.yearFrom !== undefined)
+    chips.push({
+      label: `${t("f.yearFrom")} ${search.yearFrom}`,
+      clear: () => patch({ yearFrom: undefined }),
+    });
+  if (search.yearTo !== undefined)
+    chips.push({
+      label: `${t("f.yearTo")} ${search.yearTo}`,
+      clear: () => patch({ yearTo: undefined }),
+    });
+  if (!onlyNew && search.mileageTo !== undefined)
+    chips.push({
+      label: `${t("f.mileageTo")} ${num(search.mileageTo)}`,
+      clear: () => patch({ mileageTo: undefined }),
+    });
+  for (const b of body)
+    chips.push({
+      label: bodyTypes.find((o) => o.value === b)?.[lang] ?? b,
+      clear: () => patch({ body: body.filter((x) => x !== b).join(",") || undefined }),
+    });
+  for (const f of fuel)
+    chips.push({
+      label: fuels.find((o) => o.value === f)?.[lang] ?? f,
+      clear: () => patch({ fuel: fuel.filter((x) => x !== f).join(",") || undefined }),
+    });
+  for (const tr of trans)
+    chips.push({
+      label: transmissions.find((o) => o.value === tr)?.[lang] ?? tr,
+      clear: () => patch({ trans: trans.filter((x) => x !== tr).join(",") || undefined }),
+    });
+  if (search.drive)
+    chips.push({
+      label: drives.find((o) => o.value === search.drive)?.[lang] ?? search.drive,
+      clear: () => patch({ drive: undefined }),
+    });
+  if (search.city) chips.push({ label: search.city, clear: () => patch({ city: undefined }) });
+
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
