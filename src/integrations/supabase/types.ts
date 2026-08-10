@@ -140,6 +140,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          email: string | null
           full_name: string | null
           id: string
           phone: string | null
@@ -148,6 +149,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          email?: string | null
           full_name?: string | null
           id: string
           phone?: string | null
@@ -156,6 +158,7 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           created_at?: string
+          email?: string | null
           full_name?: string | null
           id?: string
           phone?: string | null
@@ -230,17 +233,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      admin_list_users: {
-        Args: never
-        Returns: {
-          created_at: string
-          email: string
-          full_name: string
-          id: string
-          phone: string
-          roles: string[]
-        }[]
-      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
