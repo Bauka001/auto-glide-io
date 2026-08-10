@@ -636,9 +636,65 @@ function CarsPage() {
         </form>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Chip
+            active={onlyNew}
+            onClick={() =>
+              patch(
+                onlyNew
+                  ? { mode: "all" }
+                  : { mode: undefined, mileageFrom: undefined, mileageTo: undefined },
+              )
+            }
+          >
+            ⚡ {t("f.qNew")}
+          </Chip>
+          <Chip
+            active={search.priceTo === 10000000}
+            onClick={() => patch({ priceTo: search.priceTo === 10000000 ? undefined : 10000000 })}
+          >
+            💰 {t("f.qUnder10")}
+          </Chip>
+          <Chip
+            active={fuel.includes("Electric")}
+            onClick={() => patch({ fuel: toggleIn(fuel, "Electric").join(",") || undefined })}
+          >
+            🔌 {t("f.qElectric")}
+          </Chip>
+          <Button asChild variant="secondary" className="h-9 rounded-full">
+            <Link to="/ai-chat">
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t("f.aiPick")}
+            </Link>
+          </Button>
+        </div>
+
+        {chips.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {chips.map((c) => (
+              <button
+                key={c.label}
+                type="button"
+                onClick={c.clear}
+                className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary"
+              >
+                {c.label}
+                <X className="h-3 w-3" />
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={reset}
+              className="rounded-full px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
+            >
+              {t("f.clear")}
+            </button>
+          </div>
+        )}
+
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button className="h-11 rounded-2xl">
+              <Button className="h-11 rounded-2xl lg:hidden">
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
                 {t("f.filters")}
                 {activeCount > 0 && (
@@ -712,49 +768,68 @@ function CarsPage() {
           </div>
         )}
 
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-          <Chip active={!search.brand} onClick={() => patch({ brand: undefined, model: undefined })}>
-            {t("home.all")}
-          </Chip>
-          {brands.map((b) => (
-            <Chip
-              key={b}
-              active={search.brand === b}
-              onClick={() =>
-                patch({ brand: search.brand === b ? undefined : b, model: undefined })
-              }
-            >
-              {b}
-            </Chip>
-          ))}
+        <div className="mt-6 lg:grid lg:grid-cols-[300px_1fr] lg:gap-8">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-border p-5">
+              <p className="mb-4 text-sm font-semibold">{t("f.filters")}</p>
+              {filterBody}
+            </div>
+          </aside>
+
+          <div>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              <Chip
+                active={!search.brand}
+                onClick={() => patch({ brand: undefined, model: undefined, gen: undefined })}
+              >
+                {t("home.all")}
+              </Chip>
+              {brands.map((b) => (
+                <Chip
+                  key={b}
+                  active={search.brand === b}
+                  onClick={() =>
+                    patch({
+                      brand: search.brand === b ? undefined : b,
+                      model: undefined,
+                      gen: undefined,
+                    })
+                  }
+                >
+                  {b}
+                </Chip>
+              ))}
+            </div>
+
+            {isLoading ? (
+              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
+                ))}
+              </div>
+            ) : results.length === 0 ? (
+              <p className="py-20 text-center text-sm text-muted-foreground">
+                {t("cars.noMatch")}{" "}
+                <button type="button" onClick={reset} className="text-primary hover:underline">
+                  {t("cars.reset")}
+                </button>
+              </p>
+            ) : (
+              <div
+                className={
+                  view === "list"
+                    ? "mt-6 space-y-3"
+                    : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+                }
+              >
+                {results.map((car) => (
+                  <CarCard key={car.id} car={car} view={view} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {isLoading ? (
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
-            ))}
-          </div>
-        ) : results.length === 0 ? (
-          <p className="py-20 text-center text-sm text-muted-foreground">
-            {t("cars.noMatch")}{" "}
-            <button type="button" onClick={reset} className="text-primary hover:underline">
-              {t("cars.reset")}
-            </button>
-          </p>
-        ) : (
-          <div
-            className={
-              view === "list"
-                ? "mt-6 space-y-3"
-                : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            }
-          >
-            {results.map((car) => (
-              <CarCard key={car.id} car={car} view={view} />
-            ))}
-          </div>
-        )}
       </main>
 
       {compare.ids.length > 0 && (
