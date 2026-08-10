@@ -68,11 +68,20 @@ function Home() {
   const navigate = useNavigate();
   const { t } = useI18n();
   const [q, setQ] = useState("");
+  const [promoIdx, setPromoIdx] = useState(0);
 
   const { data: cars = [] } = useCars();
   const featured = cars.slice(0, 4);
   const brands = brandsOf(cars);
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPromoIdx((i) => (i + 1) % promos.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  const active = promos[promoIdx];
 
   return (
     <div className="min-h-screen bg-background">
