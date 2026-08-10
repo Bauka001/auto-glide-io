@@ -415,7 +415,7 @@ function Dashboard() {
                     {uploading ? t("dash.photoUploading") : t("dash.photoUpload")}
                   </label>
                 )}
-                <p className="pt-1 text-xs text-muted-foreground">{t("dash.photoOr")}</p>
+                
 
                 <div className="flex flex-wrap gap-2 pt-1">
                   {imageKeyList.map((k) => (
