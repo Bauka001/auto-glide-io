@@ -254,7 +254,12 @@ const dict = {
   "dash.price": { kk: "Баға, ₸", ru: "Цена, ₸", en: "Price, ₸" },
   "dash.mileage": { kk: "Жүріс, км", ru: "Пробег, км", en: "Mileage, km" },
   "dash.city": { kk: "Қала", ru: "Город", en: "City" },
-  "dash.photo": { kk: "Сурет сілтемесі", ru: "Ссылка на фото", en: "Photo URL" },
+  "dash.photo": { kk: "Көлік суреті", ru: "Фото авто", en: "Car photo" },
+  "dash.photoUpload": { kk: "Телефоннан сурет жүктеу", ru: "Загрузить фото", en: "Upload photo" },
+  "dash.photoUploading": { kk: "Жүктелуде…", ru: "Загрузка…", en: "Uploading…" },
+  "dash.photoOk": { kk: "Сурет жүктелді", ru: "Фото загружено", en: "Photo uploaded" },
+  "dash.photoRemove": { kk: "Суретті өшіру", ru: "Удалить фото", en: "Remove photo" },
+  "dash.photoOr": { kk: "Немесе дайын сурет таңдаңыз", ru: "Или выберите готовое фото", en: "Or pick a preset photo" },
 
   "f.filters": { kk: "Сүзгі", ru: "Фильтр", en: "Filters" },
   "f.all": { kk: "Барлық параметрлер", ru: "Все параметры", en: "All parameters" },
