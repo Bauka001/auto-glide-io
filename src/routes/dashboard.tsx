@@ -87,10 +87,35 @@ function Dashboard() {
     imageKey: imageKeyList[0] as string,
     imageUrl: "",
   });
+  const [uploading, setUploading] = useState(false);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  async function uploadPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !user) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop() ?? "jpg";
+    const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+    const up = await supabase.storage.from("car-photos").upload(path, file, { contentType: file.type });
+    if (up.error) {
+      setUploading(false);
+      toast.error(up.error.message);
+      return;
+    }
+    const signed = await supabase.storage.from("car-photos").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    setUploading(false);
+    if (signed.error || !signed.data) {
+      toast.error(signed.error?.message ?? "error");
+      return;
+    }
+    setForm((f) => ({ ...f, imageUrl: signed.data.signedUrl }));
+    toast.success(t("dash.photoOk"));
+  }
+
 
   const dealerRequests = requests.filter((r) => r.car);
 
