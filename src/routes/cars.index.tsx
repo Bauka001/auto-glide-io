@@ -1,6 +1,6 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { LayoutGrid, Link2, List, Scale, Search, SlidersHorizontal, Star, X } from "lucide-react";
+import { LayoutGrid, Link2, List, Scale, Search, SlidersHorizontal, Sparkles, Star, X } from "lucide-react";
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
