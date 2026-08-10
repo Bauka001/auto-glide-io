@@ -385,14 +385,38 @@ function Dashboard() {
 
 
               <div className="space-y-2">
-                <Label htmlFor="imageUrl">{t("dash.photo")}</Label>
-                <Input
-                  id="imageUrl"
-                  value={form.imageUrl}
-                  onChange={set("imageUrl")}
-                  className="h-12 rounded-2xl"
-                  placeholder="https://…"
-                />
+                <Label>{t("dash.photo")}</Label>
+                {form.imageUrl ? (
+                  <div className="space-y-2">
+                    <img
+                      src={form.imageUrl}
+                      alt={t("dash.photo")}
+                      className="h-44 w-full rounded-2xl border border-border object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-10 w-full rounded-2xl"
+                      onClick={() => setForm((f) => ({ ...f, imageUrl: "" }))}
+                    >
+                      {t("dash.photoRemove")}
+                    </Button>
+                  </div>
+                ) : (
+                  <label className="flex h-28 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-border text-sm text-muted-foreground">
+                    <input
+                      id="imageUrl"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={uploading}
+                      onChange={uploadPhoto}
+                    />
+                    {uploading ? t("dash.photoUploading") : t("dash.photoUpload")}
+                  </label>
+                )}
+                <p className="pt-1 text-xs text-muted-foreground">{t("dash.photoOr")}</p>
+
                 <div className="flex flex-wrap gap-2 pt-1">
                   {imageKeyList.map((k) => (
                     <button
