@@ -24,6 +24,7 @@ type AuthValue = {
   profile: Profile | null;
   roles: string[];
   isDealer: boolean;
+  isAdmin: boolean;
   loading: boolean;
   refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -35,6 +36,7 @@ const AuthContext = createContext<AuthValue>({
   profile: null,
   roles: [],
   isDealer: false,
+  isAdmin: false,
   loading: true,
   refreshProfile: async () => {},
   signOut: async () => {},
@@ -94,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       profile,
       roles,
       isDealer: roles.includes("dealer") || roles.includes("admin"),
+      isAdmin: roles.includes("admin"),
       loading,
       refreshProfile,
       signOut,
