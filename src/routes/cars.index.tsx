@@ -171,6 +171,9 @@ function CarsPage() {
   const body = csv(search.body);
   const fuel = csv(search.fuel);
   const trans = csv(search.trans);
+  const gens = csv(search.gen);
+  const onlyNew = search.mode !== "all";
+
 
   const [term, setTerm] = useState(q);
   const [focused, setFocused] = useState(false);
