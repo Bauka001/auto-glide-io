@@ -355,7 +355,8 @@ const dict = {
   "dlr.searchPh": { kk: "Салон немесе қала", ru: "Салон или город", en: "Salon or city" },
 
   "chat.nav": { kk: "Хабарламалар", ru: "Сообщения", en: "Messages" },
-  "chat.title": { kk: "Дилермен чат", ru: "Чат с дилером", en: "Dealer chat" },
+  "chat.inboxTitle": { kk: "Дилермен чат", ru: "Чат с дилером", en: "Dealer chat" },
+
   "chat.inbox": { kk: "Диалогтар", ru: "Диалоги", en: "Conversations" },
   "chat.empty": { kk: "Әзірге хабарлама жоқ", ru: "Сообщений пока нет", en: "No messages yet" },
   "chat.placeholder": { kk: "Хабарлама жазыңыз", ru: "Напишите сообщение", en: "Write a message" },
