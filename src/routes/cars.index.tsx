@@ -272,7 +272,9 @@ function CarsPage() {
   const activeCount = [
     search.brand,
     search.model,
+    search.gen,
     search.category,
+
     search.priceFrom,
     search.priceTo,
     search.yearFrom,
