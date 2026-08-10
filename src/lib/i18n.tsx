@@ -299,6 +299,31 @@ const dict = {
   "f.aiPick": { kk: "Көлік таңдап беру", ru: "Подобрать авто", en: "Find me a car" },
   "f.selected": { kk: "Таңдалған", ru: "Выбрано", en: "Selected" },
 
+  "adm.title": { kk: "Әкімші панелі", ru: "Панель администратора", en: "Admin panel" },
+  "adm.nav": { kk: "Әкімші", ru: "Админ", en: "Admin" },
+  "adm.overview": { kk: "Шолу", ru: "Обзор", en: "Overview" },
+  "adm.users": { kk: "Пайдаланушылар", ru: "Пользователи", en: "Users" },
+  "adm.requests": { kk: "Барлық өтінім", ru: "Все заявки", en: "All requests" },
+  "adm.cars": { kk: "Барлық көлік", ru: "Все авто", en: "All cars" },
+  "adm.totalUsers": { kk: "Пайдаланушы", ru: "Пользователей", en: "Users" },
+  "adm.totalDealers": { kk: "Дилер", ru: "Дилеров", en: "Dealers" },
+  "adm.totalCars": { kk: "Көлік", ru: "Авто", en: "Cars" },
+  "adm.totalReq": { kk: "Өтінім", ru: "Заявок", en: "Requests" },
+  "adm.dealerRole": { kk: "Дилер рөлі", ru: "Роль дилера", en: "Dealer role" },
+  "adm.adminRole": { kk: "Әкімші рөлі", ru: "Роль админа", en: "Admin role" },
+  "adm.grant": { kk: "Беру", ru: "Выдать", en: "Grant" },
+  "adm.revoke": { kk: "Алу", ru: "Забрать", en: "Revoke" },
+  "adm.noAccess": {
+    kk: "Бұл бөлім тек әкімшіге арналған",
+    ru: "Раздел доступен только администратору",
+    en: "This section is for administrators only",
+  },
+  "adm.roleUpdated": { kk: "Рөл жаңартылды", ru: "Роль обновлена", en: "Role updated" },
+  "adm.search": { kk: "Іздеу", ru: "Поиск", en: "Search" },
+  "adm.published": { kk: "Жарияланған", ru: "Опубликовано", en: "Published" },
+  "adm.client": { kk: "Клиент", ru: "Клиент", en: "Client" },
+
+
 } as const;
 
 
