@@ -1,12 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Bot, ChevronRight, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
+import { ArrowRight, Bot, ChevronRight, Filter, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { categories } from "@/lib/cars";
-import { brandsOf, useCars } from "@/lib/catalog";
+import { useCars } from "@/lib/catalog";
 
 import { useI18n, type Key } from "@/lib/i18n";
 
