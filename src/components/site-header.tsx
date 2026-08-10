@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, LogOut, Menu, Moon, Scale, Sun, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, Moon, Scale, Shield, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -23,7 +23,7 @@ const navItems: { to: string; key: Key }[] = [
 
 export function SiteHeader() {
   const { lang, setLang, t } = useI18n();
-  const { user, profile, isDealer, signOut } = useAuth();
+  const { user, profile, isDealer, isAdmin, signOut } = useAuth();
   const { theme, setTheme } = useTheme();
   const compare = useCompare();
   const current = langs.find((l) => l.code === lang)?.label ?? "RU";
@@ -128,6 +128,14 @@ export function SiteHeader() {
                     <Link to="/dashboard">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
                       {t("dash.title")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild className="rounded-xl text-sm">
+                    <Link to="/admin">
+                      <Shield className="mr-2 h-4 w-4" />
+                      {t("adm.title")}
                     </Link>
                   </DropdownMenuItem>
                 )}
