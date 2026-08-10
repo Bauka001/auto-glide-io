@@ -267,7 +267,7 @@ function CarsPage() {
       return true;
     });
     return sortCars(filtered, sort);
-  }, [cars, search, q, sort, body.join(","), fuel.join(","), trans.join(",")]);
+  }, [cars, search, q, sort, onlyNew, gens.join(","), body.join(","), fuel.join(","), trans.join(",")]);
 
   const activeCount = [
     search.brand,
