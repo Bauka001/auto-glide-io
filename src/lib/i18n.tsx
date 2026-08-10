@@ -287,6 +287,18 @@ const dict = {
   "spec.trim": { kk: "Комплектация", ru: "Комплектация", en: "Trim" },
   "spec.volume": { kk: "Қозғалтқыш көлемі, л", ru: "Объём двигателя, л", en: "Engine volume, L" },
   "spec.vin": { kk: "VIN", ru: "VIN", en: "VIN" },
+
+  "f.generation": { kk: "Буын", ru: "Поколение", en: "Generation" },
+  "f.genHint": { kk: "Алдымен модельді таңдаңыз", ru: "Сначала выберите модель", en: "Select a model first" },
+  "f.onlyNew": { kk: "Тек жаңа", ru: "Только новые", en: "New only" },
+  "f.allCars": { kk: "Барлық авто", ru: "Все авто", en: "All cars" },
+  "f.quick": { kk: "Жылдам сүзгі", ru: "Быстрые фильтры", en: "Quick filters" },
+  "f.qNew": { kk: "Жаңа авто", ru: "Новые авто", en: "New cars" },
+  "f.qUnder10": { kk: "10 млн ₸ дейін", ru: "До 10 млн ₸", en: "Under 10M ₸" },
+  "f.qElectric": { kk: "Электро", ru: "Электро", en: "Electric" },
+  "f.aiPick": { kk: "Көлік таңдап беру", ru: "Подобрать авто", en: "Find me a car" },
+  "f.selected": { kk: "Таңдалған", ru: "Выбрано", en: "Selected" },
+
 } as const;
 
 
