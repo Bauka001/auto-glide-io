@@ -53,6 +53,7 @@ export type Database = {
           condition: string
           created_at: string
           customs_cleared: boolean
+          dealer_id: string | null
           drive: string
           engine: string
           engine_volume: number
@@ -83,6 +84,7 @@ export type Database = {
           condition?: string
           created_at?: string
           customs_cleared?: boolean
+          dealer_id?: string | null
           drive?: string
           engine?: string
           engine_volume?: number
@@ -113,6 +115,7 @@ export type Database = {
           condition?: string
           created_at?: string
           customs_cleared?: boolean
+          dealer_id?: string | null
           drive?: string
           engine?: string
           engine_volume?: number
@@ -134,7 +137,187 @@ export type Database = {
           vin?: string | null
           year?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "cars_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          buyer_id: string
+          car_id: string | null
+          created_at: string
+          dealer_id: string | null
+          id: string
+          last_message: string
+          seller_id: string
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          car_id?: string | null
+          created_at?: string
+          dealer_id?: string | null
+          id?: string
+          last_message?: string
+          seller_id: string
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          car_id?: string | null
+          created_at?: string
+          dealer_id?: string | null
+          id?: string
+          last_message?: string
+          seller_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          dealer_id: string
+          id: string
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          comment?: string
+          created_at?: string
+          dealer_id: string
+          id?: string
+          rating: number
+          user_id: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          dealer_id?: string
+          id?: string
+          rating?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_reviews_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealers: {
+        Row: {
+          about: string
+          address: string
+          city: string
+          cover_url: string | null
+          created_at: string
+          hours: string
+          id: string
+          is_blocked: boolean
+          is_verified: boolean
+          logo_url: string | null
+          name: string
+          owner_id: string
+          phone: string
+          slug: string | null
+          updated_at: string
+        }
+        Insert: {
+          about?: string
+          address?: string
+          city?: string
+          cover_url?: string | null
+          created_at?: string
+          hours?: string
+          id?: string
+          is_blocked?: boolean
+          is_verified?: boolean
+          logo_url?: string | null
+          name: string
+          owner_id: string
+          phone?: string
+          slug?: string | null
+          updated_at?: string
+        }
+        Update: {
+          about?: string
+          address?: string
+          city?: string
+          cover_url?: string | null
+          created_at?: string
+          hours?: string
+          id?: string
+          is_blocked?: boolean
+          is_verified?: boolean
+          logo_url?: string | null
+          name?: string
+          owner_id?: string
+          phone?: string
+          slug?: string | null
+          updated_at?: string
+        }
         Relationships: []
+      }
+      messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
