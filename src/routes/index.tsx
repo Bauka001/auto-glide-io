@@ -1,15 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  ArrowRight,
-  Bot,
-  Car,
-  MessageSquare,
-  Search,
-  ShieldCheck,
-  Truck,
-  Wallet,
-} from "lucide-react";
+import { ArrowRight, Bot, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
@@ -38,13 +29,39 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const services: { to: string; icon: typeof Car; title: Key; desc: Key }[] = [
-  { to: "/cars", icon: Car, title: "nav.cars", desc: "svc.cars.d" },
-  { to: "/ai-chat", icon: Bot, title: "nav.ai", desc: "svc.ai.d" },
-  { to: "/chat", icon: MessageSquare, title: "nav.dealer", desc: "svc.dealer.d" },
-  { to: "/insurance", icon: ShieldCheck, title: "nav.insurance", desc: "svc.insurance.d" },
-  { to: "/finance", icon: Wallet, title: "nav.finance", desc: "svc.finance.d" },
-  { to: "/delivery", icon: Truck, title: "nav.delivery", desc: "svc.delivery.d" },
+const promos: { to: string; icon: typeof Bot; title: Key; desc: Key; cta: Key; gradient: string }[] = [
+  {
+    to: "/finance",
+    icon: Wallet,
+    title: "promo.credit.title",
+    desc: "promo.credit.desc",
+    cta: "promo.credit.cta",
+    gradient: "from-blue-600/20 to-indigo-500/10",
+  },
+  {
+    to: "/delivery",
+    icon: Truck,
+    title: "promo.delivery.title",
+    desc: "promo.delivery.desc",
+    cta: "promo.delivery.cta",
+    gradient: "from-emerald-500/20 to-teal-500/10",
+  },
+  {
+    to: "/ai-chat",
+    icon: Bot,
+    title: "promo.ai.title",
+    desc: "promo.ai.desc",
+    cta: "promo.ai.cta",
+    gradient: "from-violet-500/20 to-purple-500/10",
+  },
+  {
+    to: "/insurance",
+    icon: ShieldCheck,
+    title: "promo.insurance.title",
+    desc: "promo.insurance.desc",
+    cta: "promo.insurance.cta",
+    gradient: "from-amber-500/20 to-orange-500/10",
+  },
 ];
 
 function Home() {
