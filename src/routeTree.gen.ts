@@ -24,6 +24,8 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ApiAiChatRouteImport } from './routes/api/ai-chat'
 import { Route as CarsIndexRouteImport } from './routes/cars.index'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
+import { Route as DealersIndexRouteImport } from './routes/dealers.index'
+import { Route as DealersDealerIdRouteImport } from './routes/dealers.$dealerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -100,6 +102,16 @@ const CarsCarIdRoute = CarsCarIdRouteImport.update({
   path: '/cars/$carId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DealersIndexRoute = DealersIndexRouteImport.update({
+  id: '/dealers/',
+  path: '/dealers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DealersDealerIdRoute = DealersDealerIdRouteImport.update({
+  id: '/dealers/$dealerId',
+  path: '/dealers/$dealerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -116,7 +128,9 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/dealers/$dealerId': typeof DealersDealerIdRoute
   '/cars/': typeof CarsIndexRoute
+  '/dealers/': typeof DealersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -133,7 +147,9 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/dealers/$dealerId': typeof DealersDealerIdRoute
   '/cars': typeof CarsIndexRoute
+  '/dealers': typeof DealersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,7 +167,9 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/dealers/$dealerId': typeof DealersDealerIdRoute
   '/cars/': typeof CarsIndexRoute
+  '/dealers/': typeof DealersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -170,7 +188,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
+    | '/dealers/$dealerId'
     | '/cars/'
+    | '/dealers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -187,7 +207,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
+    | '/dealers/$dealerId'
     | '/cars'
+    | '/dealers'
   id:
     | '__root__'
     | '/'
@@ -204,7 +226,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
+    | '/dealers/$dealerId'
     | '/cars/'
+    | '/dealers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -222,7 +246,9 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ApiAiChatRoute: typeof ApiAiChatRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
+  DealersDealerIdRoute: typeof DealersDealerIdRoute
   CarsIndexRoute: typeof CarsIndexRoute
+  DealersIndexRoute: typeof DealersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -332,6 +358,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarsCarIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dealers/': {
+      id: '/dealers/'
+      path: '/dealers'
+      fullPath: '/dealers/'
+      preLoaderRoute: typeof DealersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dealers/$dealerId': {
+      id: '/dealers/$dealerId'
+      path: '/dealers/$dealerId'
+      fullPath: '/dealers/$dealerId'
+      preLoaderRoute: typeof DealersDealerIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -350,7 +390,9 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ApiAiChatRoute: ApiAiChatRoute,
   CarsCarIdRoute: CarsCarIdRoute,
+  DealersDealerIdRoute: DealersDealerIdRoute,
   CarsIndexRoute: CarsIndexRoute,
+  DealersIndexRoute: DealersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

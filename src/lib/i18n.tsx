@@ -322,9 +322,59 @@ const dict = {
   "adm.search": { kk: "Іздеу", ru: "Поиск", en: "Search" },
   "adm.published": { kk: "Жарияланған", ru: "Опубликовано", en: "Published" },
   "adm.client": { kk: "Клиент", ru: "Клиент", en: "Client" },
+  "adm.salons": { kk: "Салондар", ru: "Салоны", en: "Salons" },
 
+  "dlr.nav": { kk: "Автосалондар", ru: "Автосалоны", en: "Car dealers" },
+  "dlr.title": { kk: "Автосалондар тізімі", ru: "Каталог автосалонов", en: "Car dealerships" },
+  "dlr.sub": {
+    kk: "Тексерілген салондар, олардың көліктері мен клиент пікірлері.",
+    ru: "Проверенные салоны, их автомобили и отзывы клиентов.",
+    en: "Verified salons, their cars and customer reviews.",
+  },
+  "dlr.verified": { kk: "Тексерілген", ru: "Проверен", en: "Verified" },
+  "dlr.cars": { kk: "Көліктері", ru: "Автомобили", en: "Cars" },
+  "dlr.about": { kk: "Салон туралы", ru: "О салоне", en: "About" },
+  "dlr.reviews": { kk: "Пікірлер", ru: "Отзывы", en: "Reviews" },
+  "dlr.rating": { kk: "Рейтинг", ru: "Рейтинг", en: "Rating" },
+  "dlr.noReviews": { kk: "Әзірге пікір жоқ", ru: "Пока нет отзывов", en: "No reviews yet" },
+  "dlr.writeReview": { kk: "Пікір қалдыру", ru: "Оставить отзыв", en: "Write a review" },
+  "dlr.comment": { kk: "Пікіріңіз", ru: "Ваш отзыв", en: "Your review" },
+  "dlr.reviewSaved": { kk: "Пікір сақталды", ru: "Отзыв сохранён", en: "Review saved" },
+  "dlr.hours": { kk: "Жұмыс уақыты", ru: "Часы работы", en: "Working hours" },
+  "dlr.phone": { kk: "Телефон", ru: "Телефон", en: "Phone" },
+  "dlr.address": { kk: "Мекенжай", ru: "Адрес", en: "Address" },
+  "dlr.city": { kk: "Қала", ru: "Город", en: "City" },
+  "dlr.name": { kk: "Салон атауы", ru: "Название салона", en: "Salon name" },
+  "dlr.logo": { kk: "Логотип (URL)", ru: "Логотип (URL)", en: "Logo (URL)" },
+  "dlr.cover": { kk: "Мұқаба (URL)", ru: "Обложка (URL)", en: "Cover (URL)" },
+  "dlr.mySalon": { kk: "Менің салоным", ru: "Мой салон", en: "My salon" },
+  "dlr.save": { kk: "Сақтау", ru: "Сохранить", en: "Save" },
+  "dlr.saved": { kk: "Салон сақталды", ru: "Салон сохранён", en: "Salon saved" },
+  "dlr.empty": { kk: "Салондар табылмады", ru: "Салоны не найдены", en: "No salons found" },
+  "dlr.open": { kk: "Салонды ашу", ru: "Открыть салон", en: "Open salon" },
+  "dlr.searchPh": { kk: "Салон немесе қала", ru: "Салон или город", en: "Salon or city" },
+
+  "chat.nav": { kk: "Хабарламалар", ru: "Сообщения", en: "Messages" },
+  "chat.inboxTitle": { kk: "Дилермен чат", ru: "Чат с дилером", en: "Dealer chat" },
+
+  "chat.inbox": { kk: "Диалогтар", ru: "Диалоги", en: "Conversations" },
+  "chat.empty": { kk: "Әзірге хабарлама жоқ", ru: "Сообщений пока нет", en: "No messages yet" },
+  "chat.placeholder": { kk: "Хабарлама жазыңыз", ru: "Напишите сообщение", en: "Write a message" },
+  "chat.dealer": { kk: "Дилер", ru: "Дилер", en: "Dealer" },
+  "chat.buyer": { kk: "Сатып алушы", ru: "Покупатель", en: "Buyer" },
+  "chat.ownCar": {
+    kk: "Бұл сіздің көлігіңіз",
+    ru: "Это ваш автомобиль",
+    en: "This is your own listing",
+  },
+  "chat.privacy": {
+    kk: "Байланыс деректері мәміле расталғанша жабық.",
+    ru: "Контакты остаются скрытыми до подтверждения сделки.",
+    en: "Contact details stay private until the deal is confirmed.",
+  },
 
 } as const;
+
 
 
 

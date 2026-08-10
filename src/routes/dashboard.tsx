@@ -20,6 +20,8 @@ import {
 } from "@/lib/car-spec";
 
 import { fetchMyCars, useDealerStats } from "@/lib/catalog";
+import { SalonForm } from "@/components/salon-form";
+import { useMyDealer } from "@/lib/dealers";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -60,6 +62,7 @@ function Dashboard() {
     queryFn: () => fetchMyCars(user!.id),
   });
   const { data: stats } = useDealerStats(user?.id, isDealer);
+  const { data: mySalon } = useMyDealer(isDealer ? user?.id : undefined);
 
   const [form, setForm] = useState({
     brand: "",
@@ -96,6 +99,7 @@ function Dashboard() {
     if (!user) return;
     const { error } = await supabase.from("cars").insert({
       owner_id: user.id,
+      dealer_id: mySalon?.id ?? null,
       brand: form.brand,
       model: form.model,
       generation: form.generation,
@@ -170,7 +174,14 @@ function Dashboard() {
             <TabsTrigger value="listings" className="rounded-xl">
               {t("dash.myCars")}
             </TabsTrigger>
+            <TabsTrigger value="salon" className="rounded-xl">
+              {t("dlr.mySalon")}
+            </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="salon" className="mt-5">
+            <SalonForm />
+          </TabsContent>
 
           <TabsContent value="stats" className="mt-5 space-y-4">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
