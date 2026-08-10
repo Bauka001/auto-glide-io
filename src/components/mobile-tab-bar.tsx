@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Bot, Car, Home, Truck, User } from "lucide-react";
+import { Bot, Car, Home, MessageSquare, User } from "lucide-react";
 import { useI18n, type Key } from "@/lib/i18n";
 
 const items: { to: string; icon: typeof Car; key: Key | null }[] = [
   { to: "/", icon: Home, key: null },
   { to: "/cars", icon: Car, key: "nav.cars" },
   { to: "/ai-chat", icon: Bot, key: "nav.ai" },
-  { to: "/delivery", icon: Truck, key: "nav.delivery" },
+  { to: "/chat", icon: MessageSquare, key: "chat.nav" },
   { to: "/profile", icon: User, key: "nav.profile" },
 ];
 

@@ -1,5 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, LogOut, Menu, Moon, Scale, Shield, Sun, User } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageSquare,
+  Moon,
+  Scale,
+  Shield,
+  Sun,
+  User,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +25,7 @@ import { useCompare } from "@/lib/compare";
 
 const navItems: { to: string; key: Key }[] = [
   { to: "/cars", key: "nav.cars" },
+  { to: "/dealers", key: "dlr.nav" },
   { to: "/ai-chat", key: "nav.ai" },
   { to: "/insurance", key: "nav.insurance" },
   { to: "/finance", key: "nav.finance" },
@@ -122,6 +133,12 @@ export function SiteHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild className="rounded-xl text-sm">
                   <Link to="/profile">{t("nav.profile")}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="rounded-xl text-sm">
+                  <Link to="/chat">
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    {t("chat.nav")}
+                  </Link>
                 </DropdownMenuItem>
                 {isDealer && (
                   <DropdownMenuItem asChild className="rounded-xl text-sm">
