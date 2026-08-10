@@ -1,15 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  ArrowRight,
-  Bot,
-  Car,
-  MessageSquare,
-  Search,
-  ShieldCheck,
-  Truck,
-  Wallet,
-} from "lucide-react";
+import { ArrowRight, Bot, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
@@ -38,13 +29,39 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const services: { to: string; icon: typeof Car; title: Key; desc: Key }[] = [
-  { to: "/cars", icon: Car, title: "nav.cars", desc: "svc.cars.d" },
-  { to: "/ai-chat", icon: Bot, title: "nav.ai", desc: "svc.ai.d" },
-  { to: "/chat", icon: MessageSquare, title: "nav.dealer", desc: "svc.dealer.d" },
-  { to: "/insurance", icon: ShieldCheck, title: "nav.insurance", desc: "svc.insurance.d" },
-  { to: "/finance", icon: Wallet, title: "nav.finance", desc: "svc.finance.d" },
-  { to: "/delivery", icon: Truck, title: "nav.delivery", desc: "svc.delivery.d" },
+const promos: { to: string; icon: typeof Bot; title: Key; desc: Key; cta: Key; gradient: string }[] = [
+  {
+    to: "/finance",
+    icon: Wallet,
+    title: "promo.credit.title",
+    desc: "promo.credit.desc",
+    cta: "promo.credit.cta",
+    gradient: "from-blue-600/20 to-indigo-500/10",
+  },
+  {
+    to: "/delivery",
+    icon: Truck,
+    title: "promo.delivery.title",
+    desc: "promo.delivery.desc",
+    cta: "promo.delivery.cta",
+    gradient: "from-emerald-500/20 to-teal-500/10",
+  },
+  {
+    to: "/ai-chat",
+    icon: Bot,
+    title: "promo.ai.title",
+    desc: "promo.ai.desc",
+    cta: "promo.ai.cta",
+    gradient: "from-violet-500/20 to-purple-500/10",
+  },
+  {
+    to: "/insurance",
+    icon: ShieldCheck,
+    title: "promo.insurance.title",
+    desc: "promo.insurance.desc",
+    cta: "promo.insurance.cta",
+    gradient: "from-amber-500/20 to-orange-500/10",
+  },
 ];
 
 function Home() {
@@ -104,19 +121,27 @@ function Home() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold tracking-tight">{t("home.services")}</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
+          <h2 className="text-lg font-semibold tracking-tight">{t("home.promos")}</h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {promos.map((p) => (
               <Link
-                key={s.to}
-                to={s.to}
-                className="group rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
+                key={p.to}
+                to={p.to}
+                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
-                  <s.icon className="h-5 w-5 text-primary" />
-                </span>
-                <h3 className="mt-4 text-sm font-semibold">{t(s.title)}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{t(s.desc)}</p>
+                <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-60`} />
+                <div className="relative">
+                  <div className="flex items-start justify-between">
+                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
+                      <p.icon className="h-5 w-5 text-primary" />
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-primary">
+                      {t(p.cta)} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-sm font-semibold">{t(p.title)}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{t(p.desc)}</p>
+                </div>
               </Link>
             ))}
           </div>
