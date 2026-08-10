@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, Bot, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Bot, ChevronRight, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
