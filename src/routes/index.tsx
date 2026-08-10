@@ -81,7 +81,7 @@ function Home() {
     return () => clearInterval(id);
   }, []);
 
-  const active = promos[promoIdx];
+  const active = promos[promoIdx]!;
 
   return (
     <div className="min-h-screen bg-background">
