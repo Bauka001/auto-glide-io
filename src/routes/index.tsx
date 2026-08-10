@@ -1,12 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Bot, ChevronRight, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
+import { ArrowRight, Bot, ChevronRight, Filter, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { categories } from "@/lib/cars";
-import { brandsOf, useCars } from "@/lib/catalog";
+import { useCars } from "@/lib/catalog";
 
 import { useI18n, type Key } from "@/lib/i18n";
 
@@ -72,7 +72,6 @@ function Home() {
 
   const { data: cars = [] } = useCars();
   const featured = cars.slice(0, 4);
-  const brands = brandsOf(cars);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -89,44 +88,36 @@ function Home() {
 
       <main className="mx-auto max-w-6xl px-5">
         <section className="py-12 sm:py-20">
-          <h1 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-            {t("home.title1")}
-            <br />
-            <span className="text-muted-foreground">{t("home.title2")}</span>
-          </h1>
-          <p className="mt-4 max-w-md text-base text-muted-foreground">{t("home.sub")}</p>
-
           <form
-            className="mt-8 flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2"
+            className="flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2"
             onSubmit={(e) => {
               e.preventDefault();
               navigate({ to: "/cars", search: { q: q || undefined } });
             }}
           >
-            <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+            <Button type="submit" size="icon" className="h-10 w-10 shrink-0 rounded-xl">
+              <Search className="h-4 w-4" />
+            </Button>
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t("home.searchPh")}
-              className="h-10 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
+              className="h-10 flex-1 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
             />
-            <Button type="submit" className="h-10 shrink-0 rounded-xl px-5">
-              {t("home.search")}
-            </Button>
+            <Link
+              to="/cars"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+            >
+              <Filter className="h-4 w-4" />
+            </Link>
           </form>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            {brands.map((b) => (
-              <Link
-                key={b}
-                to="/cars"
-                search={{ brand: b }}
-                className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-              >
-                {b}
-              </Link>
-            ))}
-          </div>
+          <h1 className="mt-8 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
+            {t("home.title1")}
+            <br />
+            <span className="text-muted-foreground">{t("home.title2")}</span>
+          </h1>
+          <p className="mt-4 max-w-md text-base text-muted-foreground">{t("home.sub")}</p>
         </section>
 
         <section>
