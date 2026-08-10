@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, Bot, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Bot, ChevronRight, Search, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
 import { Button } from "@/components/ui/button";
@@ -68,11 +68,20 @@ function Home() {
   const navigate = useNavigate();
   const { t } = useI18n();
   const [q, setQ] = useState("");
+  const [promoIdx, setPromoIdx] = useState(0);
 
   const { data: cars = [] } = useCars();
   const featured = cars.slice(0, 4);
   const brands = brandsOf(cars);
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPromoIdx((i) => (i + 1) % promos.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  const active = promos[promoIdx]!;
 
   return (
     <div className="min-h-screen bg-background">
@@ -122,29 +131,51 @@ function Home() {
 
         <section>
           <h2 className="text-lg font-semibold tracking-tight">{t("home.promos")}</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {promos.map((p) => (
-              <Link
-                key={p.to}
-                to={p.to}
-                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-60`} />
-                <div className="relative">
-                  <div className="flex items-start justify-between">
-                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
-                      <p.icon className="h-5 w-5 text-primary" />
-                    </span>
-                    <span className="flex items-center gap-1 text-xs font-semibold text-primary">
-                      {t(p.cta)} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-                  <h3 className="mt-4 text-sm font-semibold">{t(p.title)}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{t(p.desc)}</p>
+          <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-card">
+            <Link
+              key={active.to}
+              to={active.to}
+              className="group relative flex h-40 items-center justify-between overflow-hidden px-6 transition-all duration-500"
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${active.gradient} opacity-70 transition-all duration-500`}
+              />
+              <div className="relative flex items-center gap-4">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/15">
+                  <active.icon className="h-6 w-6 text-primary" />
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold">{t(active.title)}</h3>
+                  <p className="max-w-[16rem] text-sm text-muted-foreground sm:max-w-md">{t(active.desc)}</p>
                 </div>
-              </Link>
-            ))}
+              </div>
+              <span className="relative flex shrink-0 items-center gap-1 text-sm font-semibold text-primary">
+                {t(active.cta)} <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+            <div className="relative z-10 flex justify-center gap-1.5 bg-card py-3">
+              {promos.map((p, i) => (
+                <button
+                  key={p.to}
+                  onClick={() => setPromoIdx(i)}
+                  aria-label={`${t("home.promos")} ${i + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === promoIdx ? "w-5 bg-primary" : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
+        </section>
+
+        <section className="pt-8 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t("home.buyOnline")}</h2>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{t("home.buyOnlineSub")}</p>
+          <Button asChild className="mt-4 h-11 rounded-xl px-6">
+            <Link to="/cars">
+              {t("home.browse")} <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
         </section>
 
         <section className="pt-14">
