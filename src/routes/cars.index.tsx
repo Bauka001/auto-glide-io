@@ -1,6 +1,6 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { LayoutGrid, Link2, List, Scale, Search, SlidersHorizontal, Star, X } from "lucide-react";
+import { LayoutGrid, Link2, List, Scale, Search, SlidersHorizontal, Sparkles, Star, X } from "lucide-react";
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
@@ -27,10 +27,13 @@ type CarSearch = {
   q?: string | undefined;
   brand?: string | undefined;
   model?: string | undefined;
+  gen?: string | undefined;
+  mode?: string | undefined;
   priceFrom?: number | undefined;
   priceTo?: number | undefined;
   yearFrom?: number | undefined;
   yearTo?: number | undefined;
+  mileageFrom?: number | undefined;
   mileageTo?: number | undefined;
   body?: string | undefined;
   fuel?: string | undefined;
@@ -48,6 +51,7 @@ type CarSearch = {
   category?: string | undefined;
 };
 
+
 const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 const numOf = (v: unknown) => {
   const n = Number(v);
@@ -59,11 +63,15 @@ export const Route = createFileRoute("/cars/")({
     q: str(search["q"]),
     brand: str(search["brand"]),
     model: str(search["model"]),
+    gen: str(search["gen"]),
+    mode: str(search["mode"]),
     priceFrom: numOf(search["priceFrom"]),
     priceTo: numOf(search["priceTo"]),
     yearFrom: numOf(search["yearFrom"]),
     yearTo: numOf(search["yearTo"]),
+    mileageFrom: numOf(search["mileageFrom"]),
     mileageTo: numOf(search["mileageTo"]),
+
     body: str(search["body"]),
     fuel: str(search["fuel"]),
     trans: str(search["trans"]),
@@ -163,6 +171,9 @@ function CarsPage() {
   const body = csv(search.body);
   const fuel = csv(search.fuel);
   const trans = csv(search.trans);
+  const gens = csv(search.gen);
+  const onlyNew = search.mode !== "all";
+
 
   const [term, setTerm] = useState(q);
   const [focused, setFocused] = useState(false);
@@ -190,7 +201,22 @@ function CarsPage() {
     [cars, search.brand],
   );
 
+  const generations = useMemo(() => {
+    if (!search.model) return [];
+    return [
+      ...new Set(
+        cars
+          .filter(
+            (c) =>
+              c.model === search.model && (!search.brand || c.brand === search.brand) && c.generation,
+          )
+          .map((c) => c.generation as string),
+      ),
+    ];
+  }, [cars, search.brand, search.model]);
+
   const cities = useMemo(() => [...new Set(cars.map((c) => c.city).filter(Boolean))], [cars]);
+
 
   const suggestions = useMemo(() => {
     const s = term.trim().toLowerCase();
@@ -207,14 +233,19 @@ function CarsPage() {
   const results = useMemo(() => {
     const needle = q.toLowerCase().trim();
     const filtered = cars.filter((c) => {
+      if (onlyNew && c.condition !== "new") return false;
       if (search.brand && c.brand !== search.brand) return false;
       if (search.model && c.model !== search.model) return false;
+      if (gens.length && !gens.includes(c.generation ?? "")) return false;
       if (search.category && c.category !== search.category) return false;
       if (search.priceFrom !== undefined && c.price < search.priceFrom) return false;
       if (search.priceTo !== undefined && c.price > search.priceTo) return false;
       if (search.yearFrom !== undefined && c.year < search.yearFrom) return false;
       if (search.yearTo !== undefined && c.year > search.yearTo) return false;
-      if (search.mileageTo !== undefined && c.mileage > search.mileageTo) return false;
+      if (!onlyNew && search.mileageFrom !== undefined && c.mileage < search.mileageFrom)
+        return false;
+      if (!onlyNew && search.mileageTo !== undefined && c.mileage > search.mileageTo) return false;
+
       if (body.length && !body.includes(c.bodyType ?? "")) return false;
       if (fuel.length && !fuel.includes(c.fuel)) return false;
       if (trans.length && !trans.includes(c.transmission)) return false;
@@ -236,12 +267,14 @@ function CarsPage() {
       return true;
     });
     return sortCars(filtered, sort);
-  }, [cars, search, q, sort, body.join(","), fuel.join(","), trans.join(",")]);
+  }, [cars, search, q, sort, onlyNew, gens.join(","), body.join(","), fuel.join(","), trans.join(",")]);
 
   const activeCount = [
     search.brand,
     search.model,
+    search.gen,
     search.category,
+
     search.priceFrom,
     search.priceTo,
     search.yearFrom,
@@ -332,13 +365,34 @@ function CarsPage() {
 
   const filterBody = (
     <div className="space-y-5">
+      <div className="flex overflow-hidden rounded-2xl border border-border p-1">
+        <button
+          type="button"
+          onClick={() => patch({ mode: undefined, mileageFrom: undefined, mileageTo: undefined })}
+          className={`h-9 flex-1 rounded-xl text-sm transition-colors ${
+            onlyNew ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          {t("f.onlyNew")}
+        </button>
+        <button
+          type="button"
+          onClick={() => patch({ mode: "all" })}
+          className={`h-9 flex-1 rounded-xl text-sm transition-colors ${
+            !onlyNew ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          {t("f.allCars")}
+        </button>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("f.brand")}>
           <Selector
             value={search.brand}
             placeholder={t("f.any")}
             options={brands.map((b) => ({ value: b, label: b }))}
-            onChange={(v) => patch({ brand: v, model: undefined })}
+            onChange={(v) => patch({ brand: v, model: undefined, gen: undefined })}
           />
         </Field>
         <Field label={t("f.model")}>
@@ -346,10 +400,30 @@ function CarsPage() {
             value={search.model}
             placeholder={t("f.any")}
             options={models.map((m) => ({ value: m, label: m }))}
-            onChange={(v) => patch({ model: v })}
+            onChange={(v) => patch({ model: v, gen: undefined })}
           />
         </Field>
       </div>
+
+      <Field label={t("f.generation")}>
+        {!search.model ? (
+          <p className="text-xs text-muted-foreground">{t("f.genHint")}</p>
+        ) : generations.length === 0 ? (
+          <p className="text-xs text-muted-foreground">{t("cars.empty")}</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {generations.map((g) => (
+              <Chip
+                key={g}
+                active={gens.includes(g)}
+                onClick={() => patch({ gen: toggleIn(gens, g).join(",") || undefined })}
+              >
+                {g}
+              </Chip>
+            ))}
+          </div>
+        )}
+      </Field>
 
       <Field label={`${t("f.priceFrom")} — ${t("f.priceTo")}`}>
         <div className="grid grid-cols-2 gap-3">
@@ -365,8 +439,16 @@ function CarsPage() {
             {numInput("yearTo", "2026", search.yearTo)}
           </div>
         </Field>
-        <Field label={t("f.mileageTo")}>{numInput("mileageTo", "100000", search.mileageTo)}</Field>
+        {!onlyNew && (
+          <Field label={t("f.mileageTo")}>
+            <div className="grid grid-cols-2 gap-3">
+              {numInput("mileageFrom", "0", search.mileageFrom)}
+              {numInput("mileageTo", "300000", search.mileageTo)}
+            </div>
+          </Field>
+        )}
       </div>
+
 
       <Field label={t("f.body")}>
         <MultiChips
@@ -485,6 +567,67 @@ function CarsPage() {
     { value: "year", key: "f.sortYear" },
   ];
 
+  const chips: { label: string; clear: () => void }[] = [];
+  if (search.brand)
+    chips.push({
+      label: search.brand,
+      clear: () => patch({ brand: undefined, model: undefined, gen: undefined }),
+    });
+  if (search.model)
+    chips.push({ label: search.model, clear: () => patch({ model: undefined, gen: undefined }) });
+  for (const g of gens)
+    chips.push({
+      label: g,
+      clear: () => patch({ gen: gens.filter((x) => x !== g).join(",") || undefined }),
+    });
+  if (search.priceFrom !== undefined)
+    chips.push({
+      label: `${t("f.priceFrom")} ${num(search.priceFrom)}`,
+      clear: () => patch({ priceFrom: undefined }),
+    });
+  if (search.priceTo !== undefined)
+    chips.push({
+      label: `${t("f.priceTo")} ${num(search.priceTo)}`,
+      clear: () => patch({ priceTo: undefined }),
+    });
+  if (search.yearFrom !== undefined)
+    chips.push({
+      label: `${t("f.yearFrom")} ${search.yearFrom}`,
+      clear: () => patch({ yearFrom: undefined }),
+    });
+  if (search.yearTo !== undefined)
+    chips.push({
+      label: `${t("f.yearTo")} ${search.yearTo}`,
+      clear: () => patch({ yearTo: undefined }),
+    });
+  if (!onlyNew && search.mileageTo !== undefined)
+    chips.push({
+      label: `${t("f.mileageTo")} ${num(search.mileageTo)}`,
+      clear: () => patch({ mileageTo: undefined }),
+    });
+  for (const b of body)
+    chips.push({
+      label: bodyTypes.find((o) => o.value === b)?.[lang] ?? b,
+      clear: () => patch({ body: body.filter((x) => x !== b).join(",") || undefined }),
+    });
+  for (const f of fuel)
+    chips.push({
+      label: fuels.find((o) => o.value === f)?.[lang] ?? f,
+      clear: () => patch({ fuel: fuel.filter((x) => x !== f).join(",") || undefined }),
+    });
+  for (const tr of trans)
+    chips.push({
+      label: transmissions.find((o) => o.value === tr)?.[lang] ?? tr,
+      clear: () => patch({ trans: trans.filter((x) => x !== tr).join(",") || undefined }),
+    });
+  if (search.drive)
+    chips.push({
+      label: drives.find((o) => o.value === search.drive)?.[lang] ?? search.drive,
+      clear: () => patch({ drive: undefined }),
+    });
+  if (search.city) chips.push({ label: search.city, clear: () => patch({ city: undefined }) });
+
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
@@ -554,9 +697,65 @@ function CarsPage() {
         </form>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Chip
+            active={onlyNew}
+            onClick={() =>
+              patch(
+                onlyNew
+                  ? { mode: "all" }
+                  : { mode: undefined, mileageFrom: undefined, mileageTo: undefined },
+              )
+            }
+          >
+            ⚡ {t("f.qNew")}
+          </Chip>
+          <Chip
+            active={search.priceTo === 10000000}
+            onClick={() => patch({ priceTo: search.priceTo === 10000000 ? undefined : 10000000 })}
+          >
+            💰 {t("f.qUnder10")}
+          </Chip>
+          <Chip
+            active={fuel.includes("Electric")}
+            onClick={() => patch({ fuel: toggleIn(fuel, "Electric").join(",") || undefined })}
+          >
+            🔌 {t("f.qElectric")}
+          </Chip>
+          <Button asChild variant="secondary" className="h-9 rounded-full">
+            <Link to="/ai-chat">
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t("f.aiPick")}
+            </Link>
+          </Button>
+        </div>
+
+        {chips.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {chips.map((c) => (
+              <button
+                key={c.label}
+                type="button"
+                onClick={c.clear}
+                className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary"
+              >
+                {c.label}
+                <X className="h-3 w-3" />
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={reset}
+              className="rounded-full px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
+            >
+              {t("f.clear")}
+            </button>
+          </div>
+        )}
+
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button className="h-11 rounded-2xl">
+              <Button className="h-11 rounded-2xl lg:hidden">
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
                 {t("f.filters")}
                 {activeCount > 0 && (
@@ -630,49 +829,68 @@ function CarsPage() {
           </div>
         )}
 
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-          <Chip active={!search.brand} onClick={() => patch({ brand: undefined, model: undefined })}>
-            {t("home.all")}
-          </Chip>
-          {brands.map((b) => (
-            <Chip
-              key={b}
-              active={search.brand === b}
-              onClick={() =>
-                patch({ brand: search.brand === b ? undefined : b, model: undefined })
-              }
-            >
-              {b}
-            </Chip>
-          ))}
+        <div className="mt-6 lg:grid lg:grid-cols-[300px_1fr] lg:gap-8">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-border p-5">
+              <p className="mb-4 text-sm font-semibold">{t("f.filters")}</p>
+              {filterBody}
+            </div>
+          </aside>
+
+          <div>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              <Chip
+                active={!search.brand}
+                onClick={() => patch({ brand: undefined, model: undefined, gen: undefined })}
+              >
+                {t("home.all")}
+              </Chip>
+              {brands.map((b) => (
+                <Chip
+                  key={b}
+                  active={search.brand === b}
+                  onClick={() =>
+                    patch({
+                      brand: search.brand === b ? undefined : b,
+                      model: undefined,
+                      gen: undefined,
+                    })
+                  }
+                >
+                  {b}
+                </Chip>
+              ))}
+            </div>
+
+            {isLoading ? (
+              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
+                ))}
+              </div>
+            ) : results.length === 0 ? (
+              <p className="py-20 text-center text-sm text-muted-foreground">
+                {t("cars.noMatch")}{" "}
+                <button type="button" onClick={reset} className="text-primary hover:underline">
+                  {t("cars.reset")}
+                </button>
+              </p>
+            ) : (
+              <div
+                className={
+                  view === "list"
+                    ? "mt-6 space-y-3"
+                    : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+                }
+              >
+                {results.map((car) => (
+                  <CarCard key={car.id} car={car} view={view} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {isLoading ? (
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
-            ))}
-          </div>
-        ) : results.length === 0 ? (
-          <p className="py-20 text-center text-sm text-muted-foreground">
-            {t("cars.noMatch")}{" "}
-            <button type="button" onClick={reset} className="text-primary hover:underline">
-              {t("cars.reset")}
-            </button>
-          </p>
-        ) : (
-          <div
-            className={
-              view === "list"
-                ? "mt-6 space-y-3"
-                : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            }
-          >
-            {results.map((car) => (
-              <CarCard key={car.id} car={car} view={view} />
-            ))}
-          </div>
-        )}
       </main>
 
       {compare.ids.length > 0 && (
