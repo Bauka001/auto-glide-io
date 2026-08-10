@@ -129,16 +129,6 @@ function Home() {
           </div>
         </section>
 
-        <section className="pt-8 text-center">
-          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t("home.buyOnline")}</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{t("home.buyOnlineSub")}</p>
-          <Button asChild className="mt-4 h-11 rounded-xl px-6">
-            <Link to="/cars">
-              {t("home.browse")} <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
-        </section>
-
         <section>
           <h2 className="text-lg font-semibold tracking-tight">{t("home.promos")}</h2>
           <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-card">
