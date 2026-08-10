@@ -72,7 +72,6 @@ function Home() {
 
   const { data: cars = [] } = useCars();
   const featured = cars.slice(0, 4);
-  const brands = brandsOf(cars);
 
   useEffect(() => {
     const id = setInterval(() => {
