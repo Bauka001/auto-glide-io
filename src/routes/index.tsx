@@ -121,19 +121,27 @@ function Home() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold tracking-tight">{t("home.services")}</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
+          <h2 className="text-lg font-semibold tracking-tight">{t("home.promos")}</h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {promos.map((p) => (
               <Link
-                key={s.to}
-                to={s.to}
-                className="group rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
+                key={p.to}
+                to={p.to}
+                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
-                  <s.icon className="h-5 w-5 text-primary" />
-                </span>
-                <h3 className="mt-4 text-sm font-semibold">{t(s.title)}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{t(s.desc)}</p>
+                <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-60`} />
+                <div className="relative">
+                  <div className="flex items-start justify-between">
+                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/15">
+                      <p.icon className="h-5 w-5 text-primary" />
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-primary">
+                      {t(p.cta)} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-sm font-semibold">{t(p.title)}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{t(p.desc)}</p>
+                </div>
               </Link>
             ))}
           </div>
