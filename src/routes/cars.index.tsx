@@ -201,7 +201,22 @@ function CarsPage() {
     [cars, search.brand],
   );
 
+  const generations = useMemo(() => {
+    if (!search.model) return [];
+    return [
+      ...new Set(
+        cars
+          .filter(
+            (c) =>
+              c.model === search.model && (!search.brand || c.brand === search.brand) && c.generation,
+          )
+          .map((c) => c.generation as string),
+      ),
+    ];
+  }, [cars, search.brand, search.model]);
+
   const cities = useMemo(() => [...new Set(cars.map((c) => c.city).filter(Boolean))], [cars]);
+
 
   const suggestions = useMemo(() => {
     const s = term.trim().toLowerCase();
