@@ -233,14 +233,19 @@ function CarsPage() {
   const results = useMemo(() => {
     const needle = q.toLowerCase().trim();
     const filtered = cars.filter((c) => {
+      if (onlyNew && c.condition !== "new") return false;
       if (search.brand && c.brand !== search.brand) return false;
       if (search.model && c.model !== search.model) return false;
+      if (gens.length && !gens.includes(c.generation ?? "")) return false;
       if (search.category && c.category !== search.category) return false;
       if (search.priceFrom !== undefined && c.price < search.priceFrom) return false;
       if (search.priceTo !== undefined && c.price > search.priceTo) return false;
       if (search.yearFrom !== undefined && c.year < search.yearFrom) return false;
       if (search.yearTo !== undefined && c.year > search.yearTo) return false;
-      if (search.mileageTo !== undefined && c.mileage > search.mileageTo) return false;
+      if (!onlyNew && search.mileageFrom !== undefined && c.mileage < search.mileageFrom)
+        return false;
+      if (!onlyNew && search.mileageTo !== undefined && c.mileage > search.mileageTo) return false;
+
       if (body.length && !body.includes(c.bodyType ?? "")) return false;
       if (fuel.length && !fuel.includes(c.fuel)) return false;
       if (trans.length && !trans.includes(c.transmission)) return false;
