@@ -409,6 +409,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
 export function useI18n() {
   const { lang, setLang } = useContext(I18nContext);
-  const t = useCallback((key: Key) => dict[key][lang], [lang]);
+  const t = useCallback((key: Key) => dict[key]?.[lang] ?? String(key), [lang]);
   return { lang, setLang, t };
 }
