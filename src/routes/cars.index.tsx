@@ -27,10 +27,13 @@ type CarSearch = {
   q?: string | undefined;
   brand?: string | undefined;
   model?: string | undefined;
+  gen?: string | undefined;
+  mode?: string | undefined;
   priceFrom?: number | undefined;
   priceTo?: number | undefined;
   yearFrom?: number | undefined;
   yearTo?: number | undefined;
+  mileageFrom?: number | undefined;
   mileageTo?: number | undefined;
   body?: string | undefined;
   fuel?: string | undefined;
@@ -47,6 +50,7 @@ type CarSearch = {
   view?: string | undefined;
   category?: string | undefined;
 };
+
 
 const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 const numOf = (v: unknown) => {
