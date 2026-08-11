@@ -269,6 +269,14 @@ function CarsPage() {
     return sortCars(filtered, sort);
   }, [cars, search, q, sort, onlyNew, gens.join(","), body.join(","), fuel.join(","), trans.join(",")]);
 
+  // Render in pages of 20 so long result sets stay fast on mobile.
+  const [visible, setVisible] = useState(PAGE_SIZE);
+  useEffect(() => {
+    setVisible(PAGE_SIZE);
+  }, [results]);
+  const shown = results.slice(0, visible);
+
+
   const activeCount = [
     search.brand,
     search.model,
