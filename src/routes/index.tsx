@@ -106,10 +106,13 @@ function Home() {
             />
             <Link
               to="/cars"
+              search={{ filters: "1" }}
+              aria-label="Filter"
               className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
             >
               <Filter className="h-4 w-4" />
             </Link>
+
           </form>
 
           <h1 className="mt-8 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">

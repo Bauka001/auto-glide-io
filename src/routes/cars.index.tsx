@@ -51,6 +51,7 @@ type CarSearch = {
   sort?: string | undefined;
   view?: string | undefined;
   category?: string | undefined;
+  filters?: string | undefined;
 };
 
 
@@ -88,6 +89,7 @@ export const Route = createFileRoute("/cars/")({
     sort: str(search["sort"]),
     view: str(search["view"]),
     category: str(search["category"]),
+    filters: str(search["filters"]),
   }),
   head: () => ({
     meta: [
@@ -215,6 +217,14 @@ function CarsPage() {
   const [open, setOpen] = useState(false);
   const [deskOpen, setDeskOpen] = useState(true);
   const [saved, setSaved] = useState<SavedSearch[]>([]);
+
+  // Open the filter panel when arriving with ?filters=1
+  useEffect(() => {
+    if (search.filters === "1") {
+      if (window.matchMedia("(min-width: 1024px)").matches) setDeskOpen(true);
+      else setOpen(true);
+    }
+  }, [search.filters]);
 
   useEffect(() => {
     try {
