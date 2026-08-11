@@ -218,6 +218,14 @@ function CarsPage() {
   const [deskOpen, setDeskOpen] = useState(true);
   const [saved, setSaved] = useState<SavedSearch[]>([]);
 
+  // Open the filter panel when arriving with ?filters=1
+  useEffect(() => {
+    if (search.filters === "1") {
+      if (window.matchMedia("(min-width: 1024px)").matches) setDeskOpen(true);
+      else setOpen(true);
+    }
+  }, [search.filters]);
+
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(SAVED_KEY);
