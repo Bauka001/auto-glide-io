@@ -834,9 +834,24 @@ function CarsPage() {
         )}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Button
+            variant={deskOpen ? "secondary" : "default"}
+            className="hidden h-11 rounded-2xl lg:inline-flex"
+            onClick={() => setDeskOpen((v) => !v)}
+          >
+            <SlidersHorizontal className="mr-2 h-4 w-4" />
+            {deskOpen ? t("f.hide") : t("f.showFilters")}
+            {activeCount > 0 && (
+              <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                {activeCount}
+              </span>
+            )}
+          </Button>
+
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button className="h-11 rounded-2xl lg:hidden">
+
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
                 {t("f.filters")}
                 {activeCount > 0 && (
