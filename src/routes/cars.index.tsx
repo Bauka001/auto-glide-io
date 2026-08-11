@@ -19,7 +19,7 @@ import {
   transmissions,
   type Option,
 } from "@/lib/car-spec";
-import { brandsOf, useCars } from "@/lib/catalog";
+import { brandsOf, useCars, PAGE_SIZE } from "@/lib/catalog";
 import { useCompare } from "@/lib/compare";
 import { useI18n, type Key } from "@/lib/i18n";
 
@@ -268,6 +268,14 @@ function CarsPage() {
     });
     return sortCars(filtered, sort);
   }, [cars, search, q, sort, onlyNew, gens.join(","), body.join(","), fuel.join(","), trans.join(",")]);
+
+  // Render in pages of 20 so long result sets stay fast on mobile.
+  const [visible, setVisible] = useState(PAGE_SIZE);
+  useEffect(() => {
+    setVisible(PAGE_SIZE);
+  }, [results]);
+  const shown = results.slice(0, visible);
+
 
   const activeCount = [
     search.brand,
@@ -883,11 +891,23 @@ function CarsPage() {
                     : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
                 }
               >
-                {results.map((car) => (
+                {shown.map((car) => (
                   <CarCard key={car.id} car={car} view={view} />
                 ))}
               </div>
             )}
+            {visible < results.length && (
+              <div className="mt-6 flex justify-center">
+                <Button
+                  variant="secondary"
+                  className="h-12 rounded-2xl px-6"
+                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                >
+                  {t("cars.more")} · {results.length - visible}
+                </Button>
+              </div>
+            )}
+
           </div>
         </div>
 

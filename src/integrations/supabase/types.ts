@@ -284,6 +284,35 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          car_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          car_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          car_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           body: string
@@ -315,6 +344,69 @@ export type Database = {
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          car_id: string | null
+          created_at: string
+          currency: string
+          details: Json
+          id: string
+          provider: string
+          provider_ref: string | null
+          purpose: string
+          request_id: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          car_id?: string | null
+          created_at?: string
+          currency?: string
+          details?: Json
+          id?: string
+          provider?: string
+          provider_ref?: string | null
+          purpose?: string
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          car_id?: string | null
+          created_at?: string
+          currency?: string
+          details?: Json
+          id?: string
+          provider?: string
+          provider_ref?: string | null
+          purpose?: string
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
             referencedColumns: ["id"]
           },
         ]
@@ -390,6 +482,85 @@ export type Database = {
           },
         ]
       }
+      shipments: {
+        Row: {
+          car_id: string | null
+          courier_name: string
+          courier_phone: string
+          created_at: string
+          distance_km: number
+          eta_date: string | null
+          from_city: string
+          id: string
+          payment_id: string | null
+          price: number
+          request_id: string | null
+          status: Database["public"]["Enums"]["shipment_status"]
+          tariff: string
+          to_city: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          car_id?: string | null
+          courier_name?: string
+          courier_phone?: string
+          created_at?: string
+          distance_km?: number
+          eta_date?: string | null
+          from_city?: string
+          id?: string
+          payment_id?: string | null
+          price?: number
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["shipment_status"]
+          tariff?: string
+          to_city?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          car_id?: string | null
+          courier_name?: string
+          courier_phone?: string
+          created_at?: string
+          distance_km?: number
+          eta_date?: string | null
+          from_city?: string
+          id?: string
+          payment_id?: string | null
+          price?: number
+          request_id?: string | null
+          status?: Database["public"]["Enums"]["shipment_status"]
+          tariff?: string
+          to_city?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipments_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shipments_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shipments_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -423,9 +594,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      register_car_view: { Args: { _car_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "dealer" | "user"
+      payment_status: "pending" | "paid" | "failed" | "refunded"
       request_status:
         | "submitted"
         | "in_review"
@@ -433,6 +606,14 @@ export type Database = {
         | "rejected"
         | "completed"
       request_type: "credit" | "delivery" | "insurance"
+      shipment_status:
+        | "created"
+        | "paid"
+        | "preparing"
+        | "in_transit"
+        | "arrived"
+        | "delivered"
+        | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -561,6 +742,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "dealer", "user"],
+      payment_status: ["pending", "paid", "failed", "refunded"],
       request_status: [
         "submitted",
         "in_review",
@@ -569,6 +751,15 @@ export const Constants = {
         "completed",
       ],
       request_type: ["credit", "delivery", "insurance"],
+      shipment_status: [
+        "created",
+        "paid",
+        "preparing",
+        "in_transit",
+        "arrived",
+        "delivered",
+        "cancelled",
+      ],
     },
   },
 } as const

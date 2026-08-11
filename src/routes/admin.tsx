@@ -18,6 +18,14 @@ import {
   useSetRole,
   useTogglePublished,
 } from "@/lib/admin";
+import {
+  shipmentLabels,
+  shipmentStatuses,
+  useAllShipments,
+  useUpdateShipmentStatus,
+  type ShipmentStatus,
+} from "@/lib/payments";
+
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -50,6 +58,9 @@ function AdminPage() {
   const { data: cars = [] } = useAdminCars(enabled);
   const setRole = useSetRole();
   const togglePublished = useTogglePublished();
+  const { data: shipments = [] } = useAllShipments(enabled);
+  const updateShipment = useUpdateShipmentStatus();
+
   const [q, setQ] = useState("");
 
   const updateStatus = useMutation({
@@ -119,7 +130,11 @@ function AdminPage() {
             <TabsTrigger value="cars" className="rounded-xl">
               {t("adm.cars")}
             </TabsTrigger>
+            <TabsTrigger value="shipments" className="rounded-xl">
+              {t("del.myShipments")}
+            </TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="overview" className="mt-5">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -266,7 +281,50 @@ function AdminPage() {
               </div>
             ))}
           </TabsContent>
+
+          <TabsContent value="shipments" className="mt-5 space-y-3">
+            {shipments.length === 0 ? (
+              <div className="rounded-3xl border border-border p-10 text-center text-sm text-muted-foreground">
+                {t("pro.empty")}
+              </div>
+            ) : (
+              shipments.map((s) => (
+                <div
+                  key={s.id}
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-2xl border border-border p-4"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">
+                      {s.to_city || "—"} · {money(s.price)}
+                    </p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {s.tariff} · {s.distance_km} км
+                      {s.eta_date ? ` · ${t("del.eta")}: ${s.eta_date}` : ""}
+                    </p>
+                  </div>
+                  <select
+                    aria-label={t("del.track")}
+                    value={s.status}
+                    onChange={(e) =>
+                      updateShipment.mutate({
+                        id: s.id,
+                        status: e.target.value as ShipmentStatus,
+                      })
+                    }
+                    className="shrink-0 rounded-full bg-muted px-3 py-1.5 text-xs font-medium"
+                  >
+                    {shipmentStatuses.map((st) => (
+                      <option key={st} value={st}>
+                        {shipmentLabels[st][lang]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))
+            )}
+          </TabsContent>
         </Tabs>
+
       </main>
       <SiteFooter />
     </div>

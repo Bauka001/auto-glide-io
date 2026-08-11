@@ -128,6 +128,15 @@ const dict = {
     ru: "Доставка — платная услуга. Оплата списывается при подтверждении заказа.",
     en: "Delivery is a paid service. Payment is taken when the order is confirmed.",
   },
+  "cars.more": { kk: "Тағы көрсету", ru: "Показать ещё", en: "Show more" },
+  "del.myShipments": { kk: "Менің жеткізулерім", ru: "Мои доставки", en: "My deliveries" },
+
+  "del.eta": { kk: "Күтілетін күн", ru: "Ожидаемая дата", en: "Expected date" },
+  "del.courier": { kk: "Курьер", ru: "Курьер", en: "Courier" },
+  "del.payFail": { kk: "Төлем өтпеді", ru: "Оплата не прошла", en: "Payment failed" },
+  "pay.history": { kk: "Төлемдер", ru: "Платежи", en: "Payments" },
+  "pay.delivery": { kk: "Жеткізу", ru: "Доставка", en: "Delivery" },
+
 
   "pro.title": { kk: "Профиль", ru: "Профиль", en: "Profile" },
   "pro.account": { kk: "Аккаунт", ru: "Аккаунт", en: "Account" },

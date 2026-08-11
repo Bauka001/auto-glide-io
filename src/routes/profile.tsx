@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { useCallback } from "react";
 
 import { useFavorites } from "@/lib/favorites";
+import { money } from "@/lib/cars";
+import { paymentLabels, useMyPayments } from "@/lib/payments";
+
 import { langs, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/profile")({
@@ -37,6 +40,8 @@ function ProfilePage() {
   const { user, profile } = useAuth();
   const [push, setPush] = useState(true);
   const { data: cars = [] } = useCars();
+  const { data: payments = [] } = useMyPayments(Boolean(user));
+
   const { data: requests = [] } = useMyRequests(Boolean(user));
   useRequestsRealtime(
     Boolean(user),
@@ -91,7 +96,11 @@ function ProfilePage() {
               <Heart className="mr-2 h-4 w-4" />
               {t("pro.fav")}
             </TabsTrigger>
+            <TabsTrigger value="payments" className="rounded-xl">
+              {t("pay.history")}
+            </TabsTrigger>
             <TabsTrigger value="settings" className="rounded-xl">
+
               <Settings className="mr-2 h-4 w-4" />
               {t("pro.settings")}
             </TabsTrigger>
@@ -126,7 +135,33 @@ function ProfilePage() {
           </TabsContent>
 
 
+          <TabsContent value="payments" className="mt-5 space-y-3">
+            {payments.length === 0 ? (
+              <div className="rounded-3xl border border-border bg-card p-10 text-center">
+                <p className="text-sm text-muted-foreground">{t("pro.empty")}</p>
+              </div>
+            ) : (
+              payments.map((p) => (
+                <div
+                  key={p.id}
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-2xl border border-border bg-card p-4"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{money(p.amount)}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("pay.delivery")} · {new Date(p.created_at).toISOString().slice(0, 10)}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-muted px-3 py-1 text-xs font-medium">
+                    {paymentLabels[p.status][lang]}
+                  </span>
+                </div>
+              ))
+            )}
+          </TabsContent>
+
           <TabsContent value="fav" className="mt-5">
+
             {favCars.length === 0 ? (
               <div className="rounded-3xl border border-border bg-card p-10 text-center">
                 <p className="text-sm text-muted-foreground">{t("pro.empty")}</p>

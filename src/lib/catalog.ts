@@ -108,11 +108,26 @@ export function brandsOf(cars: Car[]) {
   return [...new Set(cars.map((c) => c.brand))];
 }
 
-/** Fire-and-forget view counter used by the car detail page. */
+/** Fire-and-forget view counter used by the car detail page (rate-limited server-side). */
 export async function recordCarView(carId: string) {
-  const { data: auth } = await supabase.auth.getUser();
-  await supabase.from("car_views").insert({ car_id: carId, viewer_id: auth.user?.id ?? null });
+  await supabase.rpc("register_car_view", { _car_id: carId });
 }
+
+export const PAGE_SIZE = 20;
+
+/** Paginated public listing used by the cars page and dealer catalog. */
+export async function fetchCarsPage(page: number): Promise<{ cars: Car[]; total: number }> {
+  const from = page * PAGE_SIZE;
+  const { data, error, count } = await supabase
+    .from("cars")
+    .select(COLS, { count: "exact" })
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .range(from, from + PAGE_SIZE - 1);
+  if (error) throw error;
+  return { cars: (data as Row[]).map(rowToCar), total: count ?? 0 };
+}
+
 
 export type DealerStats = {
   views: number;
