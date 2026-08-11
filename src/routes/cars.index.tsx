@@ -891,11 +891,23 @@ function CarsPage() {
                     : "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
                 }
               >
-                {results.map((car) => (
+                {shown.map((car) => (
                   <CarCard key={car.id} car={car} view={view} />
                 ))}
               </div>
             )}
+            {visible < results.length && (
+              <div className="mt-6 flex justify-center">
+                <Button
+                  variant="secondary"
+                  className="h-12 rounded-2xl px-6"
+                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                >
+                  {t("cars.more")} · {results.length - visible}
+                </Button>
+              </div>
+            )}
+
           </div>
         </div>
 
