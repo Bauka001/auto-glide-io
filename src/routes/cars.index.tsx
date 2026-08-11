@@ -141,6 +141,39 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+/** Collapsible filter group. Uses native <details> so open state survives re-renders. */
+function FilterGroup({
+  title,
+  count,
+  defaultOpen,
+  children,
+}: {
+  title: string;
+  count?: number;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <details open={defaultOpen} className="group rounded-2xl border border-border">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+        <span className="flex items-center gap-2">
+          {title}
+          {!!count && (
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+              {count}
+            </span>
+          )}
+        </span>
+        <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
+      </summary>
+      <div className="animate-fade-in space-y-5 border-t border-border px-4 pb-4 pt-4">
+        {children}
+      </div>
+    </details>
+  );
+}
+
+
 function sortCars(list: Car[], sort: string) {
   const arr = [...list];
   switch (sort) {
