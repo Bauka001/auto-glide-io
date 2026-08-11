@@ -910,13 +910,24 @@ function CarsPage() {
           </div>
         )}
 
-        <div className="mt-6 lg:grid lg:grid-cols-[300px_1fr] lg:gap-8">
-          <aside className="hidden lg:block">
+        <div className={`mt-6 lg:gap-8 ${deskOpen ? "lg:grid lg:grid-cols-[300px_1fr]" : ""}`}>
+          <aside className={deskOpen ? "hidden lg:block" : "hidden"}>
             <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-border p-5">
-              <p className="mb-4 text-sm font-semibold">{t("f.filters")}</p>
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm font-semibold">{t("f.filters")}</p>
+                <button
+                  type="button"
+                  aria-label={t("f.hide")}
+                  onClick={() => setDeskOpen(false)}
+                  className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
               {filterBody}
             </div>
           </aside>
+
 
           <div>
             <div className="flex gap-2 overflow-x-auto pb-1">
