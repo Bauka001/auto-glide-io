@@ -56,11 +56,15 @@ function DealersPage() {
         </div>
 
         {isLoading ? (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="h-32 animate-pulse rounded-3xl bg-muted" />
-            ))}
+          <div className="mt-6">
+            <BrandLoader />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="h-32 animate-pulse rounded-3xl bg-muted" />
+              ))}
+            </div>
           </div>
+
         ) : list.length === 0 ? (
           <div className="mt-6 rounded-3xl border border-border bg-card p-10 text-center">
             <p className="text-sm text-muted-foreground">{t("dlr.empty")}</p>
