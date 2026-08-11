@@ -144,3 +144,31 @@ export function useUpdateShipmentStatus() {
     onSuccess: () => void qc.invalidateQueries({ queryKey: ["shipments"] }),
   });
 }
+
+export const shipmentStatuses: ShipmentStatus[] = [
+  "created",
+  "paid",
+  "preparing",
+  "in_transit",
+  "arrived",
+  "delivered",
+  "cancelled",
+];
+
+/** Admin-wide shipment list (RLS restricts this to administrators). */
+export function useAllShipments(enabled: boolean) {
+  return useQuery({
+    queryKey: ["shipments", "all"],
+    enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("shipments")
+        .select(
+          "id,status,tariff,from_city,to_city,distance_km,price,eta_date,courier_name,courier_phone,created_at,car_id",
+        )
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as Shipment[];
+    },
+  });
+}
