@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { useCallback } from "react";
 
 import { useFavorites } from "@/lib/favorites";
+import { money } from "@/lib/cars";
+import { paymentLabels, useMyPayments } from "@/lib/payments";
+
 import { langs, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/profile")({
