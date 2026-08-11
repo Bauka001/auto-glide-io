@@ -89,6 +89,7 @@ export const Route = createFileRoute("/cars/")({
     sort: str(search["sort"]),
     view: str(search["view"]),
     category: str(search["category"]),
+    filters: str(search["filters"]),
   }),
   head: () => ({
     meta: [
