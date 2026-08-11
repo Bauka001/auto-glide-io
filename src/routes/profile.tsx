@@ -94,7 +94,11 @@ function ProfilePage() {
               <Heart className="mr-2 h-4 w-4" />
               {t("pro.fav")}
             </TabsTrigger>
+            <TabsTrigger value="payments" className="rounded-xl">
+              {t("pay.history")}
+            </TabsTrigger>
             <TabsTrigger value="settings" className="rounded-xl">
+
               <Settings className="mr-2 h-4 w-4" />
               {t("pro.settings")}
             </TabsTrigger>
