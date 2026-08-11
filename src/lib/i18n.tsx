@@ -272,6 +272,11 @@ const dict = {
 
   "f.filters": { kk: "Сүзгі", ru: "Фильтр", en: "Filters" },
   "f.all": { kk: "Барлық параметрлер", ru: "Все параметры", en: "All parameters" },
+  "f.gMain": { kk: "Негізгі", ru: "Основное", en: "Main" },
+  "f.gPrice": { kk: "Баға және жыл", ru: "Цена и год", en: "Price & year" },
+  "f.gSpecs": { kk: "Сипаттамалар", ru: "Характеристики", en: "Specs" },
+  "cars.loading": { kk: "Көліктер жүктелуде", ru: "Загружаем автомобили", en: "Loading cars" },
+
   "f.show": { kk: "Нәтижені көрсету", ru: "Показать результаты", en: "Show results" },
   "f.clear": { kk: "Тазалау", ru: "Очистить", en: "Clear" },
   "f.brand": { kk: "Марка", ru: "Марка", en: "Brand" },
