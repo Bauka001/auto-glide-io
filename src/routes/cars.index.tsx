@@ -213,6 +213,7 @@ function CarsPage() {
   const [term, setTerm] = useState(q);
   const [focused, setFocused] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deskOpen, setDeskOpen] = useState(true);
   const [saved, setSaved] = useState<SavedSearch[]>([]);
 
   useEffect(() => {
