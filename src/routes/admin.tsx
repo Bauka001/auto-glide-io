@@ -119,7 +119,11 @@ function AdminPage() {
             <TabsTrigger value="cars" className="rounded-xl">
               {t("adm.cars")}
             </TabsTrigger>
+            <TabsTrigger value="shipments" className="rounded-xl">
+              {t("del.myShipments")}
+            </TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="overview" className="mt-5">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
