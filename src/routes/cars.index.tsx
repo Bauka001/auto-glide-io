@@ -4,6 +4,8 @@ import { ChevronDown, LayoutGrid, Link2, List, Scale, Search, SlidersHorizontal,
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CarCard } from "@/components/car-card";
+import { BrandLoader } from "@/components/brand-loader";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
