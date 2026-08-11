@@ -51,6 +51,7 @@ type CarSearch = {
   sort?: string | undefined;
   view?: string | undefined;
   category?: string | undefined;
+  filters?: string | undefined;
 };
 
 
