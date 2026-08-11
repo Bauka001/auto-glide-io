@@ -1,3 +1,4 @@
+import { BrandLoader } from "@/components/brand-loader";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { BadgeCheck, MapPin, Search, Star, Store } from "lucide-react";
