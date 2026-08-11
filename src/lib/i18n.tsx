@@ -271,6 +271,8 @@ const dict = {
   "dash.photoOr": { kk: "Немесе дайын сурет таңдаңыз", ru: "Или выберите готовое фото", en: "Or pick a preset photo" },
 
   "f.filters": { kk: "Сүзгі", ru: "Фильтр", en: "Filters" },
+  "f.hide": { kk: "Сүзгіні жабу", ru: "Скрыть фильтр", en: "Hide filters" },
+  "f.showFilters": { kk: "Сүзгіні ашу", ru: "Показать фильтр", en: "Show filters" },
   "f.all": { kk: "Барлық параметрлер", ru: "Все параметры", en: "All parameters" },
   "f.gMain": { kk: "Негізгі", ru: "Основное", en: "Main" },
   "f.gPrice": { kk: "Баға және жыл", ru: "Цена и год", en: "Price & year" },
