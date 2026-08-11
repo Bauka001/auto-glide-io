@@ -58,6 +58,9 @@ function AdminPage() {
   const { data: cars = [] } = useAdminCars(enabled);
   const setRole = useSetRole();
   const togglePublished = useTogglePublished();
+  const { data: shipments = [] } = useAllShipments(enabled);
+  const updateShipment = useUpdateShipmentStatus();
+
   const [q, setQ] = useState("");
 
   const updateStatus = useMutation({
