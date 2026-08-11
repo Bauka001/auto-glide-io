@@ -213,6 +213,7 @@ function CarsPage() {
   const [term, setTerm] = useState(q);
   const [focused, setFocused] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deskOpen, setDeskOpen] = useState(true);
   const [saved, setSaved] = useState<SavedSearch[]>([]);
 
   useEffect(() => {
@@ -833,9 +834,24 @@ function CarsPage() {
         )}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Button
+            variant={deskOpen ? "secondary" : "default"}
+            className="hidden h-11 rounded-2xl lg:inline-flex"
+            onClick={() => setDeskOpen((v) => !v)}
+          >
+            <SlidersHorizontal className="mr-2 h-4 w-4" />
+            {deskOpen ? t("f.hide") : t("f.showFilters")}
+            {activeCount > 0 && (
+              <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                {activeCount}
+              </span>
+            )}
+          </Button>
+
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button className="h-11 rounded-2xl lg:hidden">
+
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
                 {t("f.filters")}
                 {activeCount > 0 && (
@@ -909,13 +925,24 @@ function CarsPage() {
           </div>
         )}
 
-        <div className="mt-6 lg:grid lg:grid-cols-[300px_1fr] lg:gap-8">
-          <aside className="hidden lg:block">
+        <div className={`mt-6 lg:gap-8 ${deskOpen ? "lg:grid lg:grid-cols-[300px_1fr]" : ""}`}>
+          <aside className={deskOpen ? "hidden lg:block" : "hidden"}>
             <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-border p-5">
-              <p className="mb-4 text-sm font-semibold">{t("f.filters")}</p>
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm font-semibold">{t("f.filters")}</p>
+                <button
+                  type="button"
+                  aria-label={t("f.hide")}
+                  onClick={() => setDeskOpen(false)}
+                  className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
               {filterBody}
             </div>
           </aside>
+
 
           <div>
             <div className="flex gap-2 overflow-x-auto pb-1">
