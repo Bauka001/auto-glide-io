@@ -40,6 +40,8 @@ function ProfilePage() {
   const { user, profile } = useAuth();
   const [push, setPush] = useState(true);
   const { data: cars = [] } = useCars();
+  const { data: payments = [] } = useMyPayments(Boolean(user));
+
   const { data: requests = [] } = useMyRequests(Boolean(user));
   useRequestsRealtime(
     Boolean(user),
