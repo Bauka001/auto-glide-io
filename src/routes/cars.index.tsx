@@ -941,11 +941,15 @@ function CarsPage() {
             </div>
 
             {isLoading ? (
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[0, 1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
-                ))}
+              <div className="mt-6">
+                <BrandLoader label={t("cars.loading")} />
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {[0, 1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="h-64 animate-pulse rounded-3xl bg-muted" />
+                  ))}
+                </div>
               </div>
+
             ) : results.length === 0 ? (
               <p className="py-20 text-center text-sm text-muted-foreground">
                 {t("cars.noMatch")}{" "}
