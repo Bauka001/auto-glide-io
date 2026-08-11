@@ -19,7 +19,7 @@ import {
   transmissions,
   type Option,
 } from "@/lib/car-spec";
-import { brandsOf, useCars } from "@/lib/catalog";
+import { brandsOf, useCars, PAGE_SIZE } from "@/lib/catalog";
 import { useCompare } from "@/lib/compare";
 import { useI18n, type Key } from "@/lib/i18n";
 
