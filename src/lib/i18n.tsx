@@ -316,6 +316,10 @@ const dict = {
   "spec.trim": { kk: "Комплектация", ru: "Комплектация", en: "Trim" },
   "spec.volume": { kk: "Қозғалтқыш көлемі, л", ru: "Объём двигателя, л", en: "Engine volume, L" },
   "spec.vin": { kk: "VIN", ru: "VIN", en: "VIN" },
+  "vin.length": { kk: "VIN 17 таңбадан тұруы керек", ru: "VIN должен содержать 17 символов", en: "VIN must be 17 characters" },
+  "vin.chars": { kk: "VIN-де тек A–Z (I, O, Q-сыз) және сандар болады", ru: "VIN: только A–Z (без I, O, Q) и цифры", en: "VIN allows A–Z (no I, O, Q) and digits" },
+  "vin.checksum": { kk: "Бақылау саны сәйкес емес (check-digit)", ru: "Неверная контрольная цифра (check-digit)", en: "Invalid check digit" },
+  "vin.ok": { kk: "VIN дұрыс", ru: "VIN корректен", en: "VIN is valid" },
 
   "f.generation": { kk: "Буын", ru: "Поколение", en: "Generation" },
   "f.genHint": { kk: "Алдымен модельді таңдаңыз", ru: "Сначала выберите модель", en: "Select a model first" },

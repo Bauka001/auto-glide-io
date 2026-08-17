@@ -20,6 +20,7 @@ import {
 } from "@/lib/car-spec";
 
 import { fetchMyCars, useDealerStats } from "@/lib/catalog";
+import { normalizeVin, validateVin } from "@/lib/vin";
 import { SalonForm } from "@/components/salon-form";
 import { useMyDealer } from "@/lib/dealers";
 import { supabase } from "@/integrations/supabase/client";
@@ -88,6 +89,15 @@ function Dashboard() {
     imageUrl: "",
   });
   const [uploading, setUploading] = useState(false);
+  const vinError = form.vin.length > 0 ? validateVin(form.vin) : null;
+  const vinMsg =
+    vinError === "length"
+      ? t("vin.length")
+      : vinError === "chars"
+        ? t("vin.chars")
+        : vinError === "checksum"
+          ? t("vin.checksum")
+          : t("vin.ok");
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -122,6 +132,11 @@ function Dashboard() {
   async function addCar(e: React.FormEvent) {
     e.preventDefault();
     if (!user) return;
+    if (vinError) {
+      toast.error(vinMsg);
+      return;
+    }
+
     const { error } = await supabase.from("cars").insert({
       owner_id: user.id,
       dealer_id: mySalon?.id ?? null,
@@ -329,8 +344,22 @@ function Dashboard() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="vin">{t("spec.vin")}</Label>
-                  <Input id="vin" value={form.vin} onChange={set("vin")} className="h-12 rounded-2xl" />
+                  <Input
+                    id="vin"
+                    value={form.vin}
+                    onChange={(e) => setForm((f) => ({ ...f, vin: normalizeVin(e.target.value) }))}
+                    maxLength={17}
+                    aria-invalid={Boolean(vinError)}
+                    className="h-12 rounded-2xl font-mono uppercase"
+                  />
+                  {form.vin.length > 0 && (
+                    <p className={`text-xs ${vinError ? "text-destructive" : "text-primary"}`}>
+                      {vinMsg}
+                    </p>
+
+                  )}
                 </div>
+
                 {(
                   [
                     ["bodyType", "f.body", bodyTypes],
