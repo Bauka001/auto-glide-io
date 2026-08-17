@@ -89,6 +89,15 @@ function Dashboard() {
     imageUrl: "",
   });
   const [uploading, setUploading] = useState(false);
+  const vinError = form.vin.length > 0 ? validateVin(form.vin) : null;
+  const vinMsg =
+    vinError === "length"
+      ? t("vin.length")
+      : vinError === "chars"
+        ? t("vin.chars")
+        : vinError === "checksum"
+          ? t("vin.checksum")
+          : t("vin.ok");
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const pick = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLSelectElement>) =>
