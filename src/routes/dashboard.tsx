@@ -132,6 +132,11 @@ function Dashboard() {
   async function addCar(e: React.FormEvent) {
     e.preventDefault();
     if (!user) return;
+    if (vinError) {
+      toast.error(vinMsg);
+      return;
+    }
+
     const { error } = await supabase.from("cars").insert({
       owner_id: user.id,
       dealer_id: mySalon?.id ?? null,
