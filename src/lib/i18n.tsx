@@ -27,8 +27,8 @@ const dict = {
   "nav.dealers": { kk: "Дилерлерге", ru: "Дилерам", en: "Dealers" },
   "nav.login": { kk: "Кіру", ru: "Войти", en: "Log in" },
 
-  "home.title1": { kk: "Көлікті толықтай", ru: "Купите автомобиль", en: "Buy your next car" },
-  "home.title2": { kk: "онлайн сатып алыңыз.", ru: "полностью онлайн.", en: "entirely online." },
+  "home.title1": { kk: "Көлікті толықтай\nонлайн сатып алыңыз.", ru: "Купите автомобиль\nполностью онлайн.", en: "Buy your next car\nentirely online." },
+  "home.title2": { kk: "", ru: "", en: "" },
   "home.sub": {
     kk: "Тексерілген көліктер, бірнеше минутта несие, есігіңізге жеткізу.",
     ru: "Проверенные авто, кредит за минуты, доставка до двери.",
