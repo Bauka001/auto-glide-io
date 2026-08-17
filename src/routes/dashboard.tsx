@@ -349,8 +349,9 @@ function Dashboard() {
                   />
                   {form.vin.length > 0 && (
                     <p className={`text-xs ${vinError ? "text-destructive" : "text-primary"}`}>
-                      {vinError ? t(`vin.${vinError}`) : t("vin.ok")}
+                      {vinMsg}
                     </p>
+
                   )}
                 </div>
 
