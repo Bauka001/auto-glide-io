@@ -115,10 +115,14 @@ function Home() {
 
           </form>
 
-          <h1 className="mt-8 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
+          <h1 className="mt-8 max-w-2xl whitespace-pre-line text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
             {t("home.title1")}
-            <br />
-            <span className="text-muted-foreground">{t("home.title2")}</span>
+            {t("home.title2") && (
+              <>
+                <br />
+                <span className="text-muted-foreground">{t("home.title2")}</span>
+              </>
+            )}
           </h1>
           <p className="mt-4 max-w-md text-base text-muted-foreground">{t("home.sub")}</p>
         </section>
