@@ -20,6 +20,7 @@ import {
 } from "@/lib/car-spec";
 
 import { fetchMyCars, useDealerStats } from "@/lib/catalog";
+import { normalizeVin, validateVin } from "@/lib/vin";
 import { SalonForm } from "@/components/salon-form";
 import { useMyDealer } from "@/lib/dealers";
 import { supabase } from "@/integrations/supabase/client";
