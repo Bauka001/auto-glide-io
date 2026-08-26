@@ -18,6 +18,7 @@ import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CreditRouteImport } from './routes/credit'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DeliveryRouteImport } from './routes/delivery'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -71,6 +72,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const DeliveryRoute = DeliveryRouteImport.update({
   id: '/delivery',
   path: '/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceRoute = FinanceRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
+  '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
   '/profile': typeof ProfileRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
+  '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
   '/profile': typeof ProfileRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/credit': typeof CreditRoute
   '/dashboard': typeof DashboardRoute
   '/delivery': typeof DeliveryRoute
+  '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
   '/profile': typeof ProfileRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/credit'
     | '/dashboard'
     | '/delivery'
+    | '/favorites'
     | '/finance'
     | '/insurance'
     | '/profile'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/credit'
     | '/dashboard'
     | '/delivery'
+    | '/favorites'
     | '/finance'
     | '/insurance'
     | '/profile'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/credit'
     | '/dashboard'
     | '/delivery'
+    | '/favorites'
     | '/finance'
     | '/insurance'
     | '/profile'
@@ -254,6 +266,7 @@ export interface RootRouteChildren {
   CreditRoute: typeof CreditRoute
   DashboardRoute: typeof DashboardRoute
   DeliveryRoute: typeof DeliveryRoute
+  FavoritesRoute: typeof FavoritesRoute
   FinanceRoute: typeof FinanceRoute
   InsuranceRoute: typeof InsuranceRoute
   ProfileRoute: typeof ProfileRoute
@@ -328,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/delivery'
       fullPath: '/delivery'
       preLoaderRoute: typeof DeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance': {
@@ -406,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   CreditRoute: CreditRoute,
   DashboardRoute: DashboardRoute,
   DeliveryRoute: DeliveryRoute,
+  FavoritesRoute: FavoritesRoute,
   FinanceRoute: FinanceRoute,
   InsuranceRoute: InsuranceRoute,
   ProfileRoute: ProfileRoute,
