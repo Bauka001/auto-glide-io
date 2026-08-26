@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Check } from "lucide-react";
 import { toast } from "sonner";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
@@ -11,7 +11,7 @@ import { useCar } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
 import { useCreateRequest } from "@/lib/requests";
 import { useI18n, type Key } from "@/lib/i18n";
-
+import { calculatePreScore, type PreScoreLabel } from "@/lib/prescore";
 
 export const Route = createFileRoute("/credit")({
   validateSearch: (search: Record<string, unknown>): { carId?: string | undefined } => ({
@@ -33,6 +33,12 @@ export const Route = createFileRoute("/credit")({
 
 const steps: Key[] = ["cr.step1", "cr.step2", "cr.step3"];
 
+const labelClass: Record<PreScoreLabel, string> = {
+  high: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+  medium: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+  low: "bg-rose-500/15 text-rose-600 dark:text-rose-400",
+};
+
 function CreditPage() {
   const { carId } = Route.useSearch();
   const car = useCar(carId).data ?? undefined;
@@ -41,7 +47,14 @@ function CreditPage() {
   const { t } = useI18n();
   const createRequest = useCreateRequest();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState({ name: "", phone: "", income: "", downPayment: "" });
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    age: "",
+    income: "",
+    downPayment: "",
+    existingLoans: "",
+  });
 
   useEffect(() => {
     if (!loading && !user) {
@@ -62,6 +75,16 @@ function CreditPage() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const preScore = useMemo(() => {
+    const age = Number(form.age);
+    const income = Number(form.income);
+    const carPrice = car?.price ?? 0;
+    const down = Number(form.downPayment);
+    const loans = Number(form.existingLoans);
+    if (!age || !income || carPrice <= 0) return null;
+    return calculatePreScore({ age, monthlyIncome: income, carPrice, downPayment: down, existingLoans: loans });
+  }, [form.age, form.income, form.downPayment, form.existingLoans, car?.price]);
+
   async function submit() {
     try {
       await createRequest.mutateAsync({
@@ -70,8 +93,11 @@ function CreditPage() {
         details: {
           name: form.name,
           phone: form.phone,
+          age: form.age,
           income: form.income,
           downPayment: form.downPayment,
+          existingLoans: form.existingLoans,
+          prescore: preScore?.score ?? null,
         },
       });
       toast.success(t("req.sent"));
@@ -83,7 +109,6 @@ function CreditPage() {
 
   const canNext =
     step === 0 ? form.name.length > 1 && form.phone.length > 5 : form.income.length > 0;
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -138,6 +163,10 @@ function CreditPage() {
               <Label htmlFor="phone">{t("cr.phone")}</Label>
               <Input id="phone" value={form.phone} onChange={set("phone")} className="h-12 rounded-2xl" placeholder="+7 700 000 00 00" />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="age">{t("cr.age")}</Label>
+              <Input id="age" inputMode="numeric" value={form.age} onChange={set("age")} className="h-12 rounded-2xl" placeholder="30" />
+            </div>
           </div>
         )}
 
@@ -152,6 +181,25 @@ function CreditPage() {
               <Label htmlFor="down">{t("cr.down")}</Label>
               <Input id="down" inputMode="numeric" value={form.downPayment} onChange={set("downPayment")} className="h-12 rounded-2xl" placeholder="2400000" />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="loans">{t("cr.existingLoans")}</Label>
+              <Input id="loans" inputMode="numeric" value={form.existingLoans} onChange={set("existingLoans")} className="h-12 rounded-2xl" placeholder="0" />
+            </div>
+
+            {preScore && (
+              <div className="mt-6 rounded-3xl border border-border bg-card p-5">
+                <p className="text-sm text-muted-foreground">{t("cr.prescoreTitle")}</p>
+                <div className="mt-2 flex items-center gap-3">
+                  <span className="text-4xl font-semibold tracking-tight">~{preScore.score}%</span>
+                  <span className={`rounded-full px-3 py-1 text-sm font-medium ${labelClass[preScore.label]}`}>
+                    {t(preScore.message)}
+                  </span>
+                </div>
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                  {t("cr.prescoreDisclaimer")}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -187,7 +235,6 @@ function CreditPage() {
               disabled={!canNext || createRequest.isPending}
               onClick={() => (step === 1 ? void submit() : setStep(step + 1))}
             >
-
               {step === 1 ? t("cr.submit") : t("cr.next")}
             </Button>
           </div>
