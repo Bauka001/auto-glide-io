@@ -244,6 +244,17 @@ const dict = {
   },
   "cr.openChat": { kk: "Чатты ашу", ru: "Открыть чат", en: "Open chat" },
   "cr.keepBrowsing": { kk: "Көліктерді қарау", ru: "Смотреть авто", en: "Keep browsing" },
+  "cr.age": { kk: "Жасыңыз", ru: "Ваш возраст", en: "Your age" },
+  "cr.existingLoans": { kk: "Ағымдағы несиелер саны", ru: "Количество текущих кредитов", en: "Current loans count" },
+  "cr.prescoreTitle": { kk: "Алдын ала мақұлдау ықтималдығы", ru: "Предварительная вероятность одобрения", en: "Preliminary approval probability" },
+  "cr.prescoreDisclaimer": {
+    kk: "Бұл AutoHub-тың алдын ала бағасы, банктің шешімі емес. Соңғы шешімді банк-партнёр қабылдайды.",
+    ru: "Это предварительная оценка AutoHub, не решение банка. Итоговое решение принимает банк-партнёр после подачи заявки.",
+    en: "This is a preliminary AutoHub estimate, not a bank decision. The partner bank makes the final decision after the application is submitted.",
+  },
+  "prescore.high": { kk: "Жоғары", ru: "Высокая", en: "High" },
+  "prescore.medium": { kk: "Орташа", ru: "Средняя", en: "Medium" },
+  "prescore.low": { kk: "Төмен", ru: "Низкая", en: "Low" },
 
   "car.credit": { kk: "Несиеге өтінім", ru: "Заявка на кредит", en: "Apply for credit" },
   "car.chat": { kk: "Дилермен чат", ru: "Чат с дилером", en: "Chat with dealer" },
