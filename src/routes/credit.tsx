@@ -204,6 +204,21 @@ function CreditPage() {
                 </p>
               </div>
             )}
+
+            <div className="mt-6 flex items-start gap-3">
+              <Checkbox
+                id="consent"
+                checked={consent}
+                onCheckedChange={(v) => setConsent(v === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="consent" className="text-sm font-normal leading-relaxed">
+                {t("consent.label")}{" "}
+                <Link to="/privacy" className="text-primary underline underline-offset-2">
+                  {t("privacy.link")}
+                </Link>
+              </Label>
+            </div>
           </div>
         )}
 
