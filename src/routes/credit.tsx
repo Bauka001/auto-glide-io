@@ -109,7 +109,10 @@ function CreditPage() {
   }
 
   const canNext =
-    step === 0 ? form.name.length > 1 && form.phone.length > 5 : form.income.length > 0;
+    step === 0
+      ? form.name.length > 1 && form.phone.length > 5
+      : form.income.length > 0 && consent;
+
 
   return (
     <div className="min-h-screen bg-background">
