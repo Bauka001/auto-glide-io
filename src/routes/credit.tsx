@@ -47,6 +47,7 @@ function CreditPage() {
   const { t } = useI18n();
   const createRequest = useCreateRequest();
   const [step, setStep] = useState(0);
+  const [consent, setConsent] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
