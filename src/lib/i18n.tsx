@@ -417,7 +417,78 @@ const dict = {
     en: "Contact details stay private until the deal is confirmed.",
   },
 
+  "privacy.link": {
+    kk: "Құпиялылық саясаты",
+    ru: "Политика конфиденциальности",
+    en: "Privacy policy",
+  },
+  "privacy.title": {
+    kk: "Құпиялылық саясаты",
+    ru: "Политика конфиденциальности",
+    en: "Privacy policy",
+  },
+  "privacy.updated": {
+    kk: "Соңғы жаңарту",
+    ru: "Последнее обновление",
+    en: "Last updated",
+  },
+  "privacy.h1": {
+    kk: "1. Қандай деректер жиналады",
+    ru: "1. Какие данные собираются",
+    en: "1. What data we collect",
+  },
+  "privacy.p1": {
+    kk: "Несие, сақтандыру және жеткізу нысандары арқылы: аты-жөні, ЖСН, телефон, email, ай сайынғы табыс, қолданыстағы несиелер, көлік туралы деректер (марка, модель, баға, VIN), жеткізу мекенжайы.",
+    ru: "Через формы кредита, страхования и доставки: ФИО, ИИН, телефон, email, ежемесячный доход, текущие кредиты, данные об автомобиле (марка, модель, цена, VIN), адрес доставки.",
+    en: "Through the credit, insurance and delivery forms: full name, national ID, phone, email, monthly income, existing loans, car data (brand, model, price, VIN), delivery address.",
+  },
+  "privacy.h2": {
+    kk: "2. Жинау мақсаты",
+    ru: "2. Цель сбора",
+    en: "2. Purpose of collection",
+  },
+  "privacy.p2": {
+    kk: "Өтінімдерді өңдеу, серіктес банктер мен сақтандыру компанияларына жіберу, жеткізуді ұйымдастыру, қызмет сапасын жақсарту.",
+    ru: "Обработка заявок, передача партнёрским банкам и страховым компаниям, организация доставки, улучшение качества сервиса.",
+    en: "Processing requests, forwarding them to partner banks and insurers, arranging delivery, improving service quality.",
+  },
+  "privacy.h3": {
+    kk: "3. Деректерді беру және сақтау",
+    ru: "3. Передача и хранение данных",
+    en: "3. Sharing and storage",
+  },
+  "privacy.p3": {
+    kk: "Деректер серіктес банктерге, сақтандырушыларға және жеткізу қызметіне сіздің келісіміңізбен беріледі. Деректер қорғалған бұлттық инфрақұрылымда сақталады және өтінім жабылғаннан кейін 5 жылға дейін сақталуы мүмкін.",
+    ru: "Данные передаются партнёрским банкам, страховым компаниям и службе доставки с вашего согласия. Хранятся в защищённой облачной инфраструктуре до 5 лет после закрытия заявки.",
+    en: "Data is shared with partner banks, insurers and the delivery service with your consent. It is stored in secure cloud infrastructure for up to 5 years after the request is closed.",
+  },
+  "privacy.h4": {
+    kk: "4. Сіздің құқықтарыңыз",
+    ru: "4. Ваши права",
+    en: "4. Your rights",
+  },
+  "privacy.p4": {
+    kk: "Деректеріңізді жоюды сұрауға, келісімді кез келген уақытта қайтарып алуға, деректердің көшірмесін немесе түзетілуін талап етуге құқығыңыз бар.",
+    ru: "Вы вправе запросить удаление данных, отозвать согласие в любое время, получить копию данных или потребовать их исправления.",
+    en: "You may request deletion of your data, withdraw consent at any time, obtain a copy of your data or request corrections.",
+  },
+  "privacy.h5": {
+    kk: "5. Байланыс",
+    ru: "5. Контакты",
+    en: "5. Contact",
+  },
+  "privacy.p5": {
+    kk: "Деректер бойынша сұрақтарыңызды мына поштаға жіберіңіз:",
+    ru: "Вопросы по данным направляйте на почту:",
+    en: "Send data-related questions to:",
+  },
+  "consent.label": {
+    kk: "Мен құпиялылық саясатымен келісемін",
+    ru: "Я согласен с политикой конфиденциальности",
+    en: "I agree to the privacy policy",
+  },
 } as const;
+
 
 
 
