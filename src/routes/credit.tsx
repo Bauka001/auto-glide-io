@@ -210,7 +210,7 @@ function CreditPage() {
               <Checkbox
                 id="consent"
                 checked={consent}
-                onCheckedChange={(v) => setConsent(v === true)}
+                onCheckedChange={(v: boolean | "indeterminate") => setConsent(v === true)}
                 className="mt-0.5"
               />
               <Label htmlFor="consent" className="text-sm font-normal leading-relaxed">

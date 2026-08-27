@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ShieldCheck, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { money } from "@/lib/cars";
 import { KASKO_RATE, OGPO_BASE } from "@/lib/rates";
@@ -33,6 +34,7 @@ function InsurancePage() {
   const [price, setPrice] = useState("12000000");
   const [age, setAge] = useState("30");
   const [exp, setExp] = useState("5");
+  const [consent, setConsent] = useState(false);
 
   const p = Number(price) || 0;
   const a = Number(age) || 30;
@@ -88,11 +90,29 @@ function InsurancePage() {
       </div>
       <Button
         className="h-12 rounded-2xl px-6"
+        disabled={!consent}
         onClick={() => toast.success(t("ins.bought"))}
       >
         <ShoppingCart className="mr-2 h-4 w-4" />
         {t("ins.buy")}
       </Button>
+    </div>
+  );
+
+  const Consent = (
+    <div className="mt-4 flex items-start gap-3">
+      <Checkbox
+        id="ins-consent"
+        checked={consent}
+        onCheckedChange={(v: boolean | "indeterminate") => setConsent(v === true)}
+        className="mt-0.5"
+      />
+      <Label htmlFor="ins-consent" className="text-sm font-normal leading-relaxed">
+        {t("consent.label")}{" "}
+        <Link to="/privacy" className="text-primary underline underline-offset-2">
+          {t("privacy.link")}
+        </Link>
+      </Label>
     </div>
   );
 
@@ -119,10 +139,12 @@ function InsurancePage() {
 
           <TabsContent value="ogpo" className="rounded-3xl border border-border bg-card p-5">
             {Fields}
+            {Consent}
             <Result value={ogpo} />
           </TabsContent>
           <TabsContent value="kasko" className="rounded-3xl border border-border bg-card p-5">
             {Fields}
+            {Consent}
             <Result value={kasko} />
           </TabsContent>
         </Tabs>
