@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { money, monthlyPayment } from "@/lib/cars";
 import { useCar } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
