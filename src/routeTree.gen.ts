@@ -21,6 +21,7 @@ import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as InsuranceRouteImport } from './routes/insurance'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ApiAiChatRouteImport } from './routes/api/ai-chat'
 import { Route as CarsIndexRouteImport } from './routes/cars.index'
@@ -89,6 +90,11 @@ const InsuranceRoute = InsuranceRouteImport.update({
   path: '/insurance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/privacy'
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/privacy'
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/privacy'
     | '/profile'
     | '/api/ai-chat'
     | '/cars/$carId'
@@ -269,6 +281,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   FinanceRoute: typeof FinanceRoute
   InsuranceRoute: typeof InsuranceRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ApiAiChatRoute: typeof ApiAiChatRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsuranceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -429,6 +449,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   FinanceRoute: FinanceRoute,
   InsuranceRoute: InsuranceRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ApiAiChatRoute: ApiAiChatRoute,
   CarsCarIdRoute: CarsCarIdRoute,
