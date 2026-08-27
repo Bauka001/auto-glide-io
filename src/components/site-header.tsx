@@ -206,6 +206,9 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border/60">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
         <span>© {new Date().getFullYear()} AutoHub</span>
+        <Link to="/privacy" className="transition-colors hover:text-foreground">
+          Құпиялылық саясаты
+        </Link>
         <span>Қазақша · Русский · English</span>
       </div>
     </footer>

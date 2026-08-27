@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { money, monthlyPayment } from "@/lib/cars";
 import { useCar } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
@@ -47,6 +48,7 @@ function CreditPage() {
   const { t } = useI18n();
   const createRequest = useCreateRequest();
   const [step, setStep] = useState(0);
+  const [consent, setConsent] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -108,7 +110,10 @@ function CreditPage() {
   }
 
   const canNext =
-    step === 0 ? form.name.length > 1 && form.phone.length > 5 : form.income.length > 0;
+    step === 0
+      ? form.name.length > 1 && form.phone.length > 5
+      : form.income.length > 0 && consent;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -200,6 +205,21 @@ function CreditPage() {
                 </p>
               </div>
             )}
+
+            <div className="mt-6 flex items-start gap-3">
+              <Checkbox
+                id="consent"
+                checked={consent}
+                onCheckedChange={(v: boolean | "indeterminate") => setConsent(v === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="consent" className="text-sm font-normal leading-relaxed">
+                {t("consent.label")}{" "}
+                <Link to="/privacy" className="text-primary underline underline-offset-2">
+                  {t("privacy.link")}
+                </Link>
+              </Label>
+            </div>
           </div>
         )}
 
