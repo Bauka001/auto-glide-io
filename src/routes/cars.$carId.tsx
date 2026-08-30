@@ -10,6 +10,8 @@ import { money, monthlyPayment, num } from "@/lib/cars";
 import { bodyTypes, carTitle, colorLabel, conditions, drives, optionLabel, steerings } from "@/lib/car-spec";
 import { rowToCar, recordCarView } from "@/lib/catalog";
 import { getPublicCar } from "@/lib/catalog.functions";
+import { Car3DViewer } from "@/components/car-3d-viewer";
+
 
 export const Route = createFileRoute("/cars/$carId")({
   loader: async ({ params }) => {
