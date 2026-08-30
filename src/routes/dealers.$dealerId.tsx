@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CarCard } from "@/components/car-card";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
+import { DealersMap } from "@/components/dealers-map";
 import { useDealer, useDealerCars, useDealerReviews, useUpsertReview } from "@/lib/dealers";
 
 export const Route = createFileRoute("/dealers/$dealerId")({
@@ -129,6 +130,9 @@ function DealerPage() {
           </TabsList>
 
           <TabsContent value="cars" className="mt-5">
+            <p className="mb-3 text-sm font-medium">
+              {t("dlr.inStockCars")}: {cars.length}
+            </p>
             {cars.length === 0 ? (
               <div className="rounded-3xl border border-border bg-card p-10 text-center">
                 <p className="text-sm text-muted-foreground">{t("pro.empty")}</p>
@@ -143,6 +147,34 @@ function DealerPage() {
           </TabsContent>
 
           <TabsContent value="about" className="mt-5 space-y-3">
+            <div className="rounded-3xl border border-border bg-card p-5">
+              <p className="text-sm font-medium">{t("dlr.location")}</p>
+              {dealer && dealer.lat != null && dealer.lng != null ? (
+                <div className="mt-3">
+                  <DealersMap
+                    dealers={[
+                      {
+                        id: dealer.id,
+                        slug: dealer.slug,
+                        name: dealer.name,
+                        city: dealer.city,
+                        address: dealer.address,
+                        logoUrl: dealer.logoUrl,
+                        rating: avg,
+                        reviews: reviews.length,
+                        cars: cars.length,
+                        lat: dealer.lat,
+                        lng: dealer.lng,
+                      },
+                    ]}
+                    height={260}
+                    zoom={14}
+                  />
+                </div>
+              ) : (
+                <p className="mt-2 text-sm text-muted-foreground">{t("dlr.noGeo")}</p>
+              )}
+            </div>
             <div className="rounded-3xl border border-border bg-card p-5 text-sm">
               <p className="whitespace-pre-line text-muted-foreground">{dealer?.about || "—"}</p>
               <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">

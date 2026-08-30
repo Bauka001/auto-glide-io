@@ -5,6 +5,7 @@ import { BadgeCheck, MapPin, Search, Star, Store } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Input } from "@/components/ui/input";
 import { useDealers } from "@/lib/dealers";
+import { DealersMap } from "@/components/dealers-map";
 import { useI18n } from "@/lib/i18n";
 import { num } from "@/lib/cars";
 
@@ -55,6 +56,16 @@ function DealersPage() {
             className="h-12 rounded-2xl pl-11"
           />
         </div>
+
+        {!isLoading && list.some((d) => d.lat != null && d.lng != null) && (
+          <section className="mt-6">
+            <h2 className="text-sm font-semibold">{t("dlr.map")}</h2>
+            <p className="mt-0.5 text-xs text-muted-foreground">{t("dlr.mapSub")}</p>
+            <div className="mt-3">
+              <DealersMap dealers={list} height={340} />
+            </div>
+          </section>
+        )}
 
         {isLoading ? (
           <div className="mt-6">
