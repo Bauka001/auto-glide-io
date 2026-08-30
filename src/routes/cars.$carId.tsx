@@ -154,7 +154,10 @@ function CarDetail() {
             </div>
           </div>
         </div>
+
+        <Car3DViewer car={car} />
       </main>
+
       <SiteFooter />
     </div>
   );
