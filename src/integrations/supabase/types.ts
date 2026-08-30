@@ -68,6 +68,7 @@ export type Database = {
           owner_id: string | null
           price: number
           slug: string | null
+          status: string
           steering: string
           transmission: string
           trim: string
@@ -99,6 +100,7 @@ export type Database = {
           owner_id?: string | null
           price: number
           slug?: string | null
+          status?: string
           steering?: string
           transmission?: string
           trim?: string
@@ -130,6 +132,7 @@ export type Database = {
           owner_id?: string | null
           price?: number
           slug?: string | null
+          status?: string
           steering?: string
           transmission?: string
           trim?: string
@@ -241,6 +244,8 @@ export type Database = {
           id: string
           is_blocked: boolean
           is_verified: boolean
+          lat: number | null
+          lng: number | null
           logo_url: string | null
           name: string
           owner_id: string
@@ -258,6 +263,8 @@ export type Database = {
           id?: string
           is_blocked?: boolean
           is_verified?: boolean
+          lat?: number | null
+          lng?: number | null
           logo_url?: string | null
           name: string
           owner_id: string
@@ -275,6 +282,8 @@ export type Database = {
           id?: string
           is_blocked?: boolean
           is_verified?: boolean
+          lat?: number | null
+          lng?: number | null
           logo_url?: string | null
           name?: string
           owner_id?: string

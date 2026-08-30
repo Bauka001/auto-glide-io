@@ -396,6 +396,25 @@ const dict = {
   "dlr.saved": { kk: "Салон сақталды", ru: "Салон сохранён", en: "Salon saved" },
   "dlr.empty": { kk: "Салондар табылмады", ru: "Салоны не найдены", en: "No salons found" },
   "dlr.open": { kk: "Салонды ашу", ru: "Открыть салон", en: "Open salon" },
+  "dlr.map": { kk: "Автосалондар картасы", ru: "Карта автосалонов", en: "Dealership map" },
+  "dlr.mapSub": {
+    kk: "Картадан салонды таңдаңыз",
+    ru: "Выберите салон на карте",
+    en: "Pick a dealership on the map",
+  },
+  "dlr.inStock": { kk: "Қоймада бар", ru: "В наличии", en: "In stock" },
+  "dlr.inStockCars": {
+    kk: "Автомобильдер қоймада бар",
+    ru: "Автомобили в наличии",
+    en: "Cars in stock",
+  },
+  "dlr.viewProfile": { kk: "Профильді көру", ru: "Смотреть профиль", en: "View profile" },
+  "dlr.location": { kk: "Картадағы орналасуы", ru: "Расположение на карте", en: "Location" },
+  "dlr.noGeo": {
+    kk: "Салонның картадағы орны көрсетілмеген",
+    ru: "Расположение салона не указано",
+    en: "Location not specified",
+  },
   "dlr.searchPh": { kk: "Салон немесе қала", ru: "Салон или город", en: "Salon or city" },
 
   "chat.nav": { kk: "Хабарламалар", ru: "Сообщения", en: "Messages" },

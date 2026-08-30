@@ -16,12 +16,14 @@ export type Dealer = {
   coverUrl: string | null;
   hours: string;
   isVerified: boolean;
+  lat: number | null;
+  lng: number | null;
 };
 
 export type DealerStat = Dealer & { cars: number; rating: number; reviews: number };
 
 const COLS =
-  "id,owner_id,name,slug,city,address,phone,about,logo_url,cover_url,hours,is_verified";
+  "id,owner_id,name,slug,city,address,phone,about,logo_url,cover_url,hours,is_verified,lat,lng";
 
 type Row = {
   id: string;
@@ -36,6 +38,8 @@ type Row = {
   cover_url: string | null;
   hours: string;
   is_verified: boolean;
+  lat: number | null;
+  lng: number | null;
 };
 
 function map(r: Row): Dealer {
@@ -52,6 +56,8 @@ function map(r: Row): Dealer {
     coverUrl: r.cover_url,
     hours: r.hours,
     isVerified: r.is_verified,
+    lat: r.lat,
+    lng: r.lng,
   };
 }
 
@@ -62,7 +68,11 @@ export function useDealers() {
     queryFn: async (): Promise<DealerStat[]> => {
       const [d, c, rv] = await Promise.all([
         supabase.from("dealers").select(COLS).order("is_verified", { ascending: false }),
-        supabase.from("cars").select("dealer_id").eq("is_published", true),
+        supabase
+          .from("cars")
+          .select("dealer_id")
+          .eq("is_published", true)
+          .eq("status", "available"),
         supabase.from("dealer_reviews").select("dealer_id,rating"),
       ]);
       if (d.error) throw d.error;
@@ -111,6 +121,7 @@ export function useDealerCars(dealerId?: string) {
         .select("*")
         .eq("dealer_id", dealerId!)
         .eq("is_published", true)
+        .eq("status", "available")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data as never[]).map((r) => rowToCar(r));
