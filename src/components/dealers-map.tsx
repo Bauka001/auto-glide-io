@@ -36,7 +36,7 @@ export function DealersMap({
   return (
     <ClientOnly fallback={<Skeleton height={height} />}>
       <Suspense fallback={<Skeleton height={height} />}>
-        <MapImpl dealers={dealers} height={height} zoom={zoom} />
+        <MapImpl dealers={dealers} height={height} {...(zoom === undefined ? {} : { zoom })} />
       </Suspense>
     </ClientOnly>
   );
