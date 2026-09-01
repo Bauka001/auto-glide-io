@@ -4,7 +4,7 @@ import { Suspense, useRef } from "react";
 import * as THREE from "three";
 
 /** Placeholder path — replace {{CAR_MODEL_FILE}} with the real GLB file name. */
-export const MODEL_URL = "/models/{{CAR_MODEL_FILE}}.glb";
+export const MODEL_URL = "/models/car.glb";
 
 function CarModel({ url }: { url: string }) {
   const { scene } = useGLTF(url);
@@ -15,8 +15,8 @@ function CarModel({ url }: { url: string }) {
 function CameraIntro({ enabled }: { enabled: boolean }) {
   const { camera } = useThree();
   const elapsed = useRef(0);
-  const from = useRef(new THREE.Vector3(0, 3.2, 12));
-  const to = useRef(new THREE.Vector3(0, 1.4, 5.2));
+  const from = useRef(new THREE.Vector3(0, 4.0, 15));
+  const to = useRef(new THREE.Vector3(0, 1.8, 7.2));
 
   useFrame((_, rawDelta) => {
     if (!enabled) return;
@@ -26,7 +26,7 @@ function CameraIntro({ enabled }: { enabled: boolean }) {
     const t = Math.min(elapsed.current / 1.8, 1);
     const eased = 1 - Math.pow(1 - t, 3);
     camera.position.lerpVectors(from.current, to.current, eased);
-    camera.lookAt(0, 0.6, 0);
+    camera.lookAt(0, 0.7, 0);
   });
 
   return null;
@@ -43,7 +43,7 @@ export default function Car3DScene({
     <Canvas
       shadows
       dpr={[1, 2]}
-      camera={{ position: reducedMotion ? [0, 1.4, 5.2] : [0, 3.2, 12], fov: 38 }}
+      camera={{ position: reducedMotion ? [0, 1.8, 7.2] : [0, 4.0, 15], fov: 38 }}
     >
       <color attach="background" args={["#0b0d12"]} />
       <fog attach="fog" args={["#0b0d12", 12, 30]} />
@@ -81,7 +81,7 @@ export default function Car3DScene({
         autoRotateSpeed={0.6}
         minPolarAngle={Math.PI / 6}
         maxPolarAngle={Math.PI / 2.1}
-        target={[0, 0.6, 0]}
+        target={[0, 0.7, 0]}
       />
     </Canvas>
   );
