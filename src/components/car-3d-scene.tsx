@@ -4,7 +4,7 @@ import { Suspense, useRef } from "react";
 import * as THREE from "three";
 
 /** Placeholder path — replace {{CAR_MODEL_FILE}} with the real GLB file name. */
-export const MODEL_URL = "/models/{{CAR_MODEL_FILE}}.glb";
+export const MODEL_URL = "/models/car.glb";
 
 function CarModel({ url }: { url: string }) {
   const { scene } = useGLTF(url);

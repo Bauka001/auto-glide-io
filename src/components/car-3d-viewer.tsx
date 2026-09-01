@@ -7,7 +7,7 @@ import { carTitle, drives, optionLabel, transmissions } from "@/lib/car-spec";
 import { useI18n } from "@/lib/i18n";
 
 /** Placeholder path — replace {{CAR_MODEL_FILE}} with the real GLB file name. */
-const MODEL_URL = "/models/{{CAR_MODEL_FILE}}.glb";
+const MODEL_URL = "/models/car.glb";
 
 const Car3DScene = lazy(() => import("@/components/car-3d-scene"));
 
