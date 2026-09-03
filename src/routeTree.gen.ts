@@ -23,6 +23,7 @@ import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ApiAiChatRouteImport } from './routes/api/ai-chat'
 import { Route as CarsIndexRouteImport } from './routes/cars.index'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
@@ -100,6 +101,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAiChatRoute = ApiAiChatRouteImport.update({
   id: '/api/ai-chat',
   path: '/api/ai-chat',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/insurance': typeof InsuranceRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/insurance': typeof InsuranceRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
@@ -192,6 +200,7 @@ export interface FileRoutesById {
   '/insurance': typeof InsuranceRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
@@ -216,6 +225,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/privacy'
     | '/profile'
+    | '/sitemap.xml'
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/privacy'
     | '/profile'
+    | '/sitemap.xml'
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/privacy'
     | '/profile'
+    | '/sitemap.xml'
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
@@ -283,6 +295,7 @@ export interface RootRouteChildren {
   InsuranceRoute: typeof InsuranceRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiAiChatRoute: typeof ApiAiChatRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
   DealersDealerIdRoute: typeof DealersDealerIdRoute
@@ -391,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/ai-chat': {
       id: '/api/ai-chat'
       path: '/api/ai-chat'
@@ -451,6 +471,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsuranceRoute: InsuranceRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiAiChatRoute: ApiAiChatRoute,
   CarsCarIdRoute: CarsCarIdRoute,
   DealersDealerIdRoute: DealersDealerIdRoute,
