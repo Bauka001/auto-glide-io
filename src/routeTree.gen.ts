@@ -28,6 +28,7 @@ import { Route as CarsIndexRouteImport } from './routes/cars.index'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
 import { Route as DealersIndexRouteImport } from './routes/dealers.index'
 import { Route as DealersDealerIdRouteImport } from './routes/dealers.$dealerId'
+import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments.webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -125,6 +126,11 @@ const DealersDealerIdRoute = DealersDealerIdRouteImport.update({
   path: '/dealers/$dealerId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapXmlRoute = SitemapXmlRouteImport.update({
+  id: '/sitemap/xml',
+  path: '/sitemap/xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/cars/': typeof CarsIndexRoute
   '/dealers/': typeof DealersIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/cars': typeof CarsIndexRoute
   '/dealers': typeof DealersIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/api/ai-chat': typeof ApiAiChatRoute
   '/cars/$carId': typeof CarsCarIdRoute
   '/dealers/$dealerId': typeof DealersDealerIdRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/cars/': typeof CarsIndexRoute
   '/dealers/': typeof DealersIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
+    | '/sitemap/xml'
     | '/cars/'
     | '/dealers/'
     | '/api/public/payments/webhook'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
+    | '/sitemap/xml'
     | '/cars'
     | '/dealers'
     | '/api/public/payments/webhook'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/api/ai-chat'
     | '/cars/$carId'
     | '/dealers/$dealerId'
+    | '/sitemap/xml'
     | '/cars/'
     | '/dealers/'
     | '/api/public/payments/webhook'
@@ -286,6 +298,7 @@ export interface RootRouteChildren {
   ApiAiChatRoute: typeof ApiAiChatRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
   DealersDealerIdRoute: typeof DealersDealerIdRoute
+  SitemapXmlRoute: typeof SitemapXmlRoute
   CarsIndexRoute: typeof CarsIndexRoute
   DealersIndexRoute: typeof DealersIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -426,6 +439,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DealersDealerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap/xml': {
+      id: '/sitemap/xml'
+      path: '/sitemap/xml'
+      fullPath: '/sitemap/xml'
+      preLoaderRoute: typeof SitemapXmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -454,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAiChatRoute: ApiAiChatRoute,
   CarsCarIdRoute: CarsCarIdRoute,
   DealersDealerIdRoute: DealersDealerIdRoute,
+  SitemapXmlRoute: SitemapXmlRoute,
   CarsIndexRoute: CarsIndexRoute,
   DealersIndexRoute: DealersIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
