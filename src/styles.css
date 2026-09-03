@@ -155,3 +155,10 @@
     color-scheme: dark;
   }
 }
+
+/* Leaflet popup: keep button label readable (Leaflet styles anchors by default) */
+.leaflet-popup-content a.inline-flex,
+.leaflet-popup-content a.inline-flex:hover {
+  color: hsl(var(--primary-foreground));
+  text-decoration: none;
+}
