@@ -60,6 +60,17 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-pitch-canvas: var(--pitch-canvas);
+  --color-pitch-surface: var(--pitch-surface);
+  --color-pitch-foreground: var(--pitch-foreground);
+  --color-pitch-muted: var(--pitch-muted);
+  --color-pitch-dim: var(--pitch-dim);
+  --color-pitch-border: var(--pitch-border);
+  --color-pitch-line: var(--pitch-line);
+  --color-pitch-blue: var(--pitch-blue);
+  --color-pitch-blue-soft: var(--pitch-blue-soft);
+  --color-pitch-amber: var(--pitch-amber);
+  --color-pitch-amber-soft: var(--pitch-amber-soft);
 }
 
 :root {
@@ -96,6 +107,17 @@
   --sidebar-accent-foreground: oklch(0.22 0.006 260);
   --sidebar-border: oklch(0.2 0.01 260 / 12%);
   --sidebar-ring: oklch(0.55 0.21 258);
+  --pitch-canvas: oklch(0.16 0.01 260);
+  --pitch-surface: oklch(0.21 0.012 260);
+  --pitch-foreground: oklch(0.98 0 0);
+  --pitch-muted: oklch(0.73 0.015 255);
+  --pitch-dim: oklch(0.48 0.02 255);
+  --pitch-border: oklch(1 0 0 / 14%);
+  --pitch-line: oklch(1 0 0 / 8%);
+  --pitch-blue: oklch(0.68 0.19 245);
+  --pitch-blue-soft: oklch(0.68 0.19 245 / 12%);
+  --pitch-amber: oklch(0.79 0.16 76);
+  --pitch-amber-soft: oklch(0.79 0.16 76 / 12%);
 }
 
 .dark {
@@ -161,4 +183,46 @@
 .leaflet-popup-content a.inline-flex:hover {
   color: hsl(var(--primary-foreground));
   text-decoration: none;
+}
+
+.pitch-app { height: 100dvh; overflow: hidden; background: var(--pitch-canvas); color: var(--pitch-foreground); }
+.pitch-toolbar { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; height: 64px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--pitch-border); background: color-mix(in oklab, var(--pitch-canvas) 88%, transparent); padding: 0 24px; backdrop-filter: blur(18px); }
+.pitch-stage { position: fixed; inset: 64px 0 56px; overflow: hidden; }
+.pitch-scaled { --pitch-scale: .5; position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; margin-left: -960px; margin-top: -540px; transform: scale(var(--pitch-scale)); transform-origin: center; }
+.pitch-slide { position: relative; display: flex; width: 1920px; height: 1080px; flex-direction: column; overflow: hidden; background: var(--pitch-canvas); padding: 78px 92px 58px; }
+.pitch-slide::before { content: ""; position: absolute; width: 680px; height: 680px; right: -160px; top: -280px; border-radius: 999px; background: radial-gradient(circle, color-mix(in oklab, var(--pitch-blue) 18%, transparent), transparent 68%); pointer-events: none; }
+.pitch-slide-amber::before { background: radial-gradient(circle, color-mix(in oklab, var(--pitch-amber) 15%, transparent), transparent 68%); }
+.pitch-road-lines { position: absolute; inset: auto -10% 12% 40%; height: 2px; transform: rotate(-8deg); background: linear-gradient(90deg, transparent, var(--pitch-border) 25%, var(--pitch-border) 34%, transparent 34%, transparent 42%, var(--pitch-border) 42%, var(--pitch-border) 52%, transparent 52%); opacity: .35; }
+.pitch-cover { padding: 74px 92px 58px; }
+.pitch-cover::after { content: ""; position: absolute; right: 8%; top: 15%; width: 640px; height: 640px; border: 1px solid var(--pitch-border); border-radius: 50%; box-shadow: 0 0 120px var(--pitch-blue-soft); }
+.pitch-car-outline { position: absolute; right: 10%; top: 23%; color: var(--pitch-blue); opacity: .08; }
+.pitch-car-outline svg { width: 560px; height: 560px; stroke-width: .5; }
+.slide-title-lg { font-size: 112px; line-height: .96; letter-spacing: 0; }
+.slide-title { font-size: 76px; line-height: 1.02; letter-spacing: 0; }
+.slide-subtitle { font-size: 48px; line-height: 1.14; letter-spacing: 0; }
+.slide-body-lg { font-size: 38px; line-height: 1.22; letter-spacing: 0; }
+.slide-body { font-size: 30px; line-height: 1.3; letter-spacing: 0; }
+.slide-caption { font-size: 23px; line-height: 1.3; letter-spacing: 0; }
+.slide-kicker { font-size: 20px; line-height: 1.1; letter-spacing: .12em; text-transform: uppercase; }
+.slide-chrome, .slide-page, .slide-footer { font-size: 18px; line-height: 1.15; letter-spacing: 0; }
+.slide-page { white-space: nowrap; }
+.pitch-panel, .pitch-product { border: 1px solid var(--pitch-border); background: color-mix(in oklab, var(--pitch-surface) 82%, transparent); }
+.pitch-product::after { content: ""; position: absolute; inset: auto 0 0; height: 2px; transform: scaleX(0); transform-origin: left; background: var(--pitch-blue); transition: transform .3s ease; }
+.pitch-product:hover::after { transform: scaleX(1); }
+.pitch-tag { border: 1px solid var(--pitch-border); padding: 10px 16px; font-size: 18px; color: var(--pitch-muted); white-space: nowrap; }
+.pitch-editable { position: relative; display: inline-block; min-width: 3ch; border-bottom: 1px dashed var(--pitch-amber); outline: none; color: var(--pitch-amber); cursor: text; }
+.pitch-editable:focus { background: var(--pitch-amber-soft); box-shadow: 0 0 0 8px var(--pitch-amber-soft); }
+.pitch-market-ring { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; border: 1px solid var(--pitch-blue); border-radius: 50%; padding-top: 46px; color: var(--pitch-muted); font-size: 20px; }
+.pitch-market-ring:nth-child(2) { border-color: color-mix(in oklab, var(--pitch-blue) 68%, var(--pitch-canvas)); padding-top: 40px; }
+.pitch-market-ring:nth-child(3) { border-color: var(--pitch-amber); justify-content: center; padding-top: 0; }
+.pitch-market-ring .pitch-editable { max-width: 80%; text-align: center; font-size: 22px; }
+.pitch-progress { position: fixed; inset: auto 24px 10px; z-index: 20; }
+.pitch-print { background: var(--pitch-canvas); }
+.pitch-print-page { width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+
+@media (prefers-reduced-motion: reduce) { .pitch-product::after, .pitch-progress * { transition: none !important; } }
+@media print {
+  @page { size: 1920px 1080px landscape; margin: 0; }
+  body { background: var(--pitch-canvas); }
+  .pitch-print-page { overflow: hidden; }
 }
