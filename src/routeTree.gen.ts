@@ -21,6 +21,7 @@ import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as InsuranceRouteImport } from './routes/insurance'
+import { Route as PitchRouteImport } from './routes/pitch'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -91,6 +92,11 @@ const InsuranceRoute = InsuranceRouteImport.update({
   path: '/insurance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PitchRoute = PitchRouteImport.update({
+  id: '/pitch',
+  path: '/pitch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/pitch': typeof PitchRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/pitch': typeof PitchRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -198,6 +206,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/finance': typeof FinanceRoute
   '/insurance': typeof InsuranceRoute
+  '/pitch': typeof PitchRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/pitch'
     | '/privacy'
     | '/profile'
     | '/sitemap.xml'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/pitch'
     | '/privacy'
     | '/profile'
     | '/sitemap.xml'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/finance'
     | '/insurance'
+    | '/pitch'
     | '/privacy'
     | '/profile'
     | '/sitemap.xml'
@@ -293,6 +305,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   FinanceRoute: typeof FinanceRoute
   InsuranceRoute: typeof InsuranceRoute
+  PitchRoute: typeof PitchRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -390,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsuranceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pitch': {
+      id: '/pitch'
+      path: '/pitch'
+      fullPath: '/pitch'
+      preLoaderRoute: typeof PitchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -469,6 +489,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   FinanceRoute: FinanceRoute,
   InsuranceRoute: InsuranceRoute,
+  PitchRoute: PitchRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

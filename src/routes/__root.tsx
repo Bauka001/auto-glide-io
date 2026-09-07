@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -149,6 +150,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isPitch = useRouterState({ select: (state) => state.location.pathname === "/pitch" });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -158,10 +160,10 @@ function RootComponent() {
           <FavoritesProvider>
             <CompareProvider>
             {/* Required: nested routes render here. */}
-            <div className="pb-20 lg:pb-0">
+            <div className={isPitch ? "" : "pb-20 lg:pb-0"}>
               <Outlet />
             </div>
-            <MobileTabBar />
+            {!isPitch && <MobileTabBar />}
             </CompareProvider>
           </FavoritesProvider>
         </AuthProvider>
